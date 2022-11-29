@@ -4,10 +4,27 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public CharacterController characterController;
+    [Header("Functional Options")]
+    [SerializeField] private bool CanMove = true;
+    [SerializeField] private bool CanSprint = true;
+    [SerializeField] private bool CanJump = true;
 
-    public float speed = 15f;
-    public float gravity = -9.81f;
+    [Header("Controls")]
+    [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
+    [SerializeField] private KeyCode jumpKey = KeyCode.Space;
+
+    [Header("Movement Parameters")]
+    [SerializeField] private float walkSpeed = 10f;
+    [SerializeField] private float sprintSpeed = 18f;
+    [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private float jumpForce = 8f;
+
+
+    private Vector3 moveDirection;
+    private Vector2 currentInput;
+
+    private CharacterController characterController;
+
     public Transform groundCheck;
     public float groundDistance = 0.4f;
     public float jumpHeight = 3f;
@@ -17,37 +34,61 @@ public class PlayerMove : MonoBehaviour
 
     bool isGrounded;
 
-    
+    private bool IsSprinting => CanSprint && Input.GetKey(sprintKey);
+    private bool ShouldJump => Input.GetKey(jumpKey) && characterController.isGrounded;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        characterController = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
+    private void HandleMovementInput()
+    {
+        float x = Input.GetAxisRaw("Horizontal");
+        float z = Input.GetAxisRaw("Vertical");
+
+        float moveDirectionY = moveDirection.y;
+        moveDirection = (transform.TransformDirection(Vector3.forward) * z) + (transform.TransformDirection(Vector3.right) * x);
+        moveDirection = Vector3.Normalize(moveDirection);
+        moveDirection.y = moveDirectionY;
+    }
+
+    private void HandleJump()
+    {
+        if (ShouldJump)
+            moveDirection.y = jumpForce;
+    }
+
+    private void ApplyFinalMovements()
+    {
+        //TO DO: limit player's movements while in mid-air
+
+        float speed = (IsSprinting ? sprintSpeed : walkSpeed);
+
+        if (!characterController.isGrounded)
+            moveDirection.y -= gravity * Time.deltaTime;
+
+        if (characterController.velocity.y <= -1 && characterController.isGrounded)
+            moveDirection.y = 0;
+
+        Vector3 moveVector = new Vector3(
+            moveDirection.x * speed,
+            moveDirection.y * walkSpeed, //so the player doesn't jump higher while sprinting
+            moveDirection.z * speed
+            );
+
+        characterController.Move(moveVector * Time.deltaTime);
+    }
+
     void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-    
-        if(isGrounded && velocity.y < 0) 
+        if(CanMove)
         {
-            velocity.y = -2f;
+            HandleMovementInput();
+            if (CanJump)
+                HandleJump();
+
+            ApplyFinalMovements();
         }
-
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-
-        Vector3 move = transform.right * x + transform.forward * z;
-        characterController.Move(move * speed * Time.deltaTime);
-
-        if(Input.GetButtonDown("Jump") && isGrounded) 
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
-
-        velocity.y += gravity * Time.deltaTime;
-
-        characterController.Move(velocity * Time.deltaTime);
     }
 }
