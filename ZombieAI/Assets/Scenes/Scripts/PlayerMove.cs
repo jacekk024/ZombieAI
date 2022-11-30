@@ -35,11 +35,33 @@ public class PlayerMove : MonoBehaviour
     private CharacterController characterController;
     private Camera playerCamera;
 
-    private bool IsSprinting => CanSprint && Input.GetKey(sprintKey);
     private bool ShouldJump => Input.GetKey(jumpKey) && characterController.isGrounded && !isCrouching;
     private bool ShouldCrouch => Input.GetKeyDown(crouchKey) && !duringCrouchAnimation && characterController.isGrounded;
     private bool isCrouching;
     private bool duringCrouchAnimation;
+
+    public bool IsGrounded()
+    {
+        return characterController.isGrounded;
+    }
+
+    public Vector3 GetMoveDirection()
+    {
+        return moveDirection;
+    }
+
+    public bool IsSprinting => CanSprint && Input.GetKey(sprintKey);
+    public bool IsCrouching
+    {
+        get
+        {
+            return isCrouching;
+        }
+        private set
+        {
+            isCrouching = value;
+        }
+    }
 
     void Awake()
     {
