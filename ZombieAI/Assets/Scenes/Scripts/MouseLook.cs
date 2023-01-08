@@ -4,28 +4,78 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-    public float mouseSensitivity = 350;
+    [Header("Functional Options")]
+    [SerializeField] private bool CanLookAround = true;
+    [SerializeField] private bool ViewBobbingActive = true;
 
-    public Transform playerBody;// to infrom about rotation of player
+    [Header("Camera parameters")]
+    [SerializeField] private float sensitivity = 350f;
+    [SerializeField] private float walkBobSpeed = 14f;
+    [SerializeField] private float walkBobAmount = 0.1f;
+    [SerializeField] private float sprintBobSpeed = 18f;
+    [SerializeField] private float sprintBobAmount = 0.2f;
+    [SerializeField] private float crouchBobSpeed = 8f;
+    [SerializeField] private float crouchBobAmount = 0.05f;
 
+    [Header("References")]
+    [SerializeField] private Transform playerBody;// to inform about rotation of player
+    [SerializeField] private PlayerMove playerMove;
     float xRotation = 0f;
 
+    private float defaultYPos;
+    private float timer;
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        defaultYPos = transform.localPosition.y;
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    void HandleMouseLook()
+    {
+        if (CanLookAround)
+        {
+            float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
+            float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
+
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            playerBody.Rotate(Vector3.up * mouseX);
+        }
+    }
+
+    void HandleViewBob()
+    {
+        if (!playerMove.IsGrounded())
+            return;
+
+        Vector3 moveDir = playerMove.GetMoveDirection();
+
+        if (Mathf.Abs(moveDir.x) > 0.1f || Mathf.Abs(moveDir.z) > 0.1f)
+        {
+            timer += Time.deltaTime * (playerMove.IsCrouching ? crouchBobSpeed : (playerMove.IsSprinting ? sprintBobSpeed : walkBobSpeed)); ;
+            transform.localPosition = new Vector3(
+                transform.localPosition.x,
+                defaultYPos + Mathf.Sin(timer) * (playerMove.IsCrouching ? crouchBobAmount : (playerMove.IsSprinting ? sprintBobAmount : walkBobAmount)),
+                transform.localPosition.z
+                );
+            
+        }
+        else if (transform.localPosition.y != defaultYPos)
+        {
+            transform.localPosition = new Vector3(transform.localPosition.x, defaultYPos, transform.localPosition.z);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
-
-        xRotation -= mouseY; 
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);  
-        playerBody.Rotate(Vector3.up * mouseX);
+        HandleMouseLook();
+        if (ViewBobbingActive)
+            HandleViewBob();
     }
 }
