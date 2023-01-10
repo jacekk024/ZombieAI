@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,20 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float sprintSpeed = 18f;
     [SerializeField] private float crouchSpeed = 4f;
 
+    [Header("Health Parameters")]
+    [SerializeField] private float maxHealth = 100;
+    [SerializeField] private float timeBeforeRegenStarts = 3;
+    [SerializeField] private float healthValueIncrement = 1;
+    [SerializeField] private float healthTimeIncrement = 0.1f;
+
+    private float currentHealth;
+    private Coroutine regeneratingHealth;
+    public static Action<float> OnTakeDamage;
+    public static Action<float> OnDamage;
+    public static Action<float> OnHeal;
+
+
+
     [Header("Jumping Parameters")]
     [SerializeField] private float gravity = 9.81f;
     [SerializeField] private float jumpForce = 2.5f;
@@ -39,6 +54,16 @@ public class PlayerMove : MonoBehaviour
     private bool ShouldCrouch => Input.GetKeyDown(crouchKey) && !duringCrouchAnimation && characterController.isGrounded;
     private bool isCrouching;
     private bool duringCrouchAnimation;
+
+
+    private void OnEnable()
+    {
+        OnTakeDamage += ApplyDamage;
+    }
+    private void OnDisable()
+    {
+        OnTakeDamage -= ApplyDamage;   
+    }
 
     public bool IsGrounded()
     {
@@ -67,6 +92,7 @@ public class PlayerMove : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         playerCamera = GetComponentInChildren<Camera>();
+        currentHealth = maxHealth;
     }
 
     private void HandleMovementInput()
@@ -122,6 +148,49 @@ public class PlayerMove : MonoBehaviour
 
         isCrouching = !isCrouching;
         duringCrouchAnimation = false;
+    }
+
+    private void ApplyDamage(float dmg) 
+    {
+        currentHealth -= dmg;
+        OnDamage?.Invoke(currentHealth);
+
+
+        if (currentHealth <= 0)
+            KillPlayer();
+        else if (regeneratingHealth != null)
+            StopCoroutine(regeneratingHealth);
+
+        regeneratingHealth = StartCoroutine(RegenerateHealth());
+    }
+
+    private void KillPlayer() 
+    {
+            currentHealth = 0;
+        if (regeneratingHealth != null)
+            StopCoroutine(regeneratingHealth);
+
+        print("Dead");
+        
+    }
+
+    private IEnumerator RegenerateHealth()
+    {
+        yield return new WaitForSeconds(timeBeforeRegenStarts);
+        WaitForSeconds timeToWait = new WaitForSeconds(healthTimeIncrement);
+
+        while(currentHealth < maxHealth) 
+        {
+            currentHealth += healthValueIncrement;
+
+            if(currentHealth > maxHealth)
+                currentHealth = maxHealth;
+
+            OnHeal?.Invoke(currentHealth);
+            yield return timeToWait;
+        }
+
+        regeneratingHealth = null;
     }
 
     private void ApplyFinalMovements()
