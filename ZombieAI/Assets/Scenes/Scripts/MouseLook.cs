@@ -9,13 +9,13 @@ public class MouseLook : MonoBehaviour
     [SerializeField] private bool ViewBobbingActive = true;
 
     [Header("Camera parameters")]
-    [SerializeField] private float sensitivity = 350f;
-    [SerializeField] private float walkBobSpeed = 14f;
-    [SerializeField] private float walkBobAmount = 0.1f;
-    [SerializeField] private float sprintBobSpeed = 18f;
-    [SerializeField] private float sprintBobAmount = 0.2f;
-    [SerializeField] private float crouchBobSpeed = 8f;
-    [SerializeField] private float crouchBobAmount = 0.05f;
+    [SerializeField] private float Sensitivity = 350f;
+    [SerializeField] private float WalkBobSpeed = 14f;
+    [SerializeField] private float WalkBobAmount = 0.1f;
+    [SerializeField] private float SprintBobSpeed = 18f;
+    [SerializeField] private float SprintBobAmount = 0.2f;
+    [SerializeField] private float CrouchBobSpeed = 8f;
+    [SerializeField] private float CrouchBobAmount = 0.05f;
 
     [Header("References")]
     [SerializeField] private Transform playerBody;// to inform about rotation of player
@@ -37,8 +37,8 @@ public class MouseLook : MonoBehaviour
     {
         if (CanLookAround)
         {
-            float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
-            float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
+            float mouseX = Input.GetAxis("Mouse X") * Sensitivity * Time.deltaTime;
+            float mouseY = Input.GetAxis("Mouse Y") * Sensitivity * Time.deltaTime;
 
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);
@@ -57,13 +57,13 @@ public class MouseLook : MonoBehaviour
 
         if (Mathf.Abs(moveDir.x) > 0.1f || Mathf.Abs(moveDir.z) > 0.1f)
         {
-            timer += Time.deltaTime * (playerMove.IsCrouching ? crouchBobSpeed : (playerMove.IsSprinting ? sprintBobSpeed : walkBobSpeed)); ;
+            timer += Time.deltaTime * (playerMove.IsCrouching ? CrouchBobSpeed : (playerMove.IsSprinting ? SprintBobSpeed : WalkBobSpeed)); ;
             transform.localPosition = new Vector3(
                 transform.localPosition.x,
-                defaultYPos + Mathf.Sin(timer) * (playerMove.IsCrouching ? crouchBobAmount : (playerMove.IsSprinting ? sprintBobAmount : walkBobAmount)),
+                defaultYPos + Mathf.Sin(timer) * (playerMove.IsCrouching ? CrouchBobAmount : (playerMove.IsSprinting ? SprintBobAmount : WalkBobAmount)),
                 transform.localPosition.z
                 );
-            
+
         }
         else if (transform.localPosition.y != defaultYPos)
         {
