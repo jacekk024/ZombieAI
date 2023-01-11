@@ -34,9 +34,10 @@ public class PlayerGun : MonoBehaviour
     [SerializeField] private PlayerMove PlayerMove;
     [SerializeField] private GameObject MuzzleFlash;
     [SerializeField] private GameObject BulletHole;
+    [SerializeField] private PauseMenu PauseMenu;
 
     private RaycastHit rayHit;
-    private bool ShouldReload => Input.GetKeyDown(ReloadKey) && bulletsLeft < MagazineSize && !reloading;
+    private bool ShouldReload => !PauseMenu.GamePaused && Input.GetKeyDown(ReloadKey) && bulletsLeft < MagazineSize && !reloading;
     private bool ShouldShoot => readyToShoot && shooting && !reloading && bulletsLeft > 0;
 
     private int layerMask = 1 << 11; //hit everything except player (layer #11)
@@ -74,6 +75,9 @@ public class PlayerGun : MonoBehaviour
 
     private void HandleShootingInput()
     {
+        if (PauseMenu.GamePaused)
+            return;
+
         if (AllowButtonHold)
             shooting = Input.GetKey(ShootKey);
         else

@@ -33,6 +33,9 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private Vector3 CrouchingCenter = new Vector3(0, 0.5f, 0);
     [SerializeField] private Vector3 StandingCenter = new Vector3(0, 0, 0);
 
+    [Header("References")]
+    [SerializeField] private PauseMenu PauseMenu;
+
     private float horizontalAxis;
     private float verticalAxis;
 
@@ -40,8 +43,8 @@ public class PlayerMove : MonoBehaviour
     private CharacterController characterController;
     private Camera playerCamera;
 
-    private bool ShouldJump => Input.GetKey(jumpKey) && characterController.isGrounded && !isCrouching;
-    private bool ShouldCrouch => Input.GetKeyDown(crouchKey) && !duringCrouchAnimation && characterController.isGrounded;
+    private bool ShouldJump => !PauseMenu.GamePaused && Input.GetKey(jumpKey) && characterController.isGrounded && !isCrouching;
+    private bool ShouldCrouch => !PauseMenu.GamePaused && Input.GetKeyDown(crouchKey) && !duringCrouchAnimation && characterController.isGrounded;
     private bool isCrouching;
     private bool duringCrouchAnimation;
 
@@ -93,6 +96,9 @@ public class PlayerMove : MonoBehaviour
 
     private void UpdateAxises()
     {
+        if (PauseMenu.GamePaused)
+            return;
+
         horizontalAxis = Input.GetAxisRaw("Horizontal");
         verticalAxis = Input.GetAxisRaw("Vertical");
     }
