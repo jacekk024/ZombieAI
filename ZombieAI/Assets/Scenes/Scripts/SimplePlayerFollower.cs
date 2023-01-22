@@ -13,6 +13,13 @@ public class SimplePlayerFollower : MonoBehaviour
     
     NavMeshAgent nav;
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+            PlayerMove.OnTakeDamage(15);
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
