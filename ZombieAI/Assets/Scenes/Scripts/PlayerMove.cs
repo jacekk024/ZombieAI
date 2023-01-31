@@ -11,6 +11,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private bool CanJump = true;
     [SerializeField] private bool CanCrouch = true;
     [SerializeField] private bool SlopesSliding = true;
+    [SerializeField] private bool useStamina = true;
+
 
     [Header("Controls")]
     [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
@@ -35,6 +37,16 @@ public class PlayerMove : MonoBehaviour
     public static Action<float> OnDamage;
     public static Action<float> OnHeal;
 
+    [Header("Stamina Parameters")]
+    [SerializeField] private float maxStamina = 100;
+    [SerializeField] private float staminaUseMultiplier = 5;
+    [SerializeField] private float timeBeforeStaminaRegenStarts = 5;
+    [SerializeField] private float staminaValueIncrement = 2;
+    [SerializeField] private float staminaTimeIncrement = 0.1f;
+    private float currentStamina;
+    private Coroutine regeneratingStamina;
+
+    public static Action<float> OnStaminaChange;
 
 
     [Header("Jumping Parameters")]
@@ -117,6 +129,7 @@ public class PlayerMove : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         playerCamera = GetComponentInChildren<Camera>();
         currentHealth = maxHealth;
+        currentStamina = maxStamina;
     }
 
     private void UpdateAxises()
@@ -147,6 +160,33 @@ public class PlayerMove : MonoBehaviour
         if (ShouldCrouch)
         {
             StartCoroutine(CrouchStand());
+        }
+    }
+
+    private void HandleStamina() 
+    {
+        if(IsSprinting) 
+        {
+            if (regeneratingStamina != null)
+            {
+                StopCoroutine(regeneratingStamina);
+                regeneratingStamina = null;
+            }
+
+            currentStamina -=staminaUseMultiplier * Time.deltaTime;
+
+            if (currentStamina < 0)
+                currentStamina = 0;
+
+            OnStaminaChange?.Invoke(currentStamina);
+
+            if (currentStamina <= 0)
+                CanSprint = false;
+        }
+
+        if (!IsSprinting && currentStamina < maxStamina && regeneratingStamina == null)
+        {
+            regeneratingStamina = StartCoroutine(RegenerateStamina());
         }
     }
 
@@ -223,6 +263,30 @@ public class PlayerMove : MonoBehaviour
         regeneratingHealth = null;
     }
 
+    private IEnumerator RegenerateStamina() 
+    {
+
+        yield return new WaitForSeconds(timeBeforeStaminaRegenStarts);
+        WaitForSeconds timeToWait = new WaitForSeconds(staminaTimeIncrement);
+
+        while(currentStamina < maxStamina) 
+        {
+            if(currentStamina > 0)
+                CanSprint = true;
+
+            currentStamina += staminaValueIncrement;
+
+            if (currentStamina > maxStamina)
+                currentStamina = maxStamina;
+
+            OnStaminaChange?.Invoke(currentStamina);
+
+
+            yield return timeToWait;
+        }
+        regeneratingStamina = null;
+    }
+
     private void ApplyFinalMovements()
     {
         //TO DO: limit player's movements while in mid-air
@@ -262,6 +326,8 @@ public class PlayerMove : MonoBehaviour
                 HandleJump();
             if (CanCrouch)
                 HandleCrouch();
+            if (useStamina)
+                HandleStamina();
 
             ApplyFinalMovements();
         }
