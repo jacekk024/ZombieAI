@@ -27,11 +27,6 @@ public class GenerateGrid : MonoBehaviour
 
     void Awake()
     {
-        if (CheckFile(filepath))
-        {
-            ReadFile(filepath);
-        }
-
         grid = new Dane[X, Y, Z];
         groupOfPoints = new GameObject("Group of Points");
 
@@ -51,9 +46,18 @@ public class GenerateGrid : MonoBehaviour
                     obj.name = "SpawnPoint;" + (i + (i * Frequency) + gameObject.transform.position.x).ToString() + ";"
                                              + (j + (j * Frequency) + gameObject.transform.position.y).ToString() + ";"
                                              + (k + (k * Frequency) + gameObject.transform.position.z).ToString();
+
+                    grid[i, j, k].X = i + (i * Frequency) + (int)gameObject.transform.position.x;
+                    grid[i, j, k].Y = i + (i * Frequency) + (int)gameObject.transform.position.y;
+                    grid[i, j, k].Z = i + (i * Frequency) + (int)gameObject.transform.position.x;
                 }
             }
         }
+
+        /*if (CheckFile(filepath))
+        {
+            ReadFile(filepath);
+        }*/
     }
 
     private void OnApplicationQuit()
@@ -66,14 +70,20 @@ public class GenerateGrid : MonoBehaviour
         List<string> lines = File.ReadLines(filename).ToList();
         string[] line;
 
-        for (int i = 1; i < lines.Count; i++)
+        for (int i = 1; i <= lines.Count; i++)
         {
             line = lines[i].Split(new char[] { ';' }, System.StringSplitOptions.None);
 
-            grid[int.Parse(line[0]), int.Parse(line[1]), int.Parse(line[2])].X = int.Parse(line[0]);
-            grid[int.Parse(line[0]), int.Parse(line[1]), int.Parse(line[2])].Y = int.Parse(line[1]);
-            grid[int.Parse(line[0]), int.Parse(line[1]), int.Parse(line[2])].Z = int.Parse(line[2]);
-            grid[int.Parse(line[0]), int.Parse(line[1]), int.Parse(line[2])].value = int.Parse(line[3]);
+            Debug.Log(line[0]);
+            Debug.Log(line[1]);
+            Debug.Log(line[2]);
+            Debug.Log(line[3]);
+            Debug.Log(line[4]);
+
+            grid[int.Parse(line[2]), int.Parse(line[3]), int.Parse(line[4])].value = int.Parse(line[1]);
+            grid[int.Parse(line[2]), int.Parse(line[3]), int.Parse(line[4])].X = int.Parse(line[2]);
+            grid[int.Parse(line[2]), int.Parse(line[3]), int.Parse(line[4])].Y = int.Parse(line[3]);
+            grid[int.Parse(line[2]), int.Parse(line[3]), int.Parse(line[4])].Z = int.Parse(line[4]);
         }
     }
 
