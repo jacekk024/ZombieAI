@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[ExecuteInEditMode]
 public class GenerateGrid : MonoBehaviour
 {
     [SerializeField] public int X;
@@ -18,6 +19,7 @@ public class GenerateGrid : MonoBehaviour
     private string filepath = Application.streamingAssetsPath + "/Resources/" + "data.txt"; 
                                 // "./Assets/Scenes/Resources/data.txt";
     private GameObject groupOfPoints;
+    public GameObject[] floor;
 
     internal struct Dane{
         internal int X, Y, Z; // Pozycja zapisana według gridu
@@ -28,9 +30,13 @@ public class GenerateGrid : MonoBehaviour
     void Awake()
     {
         grid = new Dane[X, Y, Z];
-        groupOfPoints = new GameObject("Group of Points");
+       /* groupOfPoints = new GameObject("Group of Points");
+        if(floor == null)
+        {
+            floor = GameObject.FindGameObjectsWithTag("ZombieRespawnZone");
+        }*/
 
-        for (int i = 0; i < X; i++)
+        /*for (int i = 0; i < X; i++)
         {
             for (int j = 0; j < Y; j++)
             {
@@ -52,7 +58,7 @@ public class GenerateGrid : MonoBehaviour
                     grid[i, j, k].Z = i + (i * Frequency) + (int)gameObject.transform.position.x;
                 }
             }
-        }
+        }*/
 
         /*if (CheckFile(filepath))
         {
@@ -63,6 +69,7 @@ public class GenerateGrid : MonoBehaviour
     private void OnApplicationQuit()
     {
         WriteFile(filepath);
+        Destroy(GameObject.Find("Group of Points").gameObject);
     }
 
     void ReadFile(string filename)
