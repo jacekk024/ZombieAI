@@ -127,7 +127,12 @@ public class PlayerGun : MonoBehaviour
         if (Physics.Raycast(PlayerCamera.transform.position, shotDirection, out rayHit, Range, layerMask))
         {
             //TO DO: check if enemy was hit and reduce its HP
+            ZombieController zombieController = rayHit.transform.GetComponent<ZombieController>();
 
+            if(zombieController != null)
+            {
+                zombieController.TakeDamage(Damage);
+            }
 
             var bhGraphic = Instantiate(BulletHole, rayHit.point, Quaternion.FromToRotation(Vector3.forward, rayHit.normal), rayHit.transform);
             Destroy(bhGraphic, 0.8f);
