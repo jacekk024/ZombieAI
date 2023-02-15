@@ -10,6 +10,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private bool CanSprint = true;
     [SerializeField] private bool CanJump = true;
     [SerializeField] private bool CanCrouch = true;
+    [SerializeField] private bool SlopesSliding = true;
     [SerializeField] private bool useStamina = true;
 
 
@@ -19,9 +20,10 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private KeyCode crouchKey = KeyCode.LeftControl;
 
     [Header("Movement Parameters")]
-    [SerializeField] private float walkSpeed = 8f;
-    [SerializeField] private float sprintSpeed = 18f;
-    [SerializeField] private float crouchSpeed = 4f;
+    [SerializeField] private float WalkSpeed = 8f;
+    [SerializeField] private float SprintSpeed = 18f;
+    [SerializeField] private float CrouchSpeed = 4f;
+    [SerializeField] private float SlopeSlideSpeed = 10f;
 
     [Header("Health Parameters")]
     [SerializeField] private float maxHealth = 100;
@@ -48,25 +50,47 @@ public class PlayerMove : MonoBehaviour
 
 
     [Header("Jumping Parameters")]
-    [SerializeField] private float gravity = 9.81f;
-    [SerializeField] private float jumpForce = 2.5f;
+    [SerializeField] private float Gravity = 9.81f;
+    [SerializeField] private float JumpForce = 2.5f;
 
     [Header("Crouching Parameters")]
-    [SerializeField] private float crouchHeight = 0.4f;
-    [SerializeField] private float standingHeight = 2f;
-    [SerializeField] private float timeToCrouch = 0.2f;
-    [SerializeField] private Vector3 crouchingCenter = new Vector3(0, 0.5f, 0);
-    [SerializeField] private Vector3 standingCenter = new Vector3(0, 0, 0);
+    [SerializeField] private float CrouchHeight = 0.4f;
+    [SerializeField] private float StandingHeight = 2f;
+    [SerializeField] private float TimeToCrouch = 0.2f;
+    [SerializeField] private Vector3 CrouchingCenter = new Vector3(0, 0.5f, 0);
+    [SerializeField] private Vector3 StandingCenter = new Vector3(0, 0, 0);
+
+    [Header("References")]
+    [SerializeField] private PauseMenu PauseMenu;
+
+    private float horizontalAxis;
+    private float verticalAxis;
 
     private Vector3 moveDirection;
     private CharacterController characterController;
     private Camera playerCamera;
 
-    private bool ShouldJump => Input.GetKey(jumpKey) && characterController.isGrounded && !isCrouching;
-    private bool ShouldCrouch => Input.GetKeyDown(crouchKey) && !duringCrouchAnimation && characterController.isGrounded;
+    private bool ShouldJump => !PauseMenu.GamePaused && Input.GetKey(jumpKey) && characterController.isGrounded && !isCrouching;
+    private bool ShouldCrouch => !PauseMenu.GamePaused && Input.GetKeyDown(crouchKey) && !duringCrouchAnimation && characterController.isGrounded;
     private bool isCrouching;
     private bool duringCrouchAnimation;
 
+    private Vector3 hitPointNormal;
+    private bool IsSliding
+    {
+        get
+        {
+            if (characterController.isGrounded && Physics.Raycast(transform.position, Vector3.down, out RaycastHit slopeHit, 1f))
+            {
+                hitPointNormal = slopeHit.normal;
+                return Vector3.Angle(hitPointNormal, Vector3.up) > characterController.slopeLimit;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
 
     private void OnEnable()
     {
@@ -87,7 +111,7 @@ public class PlayerMove : MonoBehaviour
         return moveDirection;
     }
 
-    public bool IsSprinting => CanSprint && Input.GetKey(sprintKey);
+    public bool IsSprinting => CanSprint && Input.GetKey(sprintKey) && verticalAxis > 0;
     public bool IsCrouching
     {
         get
@@ -108,13 +132,19 @@ public class PlayerMove : MonoBehaviour
         currentStamina = maxStamina;
     }
 
+    private void UpdateAxises()
+    {
+        if (PauseMenu.GamePaused)
+            return;
+
+        horizontalAxis = Input.GetAxisRaw("Horizontal");
+        verticalAxis = Input.GetAxisRaw("Vertical");
+    }
+
     private void HandleMovementInput()
     {
-        float x = Input.GetAxisRaw("Horizontal");
-        float z = Input.GetAxisRaw("Vertical");
-
         float moveDirectionY = moveDirection.y;
-        moveDirection = (transform.TransformDirection(Vector3.forward) * z) + (transform.TransformDirection(Vector3.right) * x);
+        moveDirection = (transform.TransformDirection(Vector3.forward) * verticalAxis) + (transform.TransformDirection(Vector3.right) * horizontalAxis);
         moveDirection = Vector3.Normalize(moveDirection);
         moveDirection.y = moveDirectionY;
     }
@@ -122,12 +152,12 @@ public class PlayerMove : MonoBehaviour
     private void HandleJump()
     {
         if (ShouldJump)
-            moveDirection.y = jumpForce;
+            moveDirection.y = JumpForce;
     }
 
     private void HandleCrouch()
     {
-        if(ShouldCrouch)
+        if (ShouldCrouch)
         {
             StartCoroutine(CrouchStand());
         }
@@ -162,7 +192,7 @@ public class PlayerMove : MonoBehaviour
 
     private IEnumerator CrouchStand()
     {
-        if(isCrouching && Physics.Raycast(playerCamera.transform.position, Vector3.up, 1f)) 
+        if (isCrouching && Physics.Raycast(playerCamera.transform.position, Vector3.up, 2.5f))
         {
             yield break;
         }
@@ -170,15 +200,15 @@ public class PlayerMove : MonoBehaviour
         duringCrouchAnimation = true;
         float timeElapsed = 0f;
 
-        float targetHeight = isCrouching ? standingHeight : crouchHeight;
+        float targetHeight = isCrouching ? StandingHeight : CrouchHeight;
         float currentHeight = characterController.height;
-        Vector3 targetCenter = isCrouching ? standingCenter : crouchingCenter;
+        Vector3 targetCenter = isCrouching ? StandingCenter : CrouchingCenter;
         Vector3 currentCenter = characterController.center;
 
-        while(timeElapsed < timeToCrouch)
+        while (timeElapsed < TimeToCrouch)
         {
-            characterController.height = Mathf.Lerp(currentHeight, targetHeight, timeElapsed / timeToCrouch);
-            characterController.center = Vector3.Lerp(currentCenter, targetCenter, timeElapsed / timeToCrouch);
+            characterController.height = Mathf.Lerp(currentHeight, targetHeight, timeElapsed / TimeToCrouch);
+            characterController.center = Vector3.Lerp(currentCenter, targetCenter, timeElapsed / TimeToCrouch);
             timeElapsed += Time.deltaTime;
             yield return null;
         }
@@ -261,17 +291,25 @@ public class PlayerMove : MonoBehaviour
     {
         //TO DO: limit player's movements while in mid-air
 
-        float speed = (isCrouching ? crouchSpeed : (IsSprinting ? sprintSpeed : walkSpeed));
+        float speed = (isCrouching ? CrouchSpeed : (IsSprinting ? SprintSpeed : WalkSpeed));
 
         if (!characterController.isGrounded)
-            moveDirection.y -= gravity * Time.deltaTime;
+            moveDirection.y -= Gravity * Time.deltaTime;
 
         if (characterController.velocity.y <= -1 && characterController.isGrounded)
             moveDirection.y = 0;
 
+        if (SlopesSliding && IsSliding)
+        {
+            var angle = Vector3.Angle(hitPointNormal, Vector3.up);
+            var angleMultiplier = (angle - characterController.slopeLimit) / characterController.slopeLimit;
+            Vector3 slopeDirection = Vector3.Cross(Vector3.Cross(hitPointNormal, Vector3.down), hitPointNormal);
+            moveDirection += slopeDirection * (angleMultiplier * SlopeSlideSpeed);
+        }
+
         Vector3 moveVector = new Vector3(
             moveDirection.x * speed,
-            moveDirection.y * walkSpeed, //so the player always jump the same height
+            moveDirection.y * WalkSpeed, //so the player always jump the same height
             moveDirection.z * speed
             );
 
@@ -280,8 +318,9 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        if(CanMove)
+        if (CanMove)
         {
+            UpdateAxises();
             HandleMovementInput();
             if (CanJump)
                 HandleJump();

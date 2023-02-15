@@ -9,7 +9,7 @@ public class SimplePlayerFollower : MonoBehaviour
     [SerializeField] private bool IsActive = true;
 
     [Header("References")]
-    [SerializeField] private Transform target;
+    [SerializeField] public Transform target;
     
     NavMeshAgent nav;
 
