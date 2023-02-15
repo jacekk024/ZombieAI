@@ -40,11 +40,11 @@ public class PlayerGun : MonoBehaviour
     private bool ShouldReload => !PauseMenu.GamePaused && Input.GetKeyDown(ReloadKey) && bulletsLeft < MagazineSize && !reloading;
     private bool ShouldShoot => readyToShoot && shooting && !reloading && bulletsLeft > 0;
 
-    private int layerMask = 1 << 11; //hit everything except player (layer #11)
+    private int layerMask = ~(1 << 11); //hit everything except player (layer #11)
 
     void Start()
     {
-        layerMask = ~layerMask;
+
     }
 
     private void Awake()
