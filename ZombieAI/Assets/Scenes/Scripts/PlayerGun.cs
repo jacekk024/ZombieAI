@@ -35,6 +35,7 @@ public class PlayerGun : MonoBehaviour
     [SerializeField] private GameObject MuzzleFlash;
     [SerializeField] private GameObject BulletHole;
     [SerializeField] private PauseMenu PauseMenu;
+    [SerializeField] private UI uiGun;
 
     private RaycastHit rayHit;
     private bool ShouldReload => !PauseMenu.GamePaused && Input.GetKeyDown(ReloadKey) && bulletsLeft < MagazineSize && !reloading;
@@ -44,7 +45,8 @@ public class PlayerGun : MonoBehaviour
 
     void Start()
     {
-
+        layerMask = ~layerMask;
+        uiGun = GameObject.Find("Canvas").GetComponent<UI>();
     }
 
     private void Awake()
@@ -109,6 +111,7 @@ public class PlayerGun : MonoBehaviour
     {
         bulletsLeft = MagazineSize;
         reloading = false;
+        uiGun.UpdateAmmunition(bulletsLeft);
     }
 
     private void Shoot()
@@ -141,11 +144,11 @@ public class PlayerGun : MonoBehaviour
         Destroy(shotGraphic, 0.2f);
 
 
-
+        
         bulletsLeft--;
         bulletsLeftForSingleShot--;
-
-        if(!IsInvoking(nameof(ResetShot)) && !readyToShoot)
+        uiGun.UpdateAmmunition(bulletsLeft);
+        if (!IsInvoking(nameof(ResetShot)) && !readyToShoot)
         {
             Invoke(nameof(ResetShot), ShotsDelay);
             allowInvoke = false;

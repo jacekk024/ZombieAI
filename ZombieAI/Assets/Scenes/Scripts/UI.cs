@@ -7,6 +7,7 @@ public class UI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI healthText = default;
     [SerializeField] private TextMeshProUGUI staminaText = default;
+    [SerializeField] private TextMeshProUGUI ammunitionText = default;
 
 
     private void OnEnable()
@@ -27,6 +28,7 @@ public class UI : MonoBehaviour
     {
         UpdateHealth(100);
         UpdateStamina(100);
+        UpdateAmmunition(30);
     }
 
     private void UpdateHealth(float currentHealth) 
@@ -37,5 +39,10 @@ public class UI : MonoBehaviour
     private void UpdateStamina(float currentStamina) 
     {
         staminaText.text = currentStamina.ToString("00");
+    }
+
+    public void UpdateAmmunition(int count)
+    {
+        ammunitionText.text = count.ToString("00");
     }
 }
