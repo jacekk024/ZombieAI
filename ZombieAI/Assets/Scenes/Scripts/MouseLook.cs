@@ -6,10 +6,8 @@ public class MouseLook : MonoBehaviour
 {
     [Header("Functional Options")]
     [SerializeField] private bool CanLookAround = true;
-    [SerializeField] private bool ViewBobbingActive = true;
 
     [Header("Camera parameters")]
-    [SerializeField] private float Sensitivity = 350f;
     [SerializeField] private float WalkBobSpeed = 14f;
     [SerializeField] private float WalkBobAmount = 0.1f;
     [SerializeField] private float SprintBobSpeed = 18f;
@@ -37,8 +35,8 @@ public class MouseLook : MonoBehaviour
     {
         if (CanLookAround)
         {
-            float mouseX = Input.GetAxis("Mouse X") * Sensitivity * Time.deltaTime;
-            float mouseY = Input.GetAxis("Mouse Y") * Sensitivity * Time.deltaTime;
+            float mouseX = Input.GetAxis("Mouse X") * GameplaySettings.Sensitivity * Time.deltaTime;
+            float mouseY = Input.GetAxis("Mouse Y") * GameplaySettings.Sensitivity * Time.deltaTime;
 
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);
@@ -75,7 +73,7 @@ public class MouseLook : MonoBehaviour
     void Update()
     {
         HandleMouseLook();
-        if (ViewBobbingActive)
+        if (GameplaySettings.ViewBobbingActive)
             HandleViewBob();
     }
 }

@@ -1,3 +1,5 @@
+using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,14 +22,23 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject gameplayOptionsMenu;
     [SerializeField] private GameObject resolutionsDropdownObject;
     [SerializeField] private GameObject qualitiesDropdownObject;
-
+    [SerializeField] private GameObject uiCanvas;
+    [SerializeField] private GameObject sensitivitySliderWrapper;
+    [SerializeField] private Toggle viewBobToggle;
 
     [SerializeField] private EventSystem eventSystem;
 
     private TMP_Dropdown resolutionsDropdown;
     private TMP_Dropdown qualitiesDropdown;
+    private Slider sensitivitySlider;
+    private bool viewBobbingActive;
+
     private Resolution[] resolutions;
     private string[] qualityNames;
+    private List<string> AllKeycodes = new List<string>();
+
+
+
     private bool isPaused;
     
     public bool GamePaused
@@ -39,12 +50,12 @@ public class PauseMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        DisablePanels();
+
+
         resolutionsDropdown = resolutionsDropdownObject.GetComponent<TMP_Dropdown>();
         qualitiesDropdown = qualitiesDropdownObject.GetComponent<TMP_Dropdown>();
-
-        DisablePanels();
-        InitResolutionDropdown();
-        InitQualityDropdown();
+        sensitivitySlider = sensitivitySliderWrapper.GetComponentInChildren<Slider>();
     }
 
     // Update is called once per frame
@@ -70,6 +81,7 @@ public class PauseMenu : MonoBehaviour
         eventSystem.SetSelectedGameObject(null);
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
+        uiCanvas.SetActive(false);
         isPaused = true;
     }
 
@@ -79,6 +91,7 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = false;
         DisablePanels();
         Time.timeScale = 1f;
+        uiCanvas.SetActive(true);
         isPaused = false;
     }
 
@@ -132,9 +145,21 @@ public class PauseMenu : MonoBehaviour
         qualitiesDropdown.RefreshShownValue();
     }
 
+
     public void SetQuality(int index)
     {
         QualitySettings.SetQualityLevel(index);
+    }
+
+    public void SetSensitivity()
+    {
+        sensitivitySlider = sensitivitySliderWrapper.GetComponentInChildren<Slider>();
+        GameplaySettings.Sensitivity = (int)sensitivitySlider.value;
+    }
+
+    public void ToggleViewBob(bool isViewBobActive)
+    {
+        GameplaySettings.ViewBobbingActive = isViewBobActive;
     }
 
 
@@ -176,6 +201,11 @@ public class PauseMenu : MonoBehaviour
     {
         optionsMenu.SetActive(false);
         videoOptionsMenu.SetActive(true);
+
+
+        InitResolutionDropdown();
+        InitQualityDropdown();
+
     }
 
     public void CloseVideoMenu()
@@ -189,6 +219,9 @@ public class PauseMenu : MonoBehaviour
     {
         optionsMenu.SetActive(false);
         gameplayOptionsMenu.SetActive(true);
+
+        sensitivitySlider.value = GameplaySettings.Sensitivity;
+        viewBobToggle.isOn = GameplaySettings.ViewBobbingActive;
     }
 
     public void CloseGameplayMenu()
