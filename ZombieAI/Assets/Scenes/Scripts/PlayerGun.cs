@@ -148,6 +148,7 @@ public class PlayerGun : MonoBehaviour
         bulletsLeft--;
         bulletsLeftForSingleShot--;
         uiGun.UpdateAmmunition(bulletsLeft);
+
         if (!IsInvoking(nameof(ResetShot)) && !readyToShoot)
         {
             Invoke(nameof(ResetShot), ShotsDelay);

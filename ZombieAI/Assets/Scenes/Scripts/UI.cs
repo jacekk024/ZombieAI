@@ -40,9 +40,8 @@ public class UI : MonoBehaviour
     {
         staminaText.text = currentStamina.ToString("00");
     }
-
-    public void UpdateAmmunition(int count)
+    public void UpdateAmmunition(float currentAmmonition)
     {
-        ammunitionText.text = count.ToString("00");
+        ammunitionText.text = currentAmmonition.ToString("00");
     }
 }
