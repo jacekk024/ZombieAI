@@ -20,6 +20,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject gameplayOptionsMenu;
     [SerializeField] private GameObject resolutionsDropdownObject;
     [SerializeField] private GameObject qualitiesDropdownObject;
+    [SerializeField] private GameObject playerUI;
 
 
     [SerializeField] private EventSystem eventSystem;
@@ -71,6 +72,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
+        playerUI.SetActive(false);
     }
 
     public void ResumeGame()
@@ -80,6 +82,7 @@ public class PauseMenu : MonoBehaviour
         DisablePanels();
         Time.timeScale = 1f;
         isPaused = false;
+        playerUI.SetActive(true);
     }
 
     public void ToggleFullsceen(bool isFullscreen)

@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -34,8 +34,8 @@ public class PlayerMove : MonoBehaviour
     private float currentHealth;
     private Coroutine regeneratingHealth;
     public static Action<float> OnTakeDamage;
-    public static Action<float> OnDamage;
-    public static Action<float> OnHeal;
+    public static Action<float, float> OnDamage;
+    public static Action<float, float> OnHeal;
 
     [Header("Stamina Parameters")]
     [SerializeField] private float maxStamina = 100;
@@ -43,10 +43,12 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float timeBeforeStaminaRegenStarts = 5;
     [SerializeField] private float staminaValueIncrement = 2;
     [SerializeField] private float staminaTimeIncrement = 0.1f;
+    [SerializeField] private Image staminaUI = default;
+    [SerializeField] private Image staminaClawUI = default;
     private float currentStamina;
     private Coroutine regeneratingStamina;
 
-    public static Action<float> OnStaminaChange;
+    public static Action<float, float> OnStaminaChange;
 
 
     [Header("Jumping Parameters")]
@@ -171,6 +173,8 @@ public class PlayerMove : MonoBehaviour
             {
                 StopCoroutine(regeneratingStamina);
                 regeneratingStamina = null;
+                StopCoroutine(ImageFade.FadeImage(true, staminaUI, staminaClawUI));
+                StartCoroutine(ImageFade.FadeImage(false, staminaUI, staminaClawUI));
             }
 
             currentStamina -=staminaUseMultiplier * Time.deltaTime;
@@ -178,7 +182,7 @@ public class PlayerMove : MonoBehaviour
             if (currentStamina < 0)
                 currentStamina = 0;
 
-            OnStaminaChange?.Invoke(currentStamina);
+            OnStaminaChange?.Invoke(currentStamina, maxStamina);
 
             if (currentStamina <= 0)
                 CanSprint = false;
@@ -187,6 +191,7 @@ public class PlayerMove : MonoBehaviour
         if (!IsSprinting && currentStamina < maxStamina && regeneratingStamina == null)
         {
             regeneratingStamina = StartCoroutine(RegenerateStamina());
+            StartCoroutine(ImageFade.FadeImage(true, staminaUI, staminaClawUI));
         }
     }
 
@@ -223,8 +228,7 @@ public class PlayerMove : MonoBehaviour
     private void ApplyDamage(float dmg) 
     {
         currentHealth -= dmg;
-        OnDamage?.Invoke(currentHealth);
-
+        OnDamage?.Invoke(currentHealth, maxHealth);
 
         if (currentHealth <= 0)
             KillPlayer();
@@ -256,7 +260,7 @@ public class PlayerMove : MonoBehaviour
             if(currentHealth > maxHealth)
                 currentHealth = maxHealth;
 
-            OnHeal?.Invoke(currentHealth);
+            OnHeal?.Invoke(currentHealth, maxHealth);
             yield return timeToWait;
         }
 
@@ -279,8 +283,7 @@ public class PlayerMove : MonoBehaviour
             if (currentStamina > maxStamina)
                 currentStamina = maxStamina;
 
-            OnStaminaChange?.Invoke(currentStamina);
-
+            OnStaminaChange?.Invoke(currentStamina, maxStamina);
 
             yield return timeToWait;
         }
