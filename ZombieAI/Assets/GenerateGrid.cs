@@ -69,7 +69,7 @@ public class GenerateGrid : MonoBehaviour
     private void OnApplicationQuit()
     {
         WriteFile(filepath);
-        Destroy(GameObject.Find("Group of Points").gameObject);
+        // Destroy(GameObject.Find("Group of Points").gameObject);
     }
 
     void ReadFile(string filename)
