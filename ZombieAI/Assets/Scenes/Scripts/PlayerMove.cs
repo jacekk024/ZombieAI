@@ -1,11 +1,14 @@
-using System;
+﻿using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerMove : MonoBehaviour
 {
     [Header("Functional Options")]
+    [SerializeField] private bool AutoMove = false;
     [SerializeField] private bool CanMove = true;
     [SerializeField] private bool CanSprint = true;
     [SerializeField] private bool CanJump = true;
@@ -64,6 +67,17 @@ public class PlayerMove : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private PauseMenu PauseMenu;
+
+    [Header("AI Movement")]
+    [SerializeField] PlayerAIMovement[] playerPositions;
+
+    [Serializable]
+    public class PlayerAIMovement
+    {
+        public float x;
+        public float z;
+    }
+    private int AICounter = 0;
 
     private float horizontalAxis;
     private float verticalAxis;
@@ -319,6 +333,29 @@ public class PlayerMove : MonoBehaviour
         characterController.Move(moveVector * Time.deltaTime);
     }
 
+    private void moveTowardsTheGoal()
+    {
+        if(playerPositions.Count() > 0)
+        {
+            PlayerAIMovement playerAIMovement = playerPositions[AICounter];
+            float speed = (isCrouching ? CrouchSpeed : (IsSprinting ? SprintSpeed : WalkSpeed));
+            float distanceToTarget = 
+                Vector3.Distance(transform.position, new Vector3(playerAIMovement.x, transform.position.y, playerAIMovement.z)); 
+
+            if (distanceToTarget > 0.1f)
+            {
+                transform.position = 
+                    Vector3.MoveTowards(transform.position, new Vector3(playerAIMovement.x, transform.position.y, playerAIMovement.z), speed * Time.deltaTime);
+            }
+            else
+            {
+                if (AICounter + 1 < playerPositions.Count()) AICounter++;
+                else AICounter = 0;
+                transform.rotation = Quaternion.AngleAxis(270 * AICounter, transform.up);
+            }
+        }
+    }
+
     void Update()
     {
         if (CanMove)
@@ -333,6 +370,9 @@ public class PlayerMove : MonoBehaviour
                 HandleStamina();
 
             ApplyFinalMovements();
+        } else if (AutoMove)
+        {
+            moveTowardsTheGoal();
         }
     }
 }

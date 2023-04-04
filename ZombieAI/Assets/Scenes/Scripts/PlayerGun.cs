@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,6 +37,11 @@ public class PlayerGun : MonoBehaviour
     [SerializeField] private PauseMenu PauseMenu;
     [SerializeField] private UI uiGun;
 
+    [Header("AI Collider Values")]
+    [SerializeField] public GameObject projectilePrefab;
+    [SerializeField] public float projectileSpeed = 20f;
+    [SerializeField] public float projectileLifetime = 5f;
+
     private RaycastHit rayHit;
     private bool ShouldReload => !PauseMenu.GamePaused && Input.GetKeyDown(ReloadKey) && bulletsLeft < MagazineSize && !reloading;
     private bool ShouldShoot => readyToShoot && shooting && !reloading && bulletsLeft > 0;
@@ -45,7 +50,6 @@ public class PlayerGun : MonoBehaviour
 
     void Start()
     {
-        layerMask = ~layerMask;
         uiGun = GameObject.Find("Canvas").GetComponent<UI>();
     }
 
@@ -126,13 +130,18 @@ public class PlayerGun : MonoBehaviour
 
         Vector3 shotDirection = PlayerCamera.transform.forward + new Vector3(x, y, z);
 
+        GameObject projectile = Instantiate(projectilePrefab, PlayerCamera.transform.position, Quaternion.identity);
+        Rigidbody projectileRigidbody = projectile.GetComponent<Rigidbody>();
+        projectileRigidbody.velocity = shotDirection * projectileSpeed;
+        Destroy(projectile, projectileLifetime);
+
         //Raycast shot
         if (Physics.Raycast(PlayerCamera.transform.position, shotDirection, out rayHit, Range, layerMask))
         {
             //TO DO: check if enemy was hit and reduce its HP
             ZombieController zombieController = rayHit.transform.GetComponent<ZombieController>();
 
-            if(zombieController != null)
+            if (zombieController != null)
             {
                 zombieController.TakeDamage(Damage);
             }
@@ -156,7 +165,9 @@ public class PlayerGun : MonoBehaviour
         }
 
         if (bulletsLeftForSingleShot > 0 && bulletsLeft > 0)
+        {
             Invoke(nameof(Shoot), TimeBetweenShots);
+        }
     }
 
     private void ResetShot()
