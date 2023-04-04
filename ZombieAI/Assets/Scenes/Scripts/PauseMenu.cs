@@ -22,7 +22,6 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject gameplayOptionsMenu;
     [SerializeField] private GameObject resolutionsDropdownObject;
     [SerializeField] private GameObject qualitiesDropdownObject;
-    [SerializeField] private GameObject playerUI;
     [SerializeField] private GameObject uiCanvas;
     [SerializeField] private GameObject sensitivitySliderWrapper;
     [SerializeField] private Toggle viewBobToggle;
@@ -83,7 +82,6 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0f;
         uiCanvas.SetActive(false);
         isPaused = true;
-        playerUI.SetActive(false);
     }
 
     public void ResumeGame()
@@ -94,7 +92,6 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         uiCanvas.SetActive(true);
         isPaused = false;
-        playerUI.SetActive(true);
     }
 
     public void ToggleFullsceen(bool isFullscreen)

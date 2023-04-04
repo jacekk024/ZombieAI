@@ -7996,7 +7996,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &566850580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10180,6 +10180,12 @@ PrefabInstance:
       propertyPath: PlayerCamera
       value: 
       objectReference: {fileID: 118298458}
+    - target: {fileID: 8929652558990584105, guid: 0dc05c7314ff6284395215d4d7211221,
+        type: 3}
+      propertyPath: projectilePrefab
+      value: 
+      objectReference: {fileID: 5326755376247056571, guid: d2552983552a4db4299f63e479ce179c,
+        type: 3}
     - target: {fileID: 8929652558990584111, guid: 0dc05c7314ff6284395215d4d7211221,
         type: 3}
       propertyPath: m_Name
@@ -12120,14 +12126,13 @@ MonoBehaviour:
   pauseMenuKey: 27
   pauseMenu: {fileID: 921841856}
   optionsMenu: {fileID: 853507993}
-  audioOptionsMenu: {fileID: 797140075}
-  videoOptionsMenu: {fileID: 1822688415}
-  gameplayOptionsMenu: {fileID: 1346900028}
-  resolutionsDropdownObject: {fileID: 948486372}
-  qualitiesDropdownObject: {fileID: 1284353521}
-  playerUI: {fileID: 1490526365}
-  uiCanvas: {fileID: 0}
-  sensitivitySliderWrapper: {fileID: 0}
+  audioOptionsMenu: {fileID: 1941561462}
+  videoOptionsMenu: {fileID: 1941561461}
+  gameplayOptionsMenu: {fileID: 1941561460}
+  resolutionsDropdownObject: {fileID: 1941561459}
+  qualitiesDropdownObject: {fileID: 1941561458}
+  uiCanvas: {fileID: 1490526365}
+  sensitivitySliderWrapper: {fileID: 1941561457}
   viewBobToggle: {fileID: 283102039}
   eventSystem: {fileID: 379308144}
 --- !u!4 &849899981
@@ -20822,12 +20827,12 @@ GameObject:
   - component: {fileID: 1674511477}
   - component: {fileID: 1674511476}
   m_Layer: 0
-  m_Name: 'Recovery GameObject for CanvasRenderer (ID in file: 1674511476)'
+  m_Name: 'Renderer (ID in file: 1674511476)derer (ID in file: 1674511476)'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1490526365
 GameObject:
   m_ObjectHideFlags: 0
@@ -26460,6 +26465,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseMenuFunctionsWrapper
       objectReference: {fileID: 0}
+    - target: {fileID: 8551753187213560115, guid: 071177ae75177ae4ebc8589a1b51895f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8551753187213560116, guid: 071177ae75177ae4ebc8589a1b51895f,
         type: 3}
       propertyPath: uiCanvas
@@ -26527,6 +26537,42 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 071177ae75177ae4ebc8589a1b51895f, type: 3}
+--- !u!1 &1941561457 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2929676004117187604, guid: 071177ae75177ae4ebc8589a1b51895f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1941561456}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1941561458 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8551753185499813129, guid: 071177ae75177ae4ebc8589a1b51895f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1941561456}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1941561459 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8551753187312105500, guid: 071177ae75177ae4ebc8589a1b51895f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1941561456}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1941561460 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8551753185563093188, guid: 071177ae75177ae4ebc8589a1b51895f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1941561456}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1941561461 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8551753186038365287, guid: 071177ae75177ae4ebc8589a1b51895f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1941561456}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1941561462 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8551753187160677523, guid: 071177ae75177ae4ebc8589a1b51895f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1941561456}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1960466843
 PrefabInstance:
   m_ObjectHideFlags: 0
