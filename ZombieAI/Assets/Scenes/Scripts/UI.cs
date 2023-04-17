@@ -9,6 +9,7 @@ public class UI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ammunitionText = default;
     [SerializeField] private Image staminaClawUI = default;
     [SerializeField] private Image HPBarUI = default;
+    [SerializeField] private UI uiGun;
 
     private void OnEnable()
     {
@@ -25,9 +26,10 @@ public class UI : MonoBehaviour
     }
 
     private void Start()
-    {
+    {   
+
         UpdateHealth(100);
-        UpdateStamina(100);
+        UpdateStamina(100);       
         UpdateAmmunition(30);
     }
 
