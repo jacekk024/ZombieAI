@@ -2342,7 +2342,7 @@ GameObject:
   m_Component:
   - component: {fileID: 118872654}
   - component: {fileID: 118872655}
-  m_Layer: 11
+  m_Layer: 6
   m_Name: WeaponWrapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2381,7 +2381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62dfa8f6d230594a85e34b4808790b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanSwitchWeapons: 1
+  CanSwitchWeapons: 0
   SwitchDelay: 5
   switchKey: 308
   weapons:
@@ -8652,7 +8652,7 @@ GameObject:
   m_Component:
   - component: {fileID: 593196137}
   - component: {fileID: 593196139}
-  m_Layer: 11
+  m_Layer: 6
   m_Name: WeaponCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11728,7 +11728,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 811659241}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AttackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13687,8 +13687,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efdad683a51b9184c8e5fb895d295a2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutoMove: 1
-  CanMove: 0
+  AutoMove: 0
+  CanMove: 1
   CanSprint: 1
   CanJump: 1
   CanCrouch: 1
@@ -14652,7 +14652,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1026519181}
   - component: {fileID: 1026519182}
-  m_Layer: 11
+  m_Layer: 6
   m_Name: WeaponHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16849,7 +16849,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &1194311965
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -16866,7 +16866,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &1194311967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17772,7 +17773,7 @@ GameObject:
   - component: {fileID: 197160389}
   - component: {fileID: 1247660246}
   - component: {fileID: 1247660245}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SciFiGunLightBlack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23264,7 +23265,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1643232860}
   - component: {fileID: 1643232861}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -43,7 +43,8 @@ public class PlayerGun : MonoBehaviour
     [SerializeField] public float projectileLifetime = 5f;
 
     private RaycastHit rayHit;
-    private bool ShouldReload => !PauseMenu.GamePaused && Input.GetKeyDown(ReloadKey) && bulletsLeft < MagazineSize && !reloading;
+    private InputController inputController;
+    private bool ShouldReload => !PauseMenu.GamePaused && inputController.GetReloadInput() && bulletsLeft < MagazineSize && !reloading;
     private bool ShouldShoot => readyToShoot && shooting && !reloading && bulletsLeft > 0;
 
     private int layerMask = ~(1 << 11); //hit everything except player (layer #11)
@@ -51,6 +52,7 @@ public class PlayerGun : MonoBehaviour
     void Start()
     {
         uiGun = GameObject.Find("Canvas").GetComponent<UI>();
+        inputController = GetComponentInParent<InputController>();
     }
 
     private void Awake()

@@ -85,9 +85,10 @@ public class PlayerMove : MonoBehaviour
     private Vector3 moveDirection;
     private CharacterController characterController;
     private Camera playerCamera;
+    private InputController inputController;
 
-    private bool ShouldJump => !PauseMenu.GamePaused && Input.GetKey(jumpKey) && characterController.isGrounded && !isCrouching;
-    private bool ShouldCrouch => !PauseMenu.GamePaused && Input.GetKeyDown(crouchKey) && !duringCrouchAnimation && characterController.isGrounded;
+    private bool ShouldJump => !PauseMenu.GamePaused && inputController.GetJumpInput() && characterController.isGrounded && !isCrouching;
+    private bool ShouldCrouch => !PauseMenu.GamePaused && inputController.GetCrouchInput() && !duringCrouchAnimation && characterController.isGrounded;
     private bool isCrouching;
     private bool duringCrouchAnimation;
 
@@ -127,7 +128,7 @@ public class PlayerMove : MonoBehaviour
         return moveDirection;
     }
 
-    public bool IsSprinting => CanSprint && Input.GetKey(sprintKey) && verticalAxis > 0;
+    public bool IsSprinting => CanSprint && inputController.GetSprintInput() && verticalAxis > 0;
     public bool IsCrouching
     {
         get
@@ -144,6 +145,7 @@ public class PlayerMove : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         playerCamera = GetComponentInChildren<Camera>();
+        inputController = GetComponent<InputController>();
         currentHealth = maxHealth;
         currentStamina = maxStamina;
     }
@@ -153,8 +155,10 @@ public class PlayerMove : MonoBehaviour
         if (PauseMenu.GamePaused)
             return;
 
-        horizontalAxis = Input.GetAxisRaw("Horizontal");
-        verticalAxis = Input.GetAxisRaw("Vertical");
+        Vector2 axises = inputController.GetMovementInput();
+
+        horizontalAxis = axises.x;
+        verticalAxis = axises.y;
     }
 
     private void HandleMovementInput()
@@ -368,6 +372,12 @@ public class PlayerMove : MonoBehaviour
                 HandleCrouch();
             if (useStamina)
                 HandleStamina();
+
+            if(inputController.GetCrouchInput())
+            {
+                Debug.Log("Crouched");
+            }
+
 
             ApplyFinalMovements();
         } else if (AutoMove)
