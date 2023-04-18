@@ -6,6 +6,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
@@ -26,6 +27,8 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject sensitivitySliderWrapper;
     [SerializeField] private Toggle viewBobToggle;
     [SerializeField] private EventSystem eventSystem;
+    [SerializeField] private InputActionAsset inputActions;
+
 
     private TMP_Dropdown resolutionsDropdown;
     private TMP_Dropdown qualitiesDropdown;
@@ -64,7 +67,8 @@ public class PauseMenu : MonoBehaviour
         {
             if(isPaused)
             {
-                ResumeGame();
+                if(!gameplayOptionsMenu.activeInHierarchy)
+                    ResumeGame();
             }
             else
             {
@@ -228,6 +232,16 @@ public class PauseMenu : MonoBehaviour
         optionsMenu.SetActive(true);
         gameplayOptionsMenu.SetActive(false);
     }
+
+    public void ResetAllBindings()
+    {
+        foreach (InputActionMap map in inputActions.actionMaps)
+        {
+            map.RemoveAllBindingOverrides();
+        }
+        PlayerPrefs.DeleteKey("rebinds");
+    }
+
 
 
     public void QuitGame()

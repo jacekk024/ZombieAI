@@ -26,7 +26,6 @@ public class PlayerGun : MonoBehaviour
 
     [Header("Controls")]
     [SerializeField] private KeyCode ShootKey = KeyCode.Mouse0;
-    [SerializeField] private KeyCode ReloadKey = KeyCode.R;
 
     [Header("References")]
     [SerializeField] private Camera PlayerCamera;
