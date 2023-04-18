@@ -12,7 +12,7 @@ public class WaveSpawner : MonoBehaviour
     [SerializeField] private uint NoWave = 0;                               // Number of Wave
     // [SerializeField][Range(1,120)] private float TimeOfWave;             // Do przemyślenia
     [SerializeField][Range(1, 30)] private float TimeBetweenWaves = 5.0f;   // 
-    [SerializeField] private AvaStates State = AvaStates.Counting;          // State of generator waves (from AvaStates)
+    [SerializeField] public AvaStates State = AvaStates.Counting;          // State of generator waves (from AvaStates)
 
     public ZombieType[] zombies;
     public GameObject[] floor;
@@ -27,7 +27,7 @@ public class WaveSpawner : MonoBehaviour
         public float rate;          // Zombie rate
     }
 
-    private enum AvaStates
+    public enum AvaStates
     {
         Spawning,   // Spawning time to generate zombies
         Counting,   // Countdown of break from waves
@@ -146,6 +146,8 @@ public class WaveSpawner : MonoBehaviour
 
                     go.GetComponent<SimplePlayerFollower>().target = 
                         GameObject.FindGameObjectWithTag("Player").transform;
+
+                    GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().AddTarget(go.transform);
 
                     spawned = true;
                 }

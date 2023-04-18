@@ -19,7 +19,7 @@ public class PlayerGun : MonoBehaviour
 
     private int bulletsLeft;
     private int bulletsLeftForSingleShot;
-    private bool shooting;
+    public bool shooting;
     private bool readyToShoot;
     private bool reloading;
     private bool allowInvoke;
@@ -96,7 +96,7 @@ public class PlayerGun : MonoBehaviour
             Reload();
     }
 
-    private void HandleShots()
+    public void HandleShots()
     {
         if (ShouldShoot)
         {
@@ -105,7 +105,7 @@ public class PlayerGun : MonoBehaviour
         }
     }
 
-    private void Reload()
+    public void Reload()
     {
         reloading = true;
         Invoke(nameof(ReloadFinished), ReloadTime);

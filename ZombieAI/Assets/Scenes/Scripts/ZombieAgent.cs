@@ -52,6 +52,7 @@ public class ZombieAgent : Agent
     public override void OnEpisodeBegin()
     {
         // Reset zombie/gracza
+        GameObject.Find("WaveController").GetComponent<WaveSpawner>().State = WaveSpawner.AvaStates.Spawning;
 
     }
 

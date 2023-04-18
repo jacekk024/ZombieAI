@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
 public class PlayerMove : MonoBehaviour
 {
     [Header("Functional Options")]
-    [SerializeField] private bool AutoMove = false;
     [SerializeField] private bool CanMove = true;
     [SerializeField] private bool CanSprint = true;
     [SerializeField] private bool CanJump = true;
     [SerializeField] private bool CanCrouch = true;
     [SerializeField] private bool SlopesSliding = true;
     [SerializeField] private bool useStamina = true;
-
 
     [Header("Controls")]
     [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
@@ -70,6 +68,13 @@ public class PlayerMove : MonoBehaviour
 
     [Header("AI Movement")]
     [SerializeField] PlayerAIMovement[] playerPositions;
+    [SerializeField] private bool AutoMove = false;
+    [SerializeField] private bool AutoShoot = false;
+    [SerializeField] private float FieldOfView = 45f;
+    [SerializeField] private Transform CurrentTarget;
+    [SerializeField] private PlayerGun PlayerGunComponent;
+
+    public List<Transform> targets = new List<Transform>();
 
     [Serializable]
     public class PlayerAIMovement
@@ -144,6 +149,7 @@ public class PlayerMove : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         playerCamera = GetComponentInChildren<Camera>();
+        PlayerGunComponent = GameObject.FindGameObjectWithTag("Gun").GetComponent<PlayerGun>();
         currentHealth = maxHealth;
         currentStamina = maxStamina;
     }
@@ -340,20 +346,90 @@ public class PlayerMove : MonoBehaviour
             PlayerAIMovement playerAIMovement = playerPositions[AICounter];
             float speed = (isCrouching ? CrouchSpeed : (IsSprinting ? SprintSpeed : WalkSpeed));
             float distanceToTarget = 
+                //Vector3.Distance(transform.position, new Vector3(0.0f, transform.position.y, 0.0f)); 
                 Vector3.Distance(transform.position, new Vector3(playerAIMovement.x, transform.position.y, playerAIMovement.z)); 
 
             if (distanceToTarget > 0.1f)
             {
                 transform.position = 
+                    //Vector3.MoveTowards(transform.position, new Vector3(0.0f, transform.position.y, 0.0f), speed * Time.deltaTime);
                     Vector3.MoveTowards(transform.position, new Vector3(playerAIMovement.x, transform.position.y, playerAIMovement.z), speed * Time.deltaTime);
             }
             else
             {
                 if (AICounter + 1 < playerPositions.Count()) AICounter++;
                 else AICounter = 0;
+                // transform.rotation = new Quaternion(0.0f, 90 * AICounter, 0.0f, 1.0f);
+                GameObject.FindGameObjectWithTag("Player").transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+                GameObject.FindGameObjectWithTag("MainCamera").transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
                 transform.rotation = Quaternion.AngleAxis(270 * AICounter, transform.up);
             }
         }
+    }
+
+    bool CanSeeTarget(Transform target)
+    {
+        Vector3 directionToTarget = target.position - transform.position;
+        float angle = Vector3.Angle(transform.forward, directionToTarget);
+
+        if (angle <= FieldOfView / 2)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, directionToTarget, out hit))
+            {
+                if (hit.collider.transform == target)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    void AimAtTarget(Transform target)
+    {
+        Vector3 directionToTarget = target.position - transform.position;
+
+        //Poprawka ze względu, że obiekt jest liczony od samego spodu
+        directionToTarget.y += 0.5f;
+
+        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+        transform.rotation = Quaternion.Slerp(targetRotation, transform.rotation, Time.deltaTime);
+    }
+
+    public void AddTarget(Transform target)
+    {
+        if (!targets.Contains(target))
+        {
+            targets.Add(target);
+        }
+    }
+
+    public void RemoveTarget(Transform target)
+    {
+        if (targets.Contains(target))
+        {
+            targets.Remove(target);
+        }
+    }
+
+    Transform FindClosestVisibleTarget()
+    {
+        Transform closestTarget = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (Transform target in targets)
+        {
+            float distance = Vector3.Distance(target.position, transform.position);
+            if (distance < closestDistance && CanSeeTarget(target))
+            {
+                closestTarget = target;
+                closestDistance = distance;
+            }
+        }
+
+        return closestTarget;
     }
 
     void Update()
@@ -373,6 +449,19 @@ public class PlayerMove : MonoBehaviour
         } else if (AutoMove)
         {
             moveTowardsTheGoal();
+            CurrentTarget = FindClosestVisibleTarget();
+            if (AutoShoot && CurrentTarget != null)
+            {
+                if (CanSeeTarget(CurrentTarget))
+                {
+                    AimAtTarget(CurrentTarget);
+                    PlayerGunComponent.shooting = true;
+                    PlayerGunComponent.HandleShots();
+                    PlayerGunComponent.shooting = false;
+                }
+            } else {
+                PlayerGunComponent.Reload();
+            }
         }
     }
 }

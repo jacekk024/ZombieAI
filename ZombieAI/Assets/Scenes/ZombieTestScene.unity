@@ -7897,12 +7897,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 454676675}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &471738693 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5414827900087890346, guid: 78f2873840cccd046adee8782efa45fb,
-    type: 3}
-  m_PrefabInstance: {fileID: 345332347}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &471790439
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11063,18 +11057,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 673138034}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &673246830 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 722873571993297552, guid: 78f2873840cccd046adee8782efa45fb,
-    type: 3}
-  m_PrefabInstance: {fileID: 345332347}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &683058705 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5414827899068314696, guid: 78f2873840cccd046adee8782efa45fb,
-    type: 3}
-  m_PrefabInstance: {fileID: 345332347}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &690049418
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13457,12 +13439,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 842518054}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &845088976 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5414827899226342931, guid: 78f2873840cccd046adee8782efa45fb,
-    type: 3}
-  m_PrefabInstance: {fileID: 345332347}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &849899979
 GameObject:
   m_ObjectHideFlags: 0
@@ -14941,7 +14917,6 @@ GameObject:
   - component: {fileID: 948130404}
   - component: {fileID: 948130407}
   - component: {fileID: 948130405}
-  - component: {fileID: 948130406}
   m_Layer: 0
   m_Name: FPS
   m_TagString: Player
@@ -14980,7 +14955,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efdad683a51b9184c8e5fb895d295a2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutoMove: 1
   CanMove: 0
   CanSprint: 1
   CanJump: 1
@@ -15022,33 +14996,12 @@ MonoBehaviour:
     z: 9
   - x: -16
     z: 9
---- !u!114 &948130406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 948130403}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fdb4495190e63145b0c77c80aace6cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distance: 50
-  angle: 180
-  height: 1
-  meshColor: {r: 1, g: 0, b: 0, a: 1}
-  scanFrequency: 30
-  layers:
-    serializedVersion: 2
-    m_Bits: 2147483647
-  objects:
-  - {fileID: 2145570057}
-  - {fileID: 0}
-  - {fileID: 471738693}
-  - {fileID: 845088976}
-  - {fileID: 683058705}
-  - {fileID: 673246830}
+  AutoMove: 1
+  AutoShoot: 1
+  FieldOfView: 45
+  CurrentTarget: {fileID: 0}
+  PlayerGunComponent: {fileID: 0}
+  targets: []
 --- !u!143 &948130407
 CharacterController:
   m_ObjectHideFlags: 0
@@ -25967,9 +25920,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1643232860}
   - component: {fileID: 1643232861}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Gun
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26006,7 +25959,7 @@ MonoBehaviour:
   Damage: 20
   AllowButtonHold: 0
   Range: 100
-  ShotsDelay: 0.05
+  ShotsDelay: 0.5
   ReloadTime: 1
   BulletsShotAtOnce: 1
   TimeBetweenShots: 0
@@ -26014,6 +25967,7 @@ MonoBehaviour:
   ShotSpread: 0.02
   SpreadWalkingMultiplier: 1.1
   SpreadSprintingMultiplier: 1.4
+  shooting: 0
   ShootKey: 323
   ReloadKey: 114
   PlayerCamera: {fileID: 118298458}
@@ -32844,12 +32798,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2139031680}
   m_CullTransparentMesh: 1
---- !u!1 &2145570057 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5414827900530773178, guid: 78f2873840cccd046adee8782efa45fb,
-    type: 3}
-  m_PrefabInstance: {fileID: 345332347}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2292622450023500282
 PrefabInstance:
   m_ObjectHideFlags: 0
