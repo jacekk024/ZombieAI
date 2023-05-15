@@ -11222,6 +11222,9 @@ GameObject:
   m_Component:
   - component: {fileID: 696302160}
   - component: {fileID: 696302161}
+  - component: {fileID: 696302164}
+  - component: {fileID: 696302163}
+  - component: {fileID: 696302162}
   m_Layer: 0
   m_Name: WaveController
   m_TagString: Untagged
@@ -11262,7 +11265,8 @@ MonoBehaviour:
     type: 3}
   NoWave: 0
   TimeBetweenWaves: 5
-  State: 1
+  State: 2
+  isLearning: 0
   zombies:
   - name: ZombieSteve
     transform: {fileID: 1755205961385048050, guid: 8020eb8e397e36d42950d865dadfea41,
@@ -11272,6 +11276,74 @@ MonoBehaviour:
   floor: []
   waveCountdown: 0
   searchCountdown: 1
+--- !u!114 &696302162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696302159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67b049614a9fd4a4db83fc0aa4b91d9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  player: {fileID: 816166910}
+  zombiePrefab: {fileID: 1373719009369828680, guid: 8020eb8e397e36d42950d865dadfea41,
+    type: 3}
+  waveSpawner: {fileID: 0}
+  minimumSafeDistance: 5
+  maximumRewardDistance: 20
+--- !u!114 &696302163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696302159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88b6042bc9a5d4aa58d931eae49442e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+--- !u!114 &696302164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696302159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c4e0b1822b495aa52bc52839ecb30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BrainParameters:
+    VectorObservationSize: 1
+    NumStackedVectorObservations: 1
+    m_ActionSpec:
+      m_NumContinuousActions: 0
+      BranchSizes: 01000000
+    VectorActionSize: 01000000
+    VectorActionDescriptions: []
+    VectorActionSpaceType: 0
+    hasUpgradedBrainParametersWithActionSpec: 1
+  m_Model: {fileID: 0}
+  m_InferenceDevice: 0
+  m_BehaviorType: 0
+  m_BehaviorName: AIWaveSpawner
+  TeamId: 0
+  m_UseChildSensors: 1
+  m_UseChildActuators: 1
+  m_ObservableAttributeHandling: 0
 --- !u!1001 &697551220
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32813,7 +32885,7 @@ PrefabInstance:
     - target: {fileID: 1373719009369828680, guid: 8020eb8e397e36d42950d865dadfea41,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1755205961385048050, guid: 8020eb8e397e36d42950d865dadfea41,
         type: 3}

@@ -12,7 +12,8 @@ public class WaveSpawner : MonoBehaviour
     [SerializeField] private uint NoWave = 0;                               // Number of Wave
     // [SerializeField][Range(1,120)] private float TimeOfWave;             // Do przemyślenia
     [SerializeField][Range(1, 30)] private float TimeBetweenWaves = 5.0f;   // 
-    [SerializeField] public AvaStates State = AvaStates.Counting;          // State of generator waves (from AvaStates)
+    [SerializeField] public AvaStates State = AvaStates.Counting;           // State of generator waves (from AvaStates)
+    [SerializeField] public bool isLearning = false;                        // 
 
     public ZombieType[] zombies;
     public GameObject[] floor;
@@ -44,28 +45,31 @@ public class WaveSpawner : MonoBehaviour
 
     void Update()
     {
-        // Check if zombies still alive
-        if(State == AvaStates.Waiting)
+        if (!isLearning)
         {
-            if(!ZombieIsAlive())
+            // Check if zombies still alive
+            if(State == AvaStates.Waiting)
             {
-                WaveCompleted();
+                if(!ZombieIsAlive())
+                {
+                    WaveCompleted();
+                } else
+                {
+                    return;
+                }
+            }
+
+            if(waveCountdown <= 0)
+            {
+                if(State != AvaStates.Spawning )
+                {
+                    // Generuj zombie
+                    StartCoroutine(SpawnWave(zombies[NoWave])); // Argument jako losowy typ zombie?
+                }
             } else
             {
-                return;
+                waveCountdown -= Time.deltaTime;
             }
-        }
-
-        if(waveCountdown <= 0)
-        {
-            if(State != AvaStates.Spawning )
-            {
-                // Generuj zombie
-                StartCoroutine(SpawnWave(zombies[NoWave])); // Argument jako losowy typ zombie?
-            }
-        } else
-        {
-            waveCountdown -= Time.deltaTime;
         }
     }
 
