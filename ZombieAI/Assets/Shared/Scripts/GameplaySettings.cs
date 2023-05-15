@@ -5,6 +5,6 @@ using UnityEngine;
 public static class GameplaySettings
 {
     public static bool ViewBobbingActive = true;
-    public static int Sensitivity = 350;
+    public static int Sensitivity = 20;
 
 }

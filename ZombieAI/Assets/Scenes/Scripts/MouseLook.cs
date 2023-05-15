@@ -22,11 +22,13 @@ public class MouseLook : MonoBehaviour
 
     private float defaultYPos;
     private float timer;
+    private InputController inputController;
 
     // Start is called before the first frame update
     void Awake()
     {
         defaultYPos = transform.localPosition.y;
+        inputController = GetComponentInParent<InputController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -35,8 +37,10 @@ public class MouseLook : MonoBehaviour
     {
         if (CanLookAround)
         {
-            float mouseX = Input.GetAxis("Mouse X") * GameplaySettings.Sensitivity * Time.deltaTime;
-            float mouseY = Input.GetAxis("Mouse Y") * GameplaySettings.Sensitivity * Time.deltaTime;
+            Vector2 cameraLook = inputController.GetCameraLookInput();
+
+            float mouseX = cameraLook.x * GameplaySettings.Sensitivity * Time.deltaTime;
+            float mouseY = cameraLook.y * GameplaySettings.Sensitivity * Time.deltaTime;
 
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);

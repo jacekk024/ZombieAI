@@ -13,7 +13,7 @@ public class PauseMenu : MonoBehaviour
 {
 
     [Header("Controls")]
-    [SerializeField] private KeyCode pauseMenuKey = KeyCode.Escape;
+    [SerializeField] private Key pauseMenuKey = Key.Escape;
 
     [Header("References")]
     [SerializeField] private GameObject pauseMenu;
@@ -37,8 +37,6 @@ public class PauseMenu : MonoBehaviour
 
     private Resolution[] resolutions;
     private string[] qualityNames;
-    private List<string> AllKeycodes = new List<string>();
-
 
 
     private bool isPaused;
@@ -63,7 +61,7 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(pauseMenuKey))
+        if (Keyboard.current[pauseMenuKey].wasPressedThisFrame)
         {
             if(isPaused)
             {
@@ -98,7 +96,7 @@ public class PauseMenu : MonoBehaviour
         isPaused = false;
     }
 
-    public void ToggleFullsceen(bool isFullscreen)
+    public void ToggleFullscreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
     }

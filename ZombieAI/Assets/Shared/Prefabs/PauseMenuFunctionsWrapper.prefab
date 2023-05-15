@@ -774,10 +774,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 4411641009996257632}
   m_HandleRect: {fileID: 2258444441224656613}
   m_Direction: 0
-  m_MinValue: 100
-  m_MaxValue: 1500
+  m_MinValue: 2
+  m_MaxValue: 80
   m_WholeNumbers: 1
-  m_Value: 350
+  m_Value: 20
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -7146,6 +7146,7 @@ MonoBehaviour:
   sensitivitySliderWrapper: {fileID: 2929676004117187604}
   viewBobToggle: {fileID: 3092997841028559887}
   eventSystem: {fileID: 0}
+  inputActions: {fileID: 0}
 --- !u!1 &8551753187254321073
 GameObject:
   m_ObjectHideFlags: 0

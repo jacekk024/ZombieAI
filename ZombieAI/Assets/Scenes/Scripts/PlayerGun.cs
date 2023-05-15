@@ -24,16 +24,12 @@ public class PlayerGun : MonoBehaviour
     private bool reloading;
     private bool allowInvoke;
 
-    [Header("Controls")]
-    [SerializeField] private KeyCode ShootKey = KeyCode.Mouse0;
-
     [Header("References")]
     [SerializeField] private Camera PlayerCamera;
     [SerializeField] private Transform AttackPoint;
     [SerializeField] private PlayerMove PlayerMove;
     [SerializeField] private GameObject MuzzleFlash;
     [SerializeField] private GameObject BulletHole;
-    [SerializeField] private PauseMenu PauseMenu;
     [SerializeField] private UI uiGun;
 
     [Header("AI Collider Values")]
@@ -43,7 +39,7 @@ public class PlayerGun : MonoBehaviour
 
     private RaycastHit rayHit;
     private InputController inputController;
-    private bool ShouldReload => !PauseMenu.GamePaused && inputController.GetReloadInput() && bulletsLeft < MagazineSize && !reloading;
+    private bool ShouldReload => inputController.GetReloadInput() && bulletsLeft < MagazineSize && !reloading;
     private bool ShouldShoot => readyToShoot && shooting && !reloading && bulletsLeft > 0;
 
     private int layerMask = ~(1 << 11); //hit everything except player (layer #11)
@@ -82,13 +78,7 @@ public class PlayerGun : MonoBehaviour
 
     private void HandleShootingInput()
     {
-        if (PauseMenu.GamePaused)
-            return;
-
-        if (AllowButtonHold)
-            shooting = Input.GetKey(ShootKey);
-        else
-            shooting = Input.GetKeyDown(ShootKey);
+        shooting = inputController.GetWeaponShotInput(AllowButtonHold);
     }
 
     private void HandleReload()

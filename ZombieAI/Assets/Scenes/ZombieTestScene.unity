@@ -13820,9 +13820,6 @@ MonoBehaviour:
   CanCrouch: 1
   SlopesSliding: 1
   useStamina: 1
-  sprintKey: 304
-  jumpKey: 32
-  crouchKey: 306
   WalkSpeed: 8
   SprintSpeed: 18
   CrouchSpeed: 4
@@ -13845,7 +13842,6 @@ MonoBehaviour:
   TimeToCrouch: 0.2
   CrouchingCenter: {x: 0, y: 0.5, z: 0}
   StandingCenter: {x: 0, y: 0, z: 0}
-  PauseMenu: {fileID: 861034870}
   playerPositions:
   - x: -16
     z: 51
@@ -23377,14 +23373,12 @@ MonoBehaviour:
   ShotSpread: 0.02
   SpreadWalkingMultiplier: 1.1
   SpreadSprintingMultiplier: 1.4
-  ShootKey: 323
   PlayerCamera: {fileID: 118298458}
   AttackPoint: {fileID: 811659241}
   PlayerMove: {fileID: 948130405}
   MuzzleFlash: {fileID: 1743301284569550, guid: ad2ab49d0a2a17148bd51c93d977bdbc,
     type: 3}
   BulletHole: {fileID: 1337198075554910, guid: 25c7aa9ad705fe143a4d71c1c8deb7d4, type: 3}
-  PauseMenu: {fileID: 861034870}
   uiGun: {fileID: 1490526366}
   projectilePrefab: {fileID: 5326755376247056571, guid: d2552983552a4db4299f63e479ce179c,
     type: 3}
@@ -26355,6 +26349,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -944628639613478452, guid: 342cb3e88de7240488d1973815cef894,
         type: 3}
+    - target: {fileID: 8551753187213560116, guid: 071177ae75177ae4ebc8589a1b51895f,
+        type: 3}
+      propertyPath: pauseMenuKey
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 8551753187213560117, guid: 071177ae75177ae4ebc8589a1b51895f,
         type: 3}
       propertyPath: m_RootOrder

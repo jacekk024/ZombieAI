@@ -12,6 +12,8 @@ public class InputController : MonoBehaviour
     private InputAction crouchAction;
     private InputAction sprintAction;
     private InputAction reloadAction;
+    private InputAction cameraAction;
+    private InputAction shootAction;
 
 
     // Start is called before the first frame update
@@ -23,37 +25,67 @@ public class InputController : MonoBehaviour
         crouchAction = playerInput.actions["Crouch"];
         sprintAction = playerInput.actions["Sprint"];
         reloadAction = playerInput.actions["GunReload"];
+        cameraAction = playerInput.actions["Camera Look"];
+        shootAction = playerInput.actions["Shoot"];
 
+    }
+
+    private Vector2 GetVector2DInput(InputAction action)
+    {
+        if (Time.timeScale > 0.0f)
+            return action.ReadValue<Vector2>();
+        else
+            return new Vector2(0.0f, 0.0f);
+    }
+
+    private bool GetInputKey(InputAction action)
+    {
+        return Time.timeScale > 0.0f && action.IsPressed();
+    }
+
+    private bool GetInputKeyDown(InputAction action)
+    {
+        return Time.timeScale > 0.0f && action.WasPerformedThisFrame();
     }
 
     public Vector2 GetMovementInput()
     {
-        return movementAction.ReadValue<Vector2>();
+        return GetVector2DInput(movementAction);
     }
 
     public bool GetJumpInput()
     {
-        return jumpAction.IsPressed();
+        return GetInputKey(jumpAction);
     }
-    
+
     public bool GetCrouchInput()
     {
-        return crouchAction.WasPressedThisFrame();
+        return GetInputKeyDown(crouchAction);
     }
 
     public bool GetSprintInput()
     {
-        return sprintAction.IsPressed();
+        return GetInputKey(sprintAction);
     }
 
     public bool GetReloadInput()
     {
-        return reloadAction.WasPressedThisFrame();
+        return GetInputKeyDown(reloadAction);
+    }
+
+    public Vector2 GetCameraLookInput()
+    {
+        return GetVector2DInput(cameraAction);
+    }
+
+    public bool GetWeaponShotInput(bool allowButtonHold)
+    {
+        return allowButtonHold ? GetInputKey(shootAction) : GetInputKeyDown(shootAction);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

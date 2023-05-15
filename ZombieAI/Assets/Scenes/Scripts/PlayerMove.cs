@@ -16,12 +16,6 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private bool SlopesSliding = true;
     [SerializeField] private bool useStamina = true;
 
-
-    [Header("Controls")]
-    [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
-    [SerializeField] private KeyCode jumpKey = KeyCode.Space;
-    [SerializeField] private KeyCode crouchKey = KeyCode.LeftControl;
-
     [Header("Movement Parameters")]
     [SerializeField] private float WalkSpeed = 8f;
     [SerializeField] private float SprintSpeed = 18f;
@@ -65,9 +59,6 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private Vector3 CrouchingCenter = new Vector3(0, 0.5f, 0);
     [SerializeField] private Vector3 StandingCenter = new Vector3(0, 0, 0);
 
-    [Header("References")]
-    [SerializeField] private PauseMenu PauseMenu;
-
     [Header("AI Movement")]
     [SerializeField] PlayerAIMovement[] playerPositions;
 
@@ -87,8 +78,8 @@ public class PlayerMove : MonoBehaviour
     private Camera playerCamera;
     private InputController inputController;
 
-    private bool ShouldJump => !PauseMenu.GamePaused && inputController.GetJumpInput() && characterController.isGrounded && !isCrouching;
-    private bool ShouldCrouch => !PauseMenu.GamePaused && inputController.GetCrouchInput() && !duringCrouchAnimation && characterController.isGrounded;
+    private bool ShouldJump => inputController.GetJumpInput() && characterController.isGrounded && !isCrouching;
+    private bool ShouldCrouch => inputController.GetCrouchInput() && !duringCrouchAnimation && characterController.isGrounded;
     private bool isCrouching;
     private bool duringCrouchAnimation;
 
@@ -152,9 +143,6 @@ public class PlayerMove : MonoBehaviour
 
     private void UpdateAxises()
     {
-        if (PauseMenu.GamePaused)
-            return;
-
         Vector2 axises = inputController.GetMovementInput();
 
         horizontalAxis = axises.x;
