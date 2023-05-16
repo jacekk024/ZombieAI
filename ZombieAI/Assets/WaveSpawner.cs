@@ -1,19 +1,18 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using Unity.MLAgents;
 using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour
 {
     public GameObject generator;
-    public GenerateGrid generateGrid;
     public GameObject zombieGameObject;
 
-    [SerializeField] private uint NoWave = 0;                               // Number of Wave
+    [SerializeField] public uint NoWave = 0;                               // Number of Wave
     // [SerializeField][Range(1,120)] private float TimeOfWave;             // Do przemyślenia
     [SerializeField][Range(1, 30)] private float TimeBetweenWaves = 5.0f;   // 
     [SerializeField] public AvaStates State = AvaStates.Counting;           // State of generator waves (from AvaStates)
     [SerializeField] public bool isLearning = false;                        // 
+    [SerializeField] public Agent agent;
 
     public ZombieType[] zombies;
     public GameObject[] floor;
@@ -39,7 +38,6 @@ public class WaveSpawner : MonoBehaviour
     {
         NoWave = 0;
         waveCountdown = TimeBetweenWaves;
-        generateGrid = generator.GetComponent<GenerateGrid>();
         floor = GameObject.FindGameObjectsWithTag("ZombieRespawnZone");
     }
 
@@ -88,6 +86,8 @@ public class WaveSpawner : MonoBehaviour
         {
             NoWave++;
         }
+        /*if (isLearning)
+            agent.EndEpisode();*/
     }
 
     bool ZombieIsAlive()
@@ -106,7 +106,7 @@ public class WaveSpawner : MonoBehaviour
         return true;
     }
 
-    IEnumerator SpawnWave(ZombieType _zombie)
+    public IEnumerator SpawnWave(ZombieType _zombie)
     {
         Debug.Log("Spawning Wave: " + _zombie.name);
         State = AvaStates.Spawning;
@@ -124,24 +124,21 @@ public class WaveSpawner : MonoBehaviour
 
     private void SpawnEnemy(Transform _zombie)
     {
-        Vector3 spawnPosition;
-        Vector3 positionToCheck;
-        RaycastHit raycastHit;
-
-        float radius = 1f;
-        bool spawned = false;
-
-        while (!spawned)
+        if (!isLearning)
         {
-            spawnPosition = positionToCheck = floor[Random.Range(0, floor.Length - 1)].transform.position;
+            Vector3 spawnPosition;
+            Vector3 positionToCheck;
 
-            positionToCheck.y += 1f;
+            float radius = 1f;
+            bool spawned = false;
 
-            if(Physics.CheckSphere(positionToCheck, radius)
-                && Physics.Linecast(positionToCheck, GameObject.FindGameObjectWithTag("Player").transform.position, out raycastHit)
-                )
+            while (!spawned)
             {
-                if(raycastHit.transform.tag != "Player") // Check if raycast doesnt see player
+                spawnPosition = positionToCheck = floor[Random.Range(0, floor.Length - 1)].transform.position;
+
+                positionToCheck.y += 1f;
+
+                if(Physics.CheckSphere(positionToCheck, radius) && ColliderBetweenObjAndPlayer(positionToCheck) != "Player")
                 {
                     Debug.Log("Zombie spawned: " + _zombie.name);
 
@@ -157,5 +154,12 @@ public class WaveSpawner : MonoBehaviour
                 }
             }
         }
+    }
+
+    internal string ColliderBetweenObjAndPlayer(Vector3 vector)
+    {
+        Physics.Linecast(vector, GameObject.FindGameObjectWithTag("Player").transform.position, out RaycastHit raycastHit);
+
+        return raycastHit.transform.tag;
     }
 }

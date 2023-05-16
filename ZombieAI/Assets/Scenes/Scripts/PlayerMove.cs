@@ -27,12 +27,12 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float SlopeSlideSpeed = 10f;
 
     [Header("Health Parameters")]
-    [SerializeField] private float maxHealth = 100;
+    [SerializeField] internal float maxHealth = 100;
     [SerializeField] private float timeBeforeRegenStarts = 3;
     [SerializeField] private float healthValueIncrement = 1;
     [SerializeField] private float healthTimeIncrement = 0.1f;
 
-    private float currentHealth;
+    internal float currentHealth;
     private Coroutine regeneratingHealth;
     public static Action<float> OnTakeDamage;
     public static Action<float, float> OnDamage;

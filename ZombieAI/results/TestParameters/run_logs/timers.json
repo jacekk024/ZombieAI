@@ -1,0 +1,47 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1684192531",
+        "python_version": "3.8.10 (tags/v3.8.10:3d8993a, May  3 2021, 11:48:03) [MSC v.1928 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Repo\\ZombieAI\\ZombieAI\\venv\\Scripts\\mlagents-learn config\\AIWaveSpawner.yaml --run-id=TestParameters",
+        "mlagents_version": "0.29.0",
+        "mlagents_envs_version": "0.29.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.0.0+cpu",
+        "numpy_version": "1.21.2",
+        "end_time_seconds": "1684192578"
+    },
+    "total": 47.0232007,
+    "count": 1,
+    "self": 0.008457199999995169,
+    "children": {
+        "run_training.setup": {
+            "total": 0.2579640999999997,
+            "count": 1,
+            "self": 0.2579640999999997
+        },
+        "TrainerController.start_learning": {
+            "total": 46.7567794,
+            "count": 1,
+            "self": 0.0005053000000003749,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 46.7562607,
+                    "count": 1,
+                    "self": 46.7562607
+                },
+                "trainer_threads": {
+                    "total": 9.999999974752427e-07,
+                    "count": 1,
+                    "self": 9.999999974752427e-07
+                },
+                "TrainerController._save_models": {
+                    "total": 1.2400000002799061e-05,
+                    "count": 1,
+                    "self": 1.2400000002799061e-05
+                }
+            }
+        }
+    }
+}

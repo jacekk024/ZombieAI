@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.MLAgents;
+﻿using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
+using static WaveSpawner;
 
 public class WaveSpawnerAgent : Agent
 {
@@ -26,20 +25,23 @@ public class WaveSpawnerAgent : Agent
         spawnArea = this.transform.position;
     }
 
-    /*private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Projectile"))
-        {
-            AddReward(-1.0f);
-            EndEpisode();
-            Destroy(other.gameObject);
-        }
-    }*/
-
     public override void OnEpisodeBegin()
     {
         // TODO: Co resetować co epizod?
-        // TODO: Pomysły: Resetowanie pozycji gracza? Jego kierunek poruszania się?
+        // TODO: Pomysły: Resetowanie pozycji gracza? Jego kierunek poruszania się? Jego hp ma reset. Jeszcze ilość strzał
+
+        player.gameObject.transform.position = new Vector3(-16.0f, 1.5f, 11.0f); // Reset position
+        player.gameObject.transform.rotation = new Quaternion(0, 0, 0, 1); // Reset rotation
+        // player.GetComponent<PlayerMove>().currentHealth = player.GetComponent<PlayerMove>().maxHealth; // TODO: Fix it
+
+        // StartCoroutine(waveSpawner.SpawnWave(waveSpawner.zombies[waveSpawner.NoWave]));
+
+        if (waveSpawner.State != AvaStates.Spawning)
+        {
+            StartCoroutine(waveSpawner.SpawnWave(waveSpawner.zombies[waveSpawner.NoWave]));
+        }
+
+        // Dodanie resetowania strzał? Nie potrzebne, bo nie zdąży wykorzystać
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -53,28 +55,66 @@ public class WaveSpawnerAgent : Agent
         float z = Mathf.Clamp(action.ContinuousActions[1], -1f, 1f);
 
         Vector3 spawnPosition = new Vector3(spawnArea.x + x, spawnArea.y, spawnArea.z + z);
-        GameObject zombie = Instantiate(zombiePrefab, spawnPosition, Quaternion.identity);
+        string colliderTag = waveSpawner.ColliderBetweenObjAndPlayer(spawnPosition);
 
-        float distanceToPlayer = Vector3.Distance(player.transform.position, zombie.transform.position);
+        ValidationPosition(spawnPosition, colliderTag);
+        // Instantiate(zombiePrefab, spawnPosition, Quaternion.identity); // ???
+    }
+
+    private void ValidationPosition(Vector3 spawnPosition, string colliderTag)
+    {
+        float distanceToPlayer = Vector3.Distance(player.transform.position, spawnPosition);
 
         if (distanceToPlayer < minimumSafeDistance)
         {
-            AddReward(-1.0f);
-        }
-        else if (distanceToPlayer < maximumRewardDistance)
+            GiveReward("UnderSafeDistance");
+        } else if (distanceToPlayer > maximumRewardDistance)
         {
-            AddReward(1.0f);
+            GiveReward("AboveMaximumDistance");
+        }
+
+        if(colliderTag == "Player")
+        {
+            GiveReward("PlayerSeeZombie");
+        } else
+        {
+            GiveReward("PlayerCantSeeZombie");
+        }
+    }
+
+    private void GiveReward(string whatFor)
+    {
+        switch(whatFor)
+        {
+            case "UnderSafeDistance":
+                AddReward(-0.6f);
+                break;
+            case "AboveMaximumDistance":
+                AddReward(-0.2f);
+                break;
+            case "PlayerDied":
+                AddReward(10.0f);
+                break;
+            case "ZombieDied":
+                AddReward(-0.5f);
+                break;
+            case "PlayerSeeZombie":
+                AddReward(-0.5f);
+                break;
+            case "PlayerCantSeeZombie":
+                AddReward(-0.5f);
+                break;
         }
     }
 
     public void PlayerDied()
     {
-        AddReward(1.0f);
+        GiveReward("PlayerDied");
         EndEpisode();
     }
 
     public void ZombieDied()
     {
-        AddReward(-0.2f);
+        GiveReward("ZombieDied");
     }
 }
