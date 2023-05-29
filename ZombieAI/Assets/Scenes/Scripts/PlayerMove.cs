@@ -90,13 +90,14 @@ public class PlayerMove : MonoBehaviour
     private Vector3 moveDirection;
     private CharacterController characterController;
     private Camera playerCamera;
-
     private bool ShouldJump => !PauseMenu.GamePaused && Input.GetKey(jumpKey) && characterController.isGrounded && !isCrouching;
     private bool ShouldCrouch => !PauseMenu.GamePaused && Input.GetKeyDown(crouchKey) && !duringCrouchAnimation && characterController.isGrounded;
     private bool isCrouching;
     private bool duringCrouchAnimation;
 
     private Vector3 hitPointNormal;
+    public GameOverScript GameOverScript;
+
     private bool IsSliding
     {
         get
@@ -265,7 +266,7 @@ public class PlayerMove : MonoBehaviour
             StopCoroutine(regeneratingHealth);
 
         print("Dead");
-        
+        GameOverScript.Setup();
     }
 
     private IEnumerator RegenerateHealth()
