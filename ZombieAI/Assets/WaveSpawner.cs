@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour
 {
-    public GameObject generator;
     public GameObject zombieGameObject;
 
     [SerializeField] public uint NoWave = 0;                               // Number of Wave
@@ -46,9 +45,9 @@ public class WaveSpawner : MonoBehaviour
         if (!isLearning)
         {
             // Check if zombies still alive
-            if(State == AvaStates.Waiting)
+            if (State == AvaStates.Waiting)
             {
-                if(!ZombieIsAlive())
+                if (!ZombieIsAlive())
                 {
                     WaveCompleted();
                 } else
@@ -57,9 +56,9 @@ public class WaveSpawner : MonoBehaviour
                 }
             }
 
-            if(waveCountdown <= 0)
+            if (waveCountdown <= 0)
             {
-                if(State != AvaStates.Spawning )
+                if (State != AvaStates.Spawning)
                 {
                     // Generuj zombie
                     StartCoroutine(SpawnWave(zombies[NoWave])); // Argument jako losowy typ zombie?
@@ -78,26 +77,24 @@ public class WaveSpawner : MonoBehaviour
         State = AvaStates.Counting;
         waveCountdown = TimeBetweenWaves;
 
-        if(NoWave + 1 > zombies.Length - 1)
+        if (NoWave + 1 > zombies.Length - 1)
         {
-            NoWave= 0;
+            NoWave = 0;
             Debug.Log("Loop of zombies classes");
         } else
         {
             NoWave++;
         }
-        /*if (isLearning)
-            agent.EndEpisode();*/
     }
 
     bool ZombieIsAlive()
     {
         searchCountdown -= Time.deltaTime;
 
-        if(searchCountdown <= 0f)
+        if (searchCountdown <= 0f)
         {
             searchCountdown = 1f;
-            if(GameObject.FindGameObjectWithTag("Enemy") == null)
+            if (GameObject.FindGameObjectWithTag("Enemy") == null)
             {
                 return false;
             }
@@ -124,34 +121,32 @@ public class WaveSpawner : MonoBehaviour
 
     private void SpawnEnemy(Transform _zombie)
     {
-        if (!isLearning)
+        Vector3 spawnPosition;
+        Vector3 positionToCheck;
+
+        float radius = 1f;
+        bool spawned = false;
+
+        while (!spawned)
         {
-            Vector3 spawnPosition;
-            Vector3 positionToCheck;
+            spawnPosition = positionToCheck = floor[Random.Range(0, floor.Length - 1)].transform.position;
 
-            float radius = 1f;
-            bool spawned = false;
+            positionToCheck.y += 1f;
 
-            while (!spawned)
+            if(Physics.CheckSphere(positionToCheck, radius) && ColliderBetweenObjAndPlayer(positionToCheck) != "Player")
             {
-                spawnPosition = positionToCheck = floor[Random.Range(0, floor.Length - 1)].transform.position;
+                Debug.Log("Zombie spawned: " + _zombie.name);
 
-                positionToCheck.y += 1f;
+                GameObject go = 
+                    Instantiate(zombieGameObject, spawnPosition, transform.rotation);
+                
+                // Aktualnie skrypt wyłączony, zbędny kod
+                /*go.GetComponent<SimplePlayerFollower>().target = 
+                    GameObject.FindGameObjectWithTag("Player").transform;*/
 
-                if(Physics.CheckSphere(positionToCheck, radius) && ColliderBetweenObjAndPlayer(positionToCheck) != "Player")
-                {
-                    Debug.Log("Zombie spawned: " + _zombie.name);
+                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().AddTarget(go.transform);
 
-                    GameObject go = 
-                        Instantiate(zombieGameObject, spawnPosition, transform.rotation);
-
-                    go.GetComponent<SimplePlayerFollower>().target = 
-                        GameObject.FindGameObjectWithTag("Player").transform;
-
-                    GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().AddTarget(go.transform);
-
-                    spawned = true;
-                }
+                spawned = true;
             }
         }
     }
@@ -159,7 +154,7 @@ public class WaveSpawner : MonoBehaviour
     internal string ColliderBetweenObjAndPlayer(Vector3 vector)
     {
         Physics.Linecast(vector, GameObject.FindGameObjectWithTag("Player").transform.position, out RaycastHit raycastHit);
-
+        // Debug.Log("Hit: " + raycastHit.transform.tag);
         return raycastHit.transform.tag;
     }
 }

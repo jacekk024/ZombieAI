@@ -1,0 +1,29 @@
+{
+    "AIWaveSpawner": {
+        "checkpoints": [
+            {
+                "steps": 3425,
+                "file_path": "results\\a2\\AIWaveSpawner\\AIWaveSpawner-3425.onnx",
+                "reward": -3.250000238418579,
+                "creation_time": 1685393054.6518164,
+                "auxillary_file_paths": [
+                    "results\\a2\\AIWaveSpawner\\AIWaveSpawner-3425.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 3425,
+            "file_path": "results\\a2\\AIWaveSpawner.onnx",
+            "reward": -3.250000238418579,
+            "creation_time": 1685393054.6518164,
+            "auxillary_file_paths": [
+                "results\\a2\\AIWaveSpawner\\AIWaveSpawner-3425.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.29.0",
+        "torch_version": "2.0.0+cpu"
+    }
+}

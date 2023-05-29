@@ -72,7 +72,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private bool AutoShoot = false;
     [SerializeField] private float FieldOfView = 45f;
     [SerializeField] private Transform CurrentTarget;
-    [SerializeField] private PlayerGun PlayerGunComponent;
+    [SerializeField] internal PlayerGun PlayerGunComponent;
 
     public List<Transform> targets = new List<Transform>();
 

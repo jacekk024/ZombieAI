@@ -174,7 +174,4 @@ public class PlayerGun : MonoBehaviour
     {
         readyToShoot = true;
     }
-
-
-
 }

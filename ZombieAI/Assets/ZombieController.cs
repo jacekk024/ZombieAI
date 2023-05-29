@@ -16,7 +16,7 @@ public class ZombieController : MonoBehaviour
         }
     }
 
-    void Die()
+    public void Die()
     {
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().RemoveTarget(gameObject.transform);
         Destroy(gameObject);

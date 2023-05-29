@@ -46,7 +46,10 @@ public class EnemyAiPatrol : MonoBehaviour
 
     void Chase()
     {
-        agent.SetDestination(player.transform.position);
+        if(agent.isOnNavMesh)
+        {
+            agent.SetDestination(player.transform.position);
+        }
     }
 
     void Attack()
@@ -57,7 +60,7 @@ public class EnemyAiPatrol : MonoBehaviour
     void Patrol()
     {
         if (!walkpointSet) SearchForDest();
-        if (walkpointSet) agent.SetDestination(destPoint);
+        if (walkpointSet && agent.isOnNavMesh) agent.SetDestination(destPoint);
         if (Vector3.Distance(transform.position, destPoint) < 10) walkpointSet = false;
     }
 
