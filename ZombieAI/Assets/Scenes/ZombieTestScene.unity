@@ -1466,7 +1466,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6340,13 +6340,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 379308142}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -3.5628436, z: 46.349895}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_Father: {fileID: 1941561457}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &379308146
 MonoBehaviour:
@@ -13799,7 +13799,7 @@ Transform:
   - {fileID: 1577587426}
   - {fileID: 1889968490}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &948130405
 MonoBehaviour:
@@ -13836,7 +13836,7 @@ MonoBehaviour:
   staminaUI: {fileID: 1342400169}
   staminaClawUI: {fileID: 2634814}
   Gravity: 9.81
-  JumpForce: 2.5
+  JumpForce: 2
   CrouchHeight: 0.4
   StandingHeight: 2
   TimeToCrouch: 0.2
@@ -18581,7 +18581,7 @@ RectTransform:
   m_Children:
   - {fileID: 1647828324}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -20668,7 +20668,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -21013,7 +21013,7 @@ RectTransform:
   - {fileID: 1505406891}
   - {fileID: 1279577128}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -26212,7 +26212,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 32cbf1173ba8f7b4d9dfc7c9a8956609,
         type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 32cbf1173ba8f7b4d9dfc7c9a8956609,
         type: 3}
@@ -26357,7 +26357,7 @@ PrefabInstance:
     - target: {fileID: 8551753187213560117, guid: 071177ae75177ae4ebc8589a1b51895f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8551753187213560117, guid: 071177ae75177ae4ebc8589a1b51895f,
         type: 3}
@@ -26411,6 +26411,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 071177ae75177ae4ebc8589a1b51895f, type: 3}
+--- !u!4 &1941561457 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8551753187213560117, guid: 071177ae75177ae4ebc8589a1b51895f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1941561456}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1941561463 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8551753185563093189, guid: 071177ae75177ae4ebc8589a1b51895f,
@@ -28997,7 +29003,7 @@ PrefabInstance:
     - target: {fileID: 1755205961385048050, guid: 8020eb8e397e36d42950d865dadfea41,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1755205961385048050, guid: 8020eb8e397e36d42950d865dadfea41,
         type: 3}

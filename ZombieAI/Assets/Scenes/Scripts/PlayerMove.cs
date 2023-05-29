@@ -203,7 +203,7 @@ public class PlayerMove : MonoBehaviour
 
     private IEnumerator CrouchStand()
     {
-        if (isCrouching && Physics.Raycast(playerCamera.transform.position, Vector3.up, 2.5f))
+        if (isCrouching && Physics.Raycast(playerCamera.transform.position, Vector3.up, 1.5f))
         {
             yield break;
         }
