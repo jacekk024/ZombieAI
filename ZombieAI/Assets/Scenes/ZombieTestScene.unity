@@ -2655,7 +2655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62dfa8f6d230594a85e34b4808790b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanSwitchWeapons: 0
+  CanSwitchWeapons: 1
   SwitchDelay: 5
   switchKey: 308
   weapons:
@@ -7419,6 +7419,12 @@ PrefabInstance:
       objectReference: {fileID: 118298458}
     - target: {fileID: 8929652558990584105, guid: b334b4ee1088bc4409fe418b59856047,
         type: 3}
+      propertyPath: projectilePrefab
+      value: 
+      objectReference: {fileID: 5326755376247056571, guid: d2552983552a4db4299f63e479ce179c,
+        type: 3}
+    - target: {fileID: 8929652558990584105, guid: b334b4ee1088bc4409fe418b59856047,
+        type: 3}
       propertyPath: PlayerItemHandler
       value: 
       objectReference: {fileID: 948130410}
@@ -10672,7 +10678,7 @@ MonoBehaviour:
   NoWave: 0
   TimeBetweenWaves: 5
   State: 2
-  isLearning: 1
+  isLearning: 0
   agent: {fileID: 0}
   zombies:
   - name: ZombieSteve
@@ -10706,7 +10712,7 @@ MonoBehaviour:
   episodeCounter: 0
   limitZombieToSpawn: 10
   zombieCounter: 0
-  isLearning: 1
+  isLearning: 0
   minimumSafeDistance: 5
   maximumRewardDistance: 20
 --- !u!114 &696302164
@@ -10731,9 +10737,9 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: cabcd099b60252e4bb95d5b05fd884f6, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
-  m_BehaviorType: 2
+  m_BehaviorType: 0
   m_BehaviorName: AIWaveSpawner
   TeamId: 0
   m_UseChildSensors: 1
@@ -27892,6 +27898,12 @@ PrefabInstance:
       propertyPath: PlayerCamera
       value: 
       objectReference: {fileID: 118298458}
+    - target: {fileID: 8929652558990584105, guid: f78a6bf5c67d33644a197a329bc77ae6,
+        type: 3}
+      propertyPath: projectilePrefab
+      value: 
+      objectReference: {fileID: 5326755376247056571, guid: d2552983552a4db4299f63e479ce179c,
+        type: 3}
     - target: {fileID: 8929652558990584105, guid: f78a6bf5c67d33644a197a329bc77ae6,
         type: 3}
       propertyPath: PlayerItemHandler

@@ -51,7 +51,7 @@ public class testGenerator : MonoBehaviour
         GameObject startingRoomObj = Instantiate(rooms[Random.Range(0, rooms.Length)], CoordToPosition(startPos), Quaternion.identity);
         openDoors startingRoom = startingRoomObj.GetComponent<openDoors>();
 
-        startingRoom.name = "Dupa";
+        startingRoom.name = "StartRoom";
         startingRoom.gridPos = startPos;
 
         grid[(int)startPos.x, (int)startPos.y] = startingRoom;
