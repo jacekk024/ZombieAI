@@ -265,7 +265,7 @@ public class PlayerMove : MonoBehaviour
         if (regeneratingHealth != null)
             StopCoroutine(regeneratingHealth);
 
-        print("Dead");
+       // print("Dead");
         GameOverScript.Setup();
     }
 
