@@ -3,18 +3,12 @@
     "com.coffee.softmask-for-ugui": "https://github.com/mob-sakai/SoftMaskForUGUI.git",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
-<<<<<<< HEAD
     "com.unity.ai.navigation": "1.0.0-exp.4",
-=======
->>>>>>> devel_Dorian
     "com.unity.collab-proxy": "2.0.3",
     "com.unity.ide.rider": "3.0.18",
     "com.unity.ide.visualstudio": "2.0.17",
     "com.unity.ide.vscode": "1.2.5",
-<<<<<<< HEAD
     "com.unity.inputsystem": "1.5.1",
-=======
->>>>>>> devel_Dorian
     "com.unity.ml-agents": "2.0.1",
     "com.unity.postprocessing": "3.2.2",
     "com.unity.progrids": "3.0.3-preview.4",

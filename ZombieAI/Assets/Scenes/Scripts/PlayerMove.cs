@@ -15,11 +15,6 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private bool SlopesSliding = true;
     [SerializeField] private bool useStamina = true;
 
-    [Header("Controls")]
-    [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
-    [SerializeField] private KeyCode jumpKey = KeyCode.Space;
-    [SerializeField] private KeyCode crouchKey = KeyCode.LeftControl;
-
     [Header("Movement Parameters")]
     [SerializeField] private float WalkSpeed = 8f;
     [SerializeField] private float SprintSpeed = 18f;

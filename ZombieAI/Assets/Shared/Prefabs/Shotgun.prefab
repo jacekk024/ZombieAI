@@ -43,11 +43,11 @@ GameObject:
   - component: {fileID: 8929652558990584105}
   m_Layer: 6
   m_Name: Shotgun
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8929652558990584104
 Transform:
   m_ObjectHideFlags: 0
@@ -88,15 +88,18 @@ MonoBehaviour:
   ShotSpread: 0.1
   SpreadWalkingMultiplier: 1.1
   SpreadSprintingMultiplier: 1.4
-  ShootKey: 323
-  ReloadKey: 114
+  shooting: 0
   PlayerCamera: {fileID: 0}
   AttackPoint: {fileID: 8929652558211578013}
   PlayerMove: {fileID: 0}
+  PlayerItemHandler: {fileID: 0}
   MuzzleFlash: {fileID: 1743301284569550, guid: ad2ab49d0a2a17148bd51c93d977bdbc,
     type: 3}
   BulletHole: {fileID: 1337198075554910, guid: f5ef9749de5949a4f86a4e1253803ea5, type: 3}
-  PauseMenu: {fileID: 0}
+  uiGun: {fileID: 0}
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 20
+  projectileLifetime: 5
 --- !u!1001 &2966869096804865507
 PrefabInstance:
   m_ObjectHideFlags: 0
