@@ -28,6 +28,7 @@ public class PlayerGun : MonoBehaviour
     [SerializeField] private Camera PlayerCamera;
     [SerializeField] private Transform AttackPoint;
     [SerializeField] private PlayerMove PlayerMove;
+    [SerializeField] private PlayerItemHandler PlayerItemHandler;
     [SerializeField] private GameObject MuzzleFlash;
     [SerializeField] private GameObject BulletHole;
     [SerializeField] private UI uiGun;
@@ -78,7 +79,8 @@ public class PlayerGun : MonoBehaviour
 
     private void HandleShootingInput()
     {
-        shooting = inputController.GetWeaponShotInput(AllowButtonHold);
+        if(!PlayerItemHandler.Interactable)
+            shooting = inputController.GetWeaponShotInput(AllowButtonHold);
     }
 
     private void HandleReload()

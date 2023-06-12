@@ -15,12 +15,18 @@ public class Compass : MonoBehaviour
         Vector3 forward = Player.transform.forward;
         forward.y = 0;
 
-        float headingAngle = Quaternion.LookRotation(forward).eulerAngles.y;
+        float headingAngle = 0f;
+        if(forward != Vector3.zero)
+           headingAngle = Quaternion.LookRotation(forward).eulerAngles.y;
+
         headingAngle = 5 * (Mathf.RoundToInt(headingAngle / 5.0f));
         displayangle = Mathf.RoundToInt(headingAngle);
 
-        CompassImageLeft.uvRect = new Rect(Quaternion.LookRotation(forward).eulerAngles.y / 360, 0, 1, 1);
-        CompassImageRight.uvRect = new Rect(Quaternion.LookRotation(forward).eulerAngles.y / 360, 0, 1, 1);
+        if(forward != Vector3.zero)
+        {
+            CompassImageLeft.uvRect = new Rect(Quaternion.LookRotation(forward).eulerAngles.y / 360, 0, 1, 1);
+            CompassImageRight.uvRect = new Rect(Quaternion.LookRotation(forward).eulerAngles.y / 360, 0, 1, 1);
+        }
 
         switch (displayangle)
         {

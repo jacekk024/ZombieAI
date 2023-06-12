@@ -14,6 +14,7 @@ public class InputController : MonoBehaviour
     private InputAction reloadAction;
     private InputAction cameraAction;
     private InputAction shootAction;
+    private InputAction invOpenAction;
 
 
     // Start is called before the first frame update
@@ -27,7 +28,7 @@ public class InputController : MonoBehaviour
         reloadAction = playerInput.actions["GunReload"];
         cameraAction = playerInput.actions["Camera Look"];
         shootAction = playerInput.actions["Shoot"];
-
+        invOpenAction = playerInput.actions["Open Inventory"];
     }
 
     private Vector2 GetVector2DInput(InputAction action)
@@ -43,9 +44,12 @@ public class InputController : MonoBehaviour
         return Time.timeScale > 0.0f && action.IsPressed();
     }
 
-    private bool GetInputKeyDown(InputAction action)
+    private bool GetInputKeyDown(InputAction action, bool ignoreTimeFreeze = false)
     {
-        return Time.timeScale > 0.0f && action.WasPerformedThisFrame();
+        if (ignoreTimeFreeze)
+            return action.WasPerformedThisFrame();
+        else
+            return Time.timeScale > 0.0f && action.WasPerformedThisFrame();
     }
 
     public Vector2 GetMovementInput()
@@ -81,6 +85,11 @@ public class InputController : MonoBehaviour
     public bool GetWeaponShotInput(bool allowButtonHold)
     {
         return allowButtonHold ? GetInputKey(shootAction) : GetInputKeyDown(shootAction);
+    }
+
+    public bool GetInventoryOpenInput()
+    {
+        return GetInputKeyDown(invOpenAction, true);
     }
 
     // Update is called once per frame
