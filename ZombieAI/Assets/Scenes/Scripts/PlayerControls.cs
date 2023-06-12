@@ -71,6 +71,33 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Camera Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""b185fb18-53b1-4ec4-835e-4037caea1fa1"",
+                    ""expectedControlType"": ""Delta"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""2cdd4c2d-f1fb-4b75-8e58-4fe593b0ea04"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Open Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""76183aff-01fa-4619-805d-3e5a6362159c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -227,6 +254,39 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""54cf6bd0-c6a0-4070-97c6-5f3ef6679b2c"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f46805f0-bea6-4f63-9d73-81f33d4bd57e"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e294fd75-8bc3-4cb1-8f22-8bdc0a9f734b"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Open Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -240,6 +300,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_BasicMap_Crouch = m_BasicMap.FindAction("Crouch", throwIfNotFound: true);
         m_BasicMap_Sprint = m_BasicMap.FindAction("Sprint", throwIfNotFound: true);
         m_BasicMap_GunReload = m_BasicMap.FindAction("GunReload", throwIfNotFound: true);
+        m_BasicMap_CameraLook = m_BasicMap.FindAction("Camera Look", throwIfNotFound: true);
+        m_BasicMap_Shoot = m_BasicMap.FindAction("Shoot", throwIfNotFound: true);
+        m_BasicMap_OpenInventory = m_BasicMap.FindAction("Open Inventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -306,6 +369,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_BasicMap_Crouch;
     private readonly InputAction m_BasicMap_Sprint;
     private readonly InputAction m_BasicMap_GunReload;
+    private readonly InputAction m_BasicMap_CameraLook;
+    private readonly InputAction m_BasicMap_Shoot;
+    private readonly InputAction m_BasicMap_OpenInventory;
     public struct BasicMapActions
     {
         private @PlayerControls m_Wrapper;
@@ -315,6 +381,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Crouch => m_Wrapper.m_BasicMap_Crouch;
         public InputAction @Sprint => m_Wrapper.m_BasicMap_Sprint;
         public InputAction @GunReload => m_Wrapper.m_BasicMap_GunReload;
+        public InputAction @CameraLook => m_Wrapper.m_BasicMap_CameraLook;
+        public InputAction @Shoot => m_Wrapper.m_BasicMap_Shoot;
+        public InputAction @OpenInventory => m_Wrapper.m_BasicMap_OpenInventory;
         public InputActionMap Get() { return m_Wrapper.m_BasicMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -339,6 +408,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @GunReload.started += instance.OnGunReload;
             @GunReload.performed += instance.OnGunReload;
             @GunReload.canceled += instance.OnGunReload;
+            @CameraLook.started += instance.OnCameraLook;
+            @CameraLook.performed += instance.OnCameraLook;
+            @CameraLook.canceled += instance.OnCameraLook;
+            @Shoot.started += instance.OnShoot;
+            @Shoot.performed += instance.OnShoot;
+            @Shoot.canceled += instance.OnShoot;
+            @OpenInventory.started += instance.OnOpenInventory;
+            @OpenInventory.performed += instance.OnOpenInventory;
+            @OpenInventory.canceled += instance.OnOpenInventory;
         }
 
         private void UnregisterCallbacks(IBasicMapActions instance)
@@ -358,6 +436,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @GunReload.started -= instance.OnGunReload;
             @GunReload.performed -= instance.OnGunReload;
             @GunReload.canceled -= instance.OnGunReload;
+            @CameraLook.started -= instance.OnCameraLook;
+            @CameraLook.performed -= instance.OnCameraLook;
+            @CameraLook.canceled -= instance.OnCameraLook;
+            @Shoot.started -= instance.OnShoot;
+            @Shoot.performed -= instance.OnShoot;
+            @Shoot.canceled -= instance.OnShoot;
+            @OpenInventory.started -= instance.OnOpenInventory;
+            @OpenInventory.performed -= instance.OnOpenInventory;
+            @OpenInventory.canceled -= instance.OnOpenInventory;
         }
 
         public void RemoveCallbacks(IBasicMapActions instance)
@@ -382,5 +469,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnCrouch(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnGunReload(InputAction.CallbackContext context);
+        void OnCameraLook(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
+        void OnOpenInventory(InputAction.CallbackContext context);
     }
 }

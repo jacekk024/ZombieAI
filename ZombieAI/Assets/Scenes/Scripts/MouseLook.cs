@@ -6,10 +6,8 @@ public class MouseLook : MonoBehaviour
 {
     [Header("Functional Options")]
     [SerializeField] private bool CanLookAround = true;
-    [SerializeField] private bool ViewBobbingActive = true;
 
     [Header("Camera parameters")]
-    [SerializeField] private float Sensitivity = 350f;
     [SerializeField] private float WalkBobSpeed = 14f;
     [SerializeField] private float WalkBobAmount = 0.1f;
     [SerializeField] private float SprintBobSpeed = 18f;
@@ -24,11 +22,13 @@ public class MouseLook : MonoBehaviour
 
     private float defaultYPos;
     private float timer;
+    private InputController inputController;
 
     // Start is called before the first frame update
     void Awake()
     {
         defaultYPos = transform.localPosition.y;
+        inputController = GetComponentInParent<InputController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -37,8 +37,10 @@ public class MouseLook : MonoBehaviour
     {
         if (CanLookAround)
         {
-            float mouseX = Input.GetAxis("Mouse X") * Sensitivity * Time.deltaTime;
-            float mouseY = Input.GetAxis("Mouse Y") * Sensitivity * Time.deltaTime;
+            Vector2 cameraLook = inputController.GetCameraLookInput();
+
+            float mouseX = cameraLook.x * GameplaySettings.Sensitivity * Time.deltaTime;
+            float mouseY = cameraLook.y * GameplaySettings.Sensitivity * Time.deltaTime;
 
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);
@@ -75,7 +77,7 @@ public class MouseLook : MonoBehaviour
     void Update()
     {
         HandleMouseLook();
-        if (ViewBobbingActive)
+        if (GameplaySettings.ViewBobbingActive)
             HandleViewBob();
     }
 }

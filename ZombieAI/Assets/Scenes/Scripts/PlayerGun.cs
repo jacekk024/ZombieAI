@@ -24,17 +24,13 @@ public class PlayerGun : MonoBehaviour
     private bool reloading;
     private bool allowInvoke;
 
-    [Header("Controls")]
-    [SerializeField] private KeyCode ShootKey = KeyCode.Mouse0;
-    [SerializeField] private KeyCode ReloadKey = KeyCode.R;
-
     [Header("References")]
     [SerializeField] private Camera PlayerCamera;
     [SerializeField] private Transform AttackPoint;
     [SerializeField] private PlayerMove PlayerMove;
+    [SerializeField] private PlayerItemHandler PlayerItemHandler;
     [SerializeField] private GameObject MuzzleFlash;
     [SerializeField] private GameObject BulletHole;
-    [SerializeField] private PauseMenu PauseMenu;
     [SerializeField] private UI uiGun;
 
     [Header("AI Collider Values")]
@@ -43,7 +39,8 @@ public class PlayerGun : MonoBehaviour
     [SerializeField] public float projectileLifetime = 5f;
 
     private RaycastHit rayHit;
-    private bool ShouldReload => !PauseMenu.GamePaused && Input.GetKeyDown(ReloadKey) && bulletsLeft < MagazineSize && !reloading;
+    private InputController inputController;
+    private bool ShouldReload => inputController.GetReloadInput() && bulletsLeft < MagazineSize && !reloading;
     private bool ShouldShoot => readyToShoot && shooting && !reloading && bulletsLeft > 0;
 
     private int layerMask = ~(1 << 11); //hit everything except player (layer #11)
@@ -51,6 +48,7 @@ public class PlayerGun : MonoBehaviour
     void Start()
     {
         uiGun = GameObject.Find("Canvas").GetComponent<UI>();
+        inputController = GetComponentInParent<InputController>();
     }
 
     private void Awake()
@@ -81,13 +79,8 @@ public class PlayerGun : MonoBehaviour
 
     private void HandleShootingInput()
     {
-        if (PauseMenu.GamePaused)
-            return;
-
-        if (AllowButtonHold)
-            shooting = Input.GetKey(ShootKey);
-        else
-            shooting = Input.GetKeyDown(ShootKey);
+        if(!PlayerItemHandler.Interactable)
+            shooting = inputController.GetWeaponShotInput(AllowButtonHold);
     }
 
     private void HandleReload()

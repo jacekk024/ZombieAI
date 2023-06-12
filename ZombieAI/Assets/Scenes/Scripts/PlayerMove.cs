@@ -63,9 +63,6 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private Vector3 CrouchingCenter = new Vector3(0, 0.5f, 0);
     [SerializeField] private Vector3 StandingCenter = new Vector3(0, 0, 0);
 
-    [Header("References")]
-    [SerializeField] private PauseMenu PauseMenu;
-
     [Header("AI Movement")]
     [SerializeField] PlayerAIMovement[] playerPositions;
     [SerializeField] private bool AutoMove = false;
@@ -90,8 +87,10 @@ public class PlayerMove : MonoBehaviour
     private Vector3 moveDirection;
     private CharacterController characterController;
     private Camera playerCamera;
-    private bool ShouldJump => !PauseMenu.GamePaused && Input.GetKey(jumpKey) && characterController.isGrounded && !isCrouching;
-    private bool ShouldCrouch => !PauseMenu.GamePaused && Input.GetKeyDown(crouchKey) && !duringCrouchAnimation && characterController.isGrounded;
+    private InputController inputController;
+
+    private bool ShouldJump => inputController.GetJumpInput() && characterController.isGrounded && !isCrouching;
+    private bool ShouldCrouch => inputController.GetCrouchInput() && !duringCrouchAnimation && characterController.isGrounded;
     private bool isCrouching;
     private bool duringCrouchAnimation;
 
@@ -133,7 +132,7 @@ public class PlayerMove : MonoBehaviour
         return moveDirection;
     }
 
-    public bool IsSprinting => CanSprint && Input.GetKey(sprintKey) && verticalAxis > 0;
+    public bool IsSprinting => CanSprint && inputController.GetSprintInput() && verticalAxis > 0;
     public bool IsCrouching
     {
         get
@@ -151,17 +150,17 @@ public class PlayerMove : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         playerCamera = GetComponentInChildren<Camera>();
         PlayerGunComponent = GameObject.FindGameObjectWithTag("Gun").GetComponent<PlayerGun>();
+        inputController = GetComponent<InputController>();
         currentHealth = maxHealth;
         currentStamina = maxStamina;
     }
 
     private void UpdateAxises()
     {
-        if (PauseMenu.GamePaused)
-            return;
+        Vector2 axises = inputController.GetMovementInput();
 
-        horizontalAxis = Input.GetAxisRaw("Horizontal");
-        verticalAxis = Input.GetAxisRaw("Vertical");
+        horizontalAxis = axises.x;
+        verticalAxis = axises.y;
     }
 
     private void HandleMovementInput()
@@ -218,7 +217,7 @@ public class PlayerMove : MonoBehaviour
 
     private IEnumerator CrouchStand()
     {
-        if (isCrouching && Physics.Raycast(playerCamera.transform.position, Vector3.up, 2.5f))
+        if (isCrouching && Physics.Raycast(playerCamera.transform.position, Vector3.up, 1.5f))
         {
             yield break;
         }
@@ -445,6 +444,12 @@ public class PlayerMove : MonoBehaviour
                 HandleCrouch();
             if (useStamina)
                 HandleStamina();
+
+            if(inputController.GetCrouchInput())
+            {
+                Debug.Log("Crouched");
+            }
+
 
             ApplyFinalMovements();
         } else if (AutoMove)
