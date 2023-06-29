@@ -106,18 +106,18 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
-    agentHeight: 2
-    agentSlope: 45
-    agentClimb: 0.4
-    ledgeDropHeight: 0
-    maxJumpAcrossDistance: 0
-    minRegionArea: 2
+    agentRadius: 1
+    agentHeight: 5
+    agentSlope: 25
+    agentClimb: 1
+    ledgeDropHeight: 1
+    maxJumpAcrossDistance: 1
+    minRegionArea: 2.17
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.33333334
     manualTileSize: 0
     tileSize: 256
-    accuratePlacement: 0
+    accuratePlacement: 1
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
@@ -2021,8 +2021,8 @@ MonoBehaviour:
   - {fileID: 8424279853805445899, guid: 22f8b210cede5384784a3560cf85b6df, type: 3}
   - {fileID: 7721333641740566263, guid: 6289f9fb8179d0944b2ce871bfe71612, type: 3}
   - {fileID: 2011967808859570731, guid: 2638835d2dc494840b28b2079a300d21, type: 3}
-  gridSize: {x: 10, y: 10}
-  numberOfRooms: 20
+  gridSize: {x: 2, y: 2}
+  numberOfRooms: 1
 --- !u!114 &8529847153673123010
 MonoBehaviour:
   m_ObjectHideFlags: 0

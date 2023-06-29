@@ -1,22 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class testGenerator : MonoBehaviour
 {
     public GameObject[] rooms;
     public Vector2 gridSize;
     public int numberOfRooms;
+    public GameObject player;
 
     private Vector2 gridWorldSize;
     private openDoors[,] grid;
     private List<openDoors> activeRooms;
+    private List<NavMeshSurface> surfaces = new List<NavMeshSurface>();
 
     void Start()
     {
         gridWorldSize = new Vector2(gridSize.x * 21, gridSize.y * 21);
         GenerateMap();
+        GenerateNavMesh();
     }
 
     void GenerateMap()
@@ -33,6 +38,23 @@ public class testGenerator : MonoBehaviour
             else counterRooms = 0;
 
             if (counterRooms > 100) break;
+        }
+    }
+
+    void GenerateNavMesh()
+    {
+        GameObject[] floors = GameObject.FindGameObjectsWithTag("Ground");
+
+        foreach (GameObject floor in floors)
+        {
+            NavMeshSurface surface = floor.AddComponent<NavMeshSurface>();
+            surface.layerMask = LayerMask.GetMask("Ground");
+            surfaces.Add(surface);
+        }
+
+        foreach (NavMeshSurface surface in surfaces)
+        {
+            surface.BuildNavMesh();
         }
     }
 
@@ -53,6 +75,7 @@ public class testGenerator : MonoBehaviour
 
         startingRoom.name = "StartRoom";
         startingRoom.gridPos = startPos;
+        player.transform.position = new Vector3((gridSize.x / 2) - 1, player.transform.position.y, (gridSize.y / 2) - 1) ;
 
         grid[(int)startPos.x, (int)startPos.y] = startingRoom;
         activeRooms.Add(startingRoom);

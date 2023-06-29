@@ -8,6 +8,7 @@ TagManager:
   - ZombieRespawnZone
   - Enemy
   - Gun
+  - Ground
   layers:
   - Default
   - TransparentFX
