@@ -514,6 +514,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 110
+  animator: {fileID: 4130895541308479819}
+  delayBeforeFade: 3
+  fadeDuration: 1
 --- !u!114 &2292622449312068182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,7 +586,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a02e8306bfb3bd4cbd31b31748d92d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -2700,7 +2702,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -256959436641724244, guid: 32cbf1173ba8f7b4d9dfc7c9a8956609, type: 3}
+  - {fileID: 2100000, guid: 4466326cb4494c14982401cd4d16ccc0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -69,7 +69,7 @@ public class WaveSpawnerAgent : Agent
 
             //string colliderTag = waveSpawner.ColliderBetweenObjAndPlayer(spawnPosition); // Tutaj wywala, trzeba ochronić
 
-            // Debug.Log("X: " + spawnPosition.x + ", Z: " + spawnPosition.z); // Zostawiam do debugowania
+            // Debug.Log("X: " + spawnPosition.x + ", Z: " + spawnPosition.z); // Zostawiam do debugowania 
             GameObject.Find("Heatmap").GetComponent<RaycastGradient>().UpdateHeatTexture(spawnPosition.x, spawnPosition.z);
             GameObject go = Instantiate(zombiePrefab, spawnPosition, Quaternion.identity);
             player.GetComponent<PlayerMove>().AddTarget(go.transform);
