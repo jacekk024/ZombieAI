@@ -309,14 +309,9 @@ RectTransform:
   - {fileID: 1936870401}
   - {fileID: 862451088}
   - {fileID: 134853082}
-  - {fileID: 1442118573}
-  - {fileID: 2087105365}
-  - {fileID: 1664714684}
-  - {fileID: 1356803225}
   - {fileID: 1442298664}
   - {fileID: 84663814}
   - {fileID: 843631765}
-  - {fileID: 1088559563}
   m_Father: {fileID: 608813963}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -337,7 +332,7 @@ GameObject:
   - component: {fileID: 84663816}
   - component: {fileID: 84663815}
   m_Layer: 5
-  m_Name: GrenadeNameUI (1)
+  m_Name: KnifeNameUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -356,7 +351,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 50532621}
-  m_RootOrder: 8
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -598,6 +593,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8929652558990584105, guid: f78a6bf5c67d33644a197a329bc77ae6,
+        type: 3}
+      propertyPath: Name
+      value: Shotgun
       objectReference: {fileID: 0}
     - target: {fileID: 8929652558990584105, guid: f78a6bf5c67d33644a197a329bc77ae6,
         type: 3}
@@ -967,7 +967,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -262.45, y: 61}
+  m_AnchoredPosition: {x: -187.34998, y: 61}
   m_SizeDelta: {x: 180, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &134853083
@@ -1906,12 +1906,12 @@ PrefabInstance:
     - target: {fileID: 6680292650503350825, guid: f25dcd618d3acd64795bf8bb32edb6c9,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -39.999996
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 6680292650503350825, guid: f25dcd618d3acd64795bf8bb32edb6c9,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -57.29998
+      value: -57.299927
       objectReference: {fileID: 0}
     - target: {fileID: 6680292650503350825, guid: f25dcd618d3acd64795bf8bb32edb6c9,
         type: 3}
@@ -4369,7 +4369,7 @@ GameObject:
   - component: {fileID: 843631767}
   - component: {fileID: 843631766}
   m_Layer: 5
-  m_Name: GrenadeKeyboardUI (1)
+  m_Name: KnifeKeyboardUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4389,7 +4389,7 @@ RectTransform:
   m_Children:
   - {fileID: 1392787634}
   m_Father: {fileID: 50532621}
-  m_RootOrder: 9
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4470,7 +4470,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -208.53, y: 105.98}
+  m_AnchoredPosition: {x: -133.42996, y: 105.98}
   m_SizeDelta: {x: 72.1872, y: 54.882}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &862451089
@@ -5103,7 +5103,7 @@ MonoBehaviour:
   CurrentTarget: {fileID: 0}
   PlayerGunComponent: {fileID: 0}
   targets: []
-  GameOverScript: {fileID: 0}
+  GameOverScript: {fileID: 691585964}
 --- !u!143 &910631587
 CharacterController:
   m_ObjectHideFlags: 0
@@ -5130,7 +5130,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 910631581}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16, y: 1.5, z: 9.14}
+  m_LocalPosition: {x: -16, y: 0, z: 9.14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5728,7 +5728,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1088559563
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5736,18 +5736,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1088559562}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 443920425}
-  m_Father: {fileID: 50532621}
-  m_RootOrder: 10
+  m_Father: {fileID: 1705115693}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -69.3, y: 90.198}
+  m_AnchoredPosition: {x: 592.69995, y: -308.302}
   m_SizeDelta: {x: 21.932, y: 21.605}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1088559564
@@ -5911,7 +5911,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -7.142456, y: 0, z: -6.7218018, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -6753,7 +6753,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1356803225
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6761,18 +6761,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1356803224}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 604465377}
-  m_Father: {fileID: 50532621}
-  m_RootOrder: 6
+  m_Father: {fileID: 1705115693}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -135.2, y: 90.198}
+  m_AnchoredPosition: {x: 526.80005, y: -308.302}
   m_SizeDelta: {x: 21.932, y: 21.605}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1356803226
@@ -7160,7 +7160,7 @@ GameObject:
   - component: {fileID: 1392787636}
   - component: {fileID: 1392787635}
   m_Layer: 5
-  m_Name: GrenadeKeyboardTextUI
+  m_Name: KnifeKeyboardTextUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7206,7 +7206,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: N4
+  m_text: ALT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7473,7 +7473,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1442118573
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7481,17 +7481,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1442118572}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 50532621}
-  m_RootOrder: 3
+  m_Father: {fileID: 1705115693}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -118.9, y: 104.59}
+  m_AnchoredPosition: {x: 543.1, y: -293.91}
   m_SizeDelta: {x: 48.992, y: 50.3908}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1442118574
@@ -7563,7 +7563,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 50532621}
-  m_RootOrder: 7
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7788,7 +7788,7 @@ MonoBehaviour:
   - {fileID: 7721333641740566263, guid: 6289f9fb8179d0944b2ce871bfe71612, type: 3}
   - {fileID: 2011967808859570731, guid: 2638835d2dc494840b28b2079a300d21, type: 3}
   gridSize: {x: 5, y: 5}
-  numberOfRooms: 10
+  numberOfRooms: 20
   player: {fileID: 910631581}
   door: {fileID: 8730245854331329977, guid: 2b33c257ddcd6934a86db076d4315fe7, type: 3}
 --- !u!1001 &1500602863
@@ -7852,6 +7852,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8929652558990584105, guid: 0dc05c7314ff6284395215d4d7211221,
+        type: 3}
+      propertyPath: Name
+      value: Machine Gun
       objectReference: {fileID: 0}
     - target: {fileID: 8929652558990584105, guid: 0dc05c7314ff6284395215d4d7211221,
         type: 3}
@@ -7980,7 +7985,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1664714684
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7988,18 +7993,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1664714683}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 192887665}
-  m_Father: {fileID: 50532621}
-  m_RootOrder: 5
+  m_Father: {fileID: 1705115693}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -118.9, y: 64.87}
+  m_AnchoredPosition: {x: 543.1, y: -333.63}
   m_SizeDelta: {x: 35.9239, y: 29.0506}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1664714685
@@ -8069,6 +8074,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1178730447}
+  - {fileID: 1442118573}
+  - {fileID: 2087105365}
+  - {fileID: 1664714684}
+  - {fileID: 1356803225}
+  - {fileID: 1088559563}
   m_Father: {fileID: 608813963}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9444,7 +9454,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -15.346802, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -9475,7 +9485,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -337.3, y: 79.395}
+  m_AnchoredPosition: {x: -262.2, y: 79.395}
   m_SizeDelta: {x: 92.6787, y: 54.0262}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &1941159656
@@ -9524,6 +9534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec369217fc2d7ff4ab142ab26c08a9f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: 
   Damage: 20
   AllowButtonHold: 0
   Range: 100
@@ -9535,6 +9546,7 @@ MonoBehaviour:
   ShotSpread: 0.02
   SpreadWalkingMultiplier: 1.1
   SpreadSprintingMultiplier: 1.4
+  bulletsLeft: 0
   shooting: 0
   PlayerCamera: {fileID: 406764284}
   AttackPoint: {fileID: 2132779523}
@@ -9829,7 +9841,7 @@ PrefabInstance:
     - target: {fileID: 6680292650503350825, guid: f25dcd618d3acd64795bf8bb32edb6c9,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -25.099976
+      value: -25.099792
       objectReference: {fileID: 0}
     - target: {fileID: 6680292650503350825, guid: f25dcd618d3acd64795bf8bb32edb6c9,
         type: 3}
@@ -10197,6 +10209,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8929652558990584105, guid: b334b4ee1088bc4409fe418b59856047,
         type: 3}
+      propertyPath: Name
+      value: Rifle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8929652558990584105, guid: b334b4ee1088bc4409fe418b59856047,
+        type: 3}
       propertyPath: PlayerMove
       value: 
       objectReference: {fileID: 910631586}
@@ -10528,7 +10545,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2087105365
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10541,12 +10558,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 50532621}
-  m_RootOrder: 4
+  m_Father: {fileID: 1705115693}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -118.90006, y: 61}
+  m_AnchoredPosition: {x: 543.09985, y: -337.5}
   m_SizeDelta: {x: 41.665, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2087105366
@@ -10649,6 +10666,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Heatmap
+      objectReference: {fileID: 0}
+    - target: {fileID: 5956755759570616876, guid: 074a97210c106ba4783764f8c0e664b5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7273872042341888063, guid: 074a97210c106ba4783764f8c0e664b5,
         type: 3}

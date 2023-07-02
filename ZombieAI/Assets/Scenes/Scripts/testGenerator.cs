@@ -189,7 +189,36 @@ public class testGenerator : MonoBehaviour
         else if (grid[(int)newRoom.gridPos.x, (int)newRoom.gridPos.y + 1] != null)
         {
             newRoom.north = false;
-            activeRooms.Where(x => x.gridPos.x == newPos.x && x.gridPos.y == (newPos.y + 1)).First().south = false;
+            // ==================
+            // activeRooms.Where(x => x.gridPos.x == newPos.x && x.gridPos.y == (newPos.y + 1)).First().south = false;
+            var temproom = activeRooms.Where(x => x.gridPos.x == newPos.x && x.gridPos.y == (newPos.y + 1)).First();
+            if(temproom.south == true)
+            {
+                temproom.south = false;
+                var doorToAdd = Instantiate(door, transform.position, transform.rotation);
+                doorToAdd.transform.SetParent(temproom.transform);
+                doorToAdd.transform.position = new Vector3(temproom.transform.position.x - 3.0f, 1.0f, temproom.transform.position.z + 21.0f);
+
+                switch (temproom.transform.rotation.eulerAngles.y)
+                {
+                    case 270.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 180, 0);
+                        break;
+                    case 180.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 270, 0);
+                        break;
+                    case 90.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                        break;
+                    case 0.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 90, 0);
+                        break;
+                    default:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                        break;
+                }
+            }
+            // ==================
         }
 
         if (newRoom.gridPos.x + 1 >= gridSize.x)
@@ -200,7 +229,36 @@ public class testGenerator : MonoBehaviour
         else if (grid[(int)newRoom.gridPos.x + 1, (int)newRoom.gridPos.y] != null)
         {
             newRoom.east = false;
-            activeRooms.Where(x => x.gridPos.x == (newPos.x + 1) && x.gridPos.y == newPos.y).First().west = false;
+            // ==================
+            // activeRooms.Where(x => x.gridPos.x == (newPos.x + 1) && x.gridPos.y == newPos.y).First().west = false;
+            var temproom = activeRooms.Where(x => x.gridPos.x == (newPos.x + 1) && x.gridPos.y == newPos.y).First();
+            if(temproom.west == true)
+            {
+                temproom.west = false;
+                var doorToAdd = Instantiate(door, transform.position, transform.rotation);
+                doorToAdd.transform.SetParent(temproom.transform);
+                doorToAdd.transform.position = new Vector3(temproom.transform.position.x + 21.0f, 1.0f, temproom.transform.position.z - 3.0f);
+
+                switch (temproom.transform.rotation.eulerAngles.y)
+                {
+                    case 270.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 90, 0);
+                        break;
+                    case 180.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 180, 0);
+                        break;
+                    case 90.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 270, 0);
+                        break;
+                    case 0.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                        break;
+                    default:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                        break;
+                }
+            }
+            // ==================
         }
 
         if (newRoom.gridPos.y - 1 < 0)
@@ -211,7 +269,36 @@ public class testGenerator : MonoBehaviour
         else if (grid[(int)newRoom.gridPos.x, (int)newRoom.gridPos.y - 1] != null)
         {
             newRoom.south = false;
-            activeRooms.Where(x => x.gridPos.x == newPos.x && x.gridPos.y == (newPos.y - 1)).First().north = false;
+            // activeRooms.Where(x => x.gridPos.x == newPos.x && x.gridPos.y == (newPos.y - 1)).First().north = false;
+            // ==================
+            var temproom = activeRooms.Where(x => x.gridPos.x == newPos.x && x.gridPos.y == (newPos.y - 1)).First();
+            if(temproom.north == true)
+            {
+                temproom.north = false;
+                var doorToAdd = Instantiate(door, transform.position, transform.rotation);
+                doorToAdd.transform.SetParent(temproom.transform);
+                doorToAdd.transform.position = new Vector3(temproom.transform.position.x - 3.0f, 1.0f, temproom.transform.position.z - 21.0f);
+
+                switch (temproom.transform.rotation.eulerAngles.y)
+                {
+                    case 270.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 180, 0);
+                        break;
+                    case 180.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 270, 0);
+                        break;
+                    case 90.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                        break;
+                    case 0.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 90, 0);
+                        break;
+                    default:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                        break;
+                }
+            }
+            // ==================
         }
 
         if (newRoom.gridPos.x - 1 < 0)
@@ -222,7 +309,37 @@ public class testGenerator : MonoBehaviour
         else if (grid[(int)newRoom.gridPos.x - 1, (int)newRoom.gridPos.y] != null)
         {
             newRoom.west = false;
-            activeRooms.Where(x => x.gridPos.x == (newPos.x - 1) && x.gridPos.y == newPos.y).First().east = false;
+
+            // ==================
+            // activeRooms.Where(x => x.gridPos.x == (newPos.x - 1) && x.gridPos.y == newPos.y).First().east = false;
+            var temproom = activeRooms.Where(x => x.gridPos.x == (newPos.x - 1) && x.gridPos.y == newPos.y).First();
+            if(temproom.east == true)
+            {
+                temproom.east = false;
+                var doorToAdd = Instantiate(door, transform.position, transform.rotation);
+                doorToAdd.transform.SetParent(temproom.transform);
+                doorToAdd.transform.position = new Vector3(temproom.transform.position.x - 21.0f, 1.0f, temproom.transform.position.z - 3.0f);
+
+                switch (temproom.transform.rotation.eulerAngles.y)
+                {
+                    case 270.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 90, 0);
+                        break;
+                    case 180.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 180, 0);
+                        break;
+                    case 90.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 270, 0);
+                        break;
+                    case 0.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                        break;
+                    default:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                        break;
+                }
+            }
+            // ==================
         }
 
         grid[(int)newPos.x, (int)newPos.y] = newRoom;

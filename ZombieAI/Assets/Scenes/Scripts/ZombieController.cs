@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.EventSystems;
 
 public class ZombieController : MonoBehaviour
@@ -24,7 +25,8 @@ public class ZombieController : MonoBehaviour
     {
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().RemoveTarget(gameObject.transform);
         this.gameObject.GetComponent<EnemyAiPatrol>().enabled = false;
-        this.gameObject.GetComponent<CapsuleCollider>().isTrigger = false;
+        this.gameObject.GetComponent<NavMeshAgent>().enabled = false;
+        this.gameObject.GetComponent<CapsuleCollider>().enabled = false;
         animator.SetTrigger("ZombieDeath");
         StartCoroutine(Disappear());
     }

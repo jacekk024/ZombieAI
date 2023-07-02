@@ -16,7 +16,10 @@ public class SimplePlayerFollower : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
+        {
             PlayerMove.OnTakeDamage(15);
+            this.gameObject.GetComponent<Animator>().Play("ZombieAttack");
+        }
     }
 
 

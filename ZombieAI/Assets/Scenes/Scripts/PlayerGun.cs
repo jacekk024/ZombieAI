@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerGun : MonoBehaviour
 {
     [Header("Gun Parameters")]
+    [SerializeField] public string Name = "";
     [SerializeField] private int Damage = 20;
     [SerializeField] private bool AllowButtonHold = false;
     [SerializeField] private float Range = 100;
@@ -12,12 +13,12 @@ public class PlayerGun : MonoBehaviour
     [SerializeField] private float ReloadTime = 1;
     [SerializeField] private int BulletsShotAtOnce = 1;
     [SerializeField] private float TimeBetweenShots = 0;
-    [SerializeField] private int MagazineSize = 30;
+    [SerializeField] public int MagazineSize = 30;
     [SerializeField] private float ShotSpread = 0.02f;
     [SerializeField] private float SpreadWalkingMultiplier = 1.1f;
     [SerializeField] private float SpreadSprintingMultiplier = 1.4f;
 
-    private int bulletsLeft;
+    public int bulletsLeft;
     private int bulletsLeftForSingleShot;
     public bool shooting;
     private bool readyToShoot;

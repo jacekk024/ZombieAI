@@ -255,11 +255,11 @@ public class PlayerMove : MonoBehaviour
 
     private void KillPlayer() 
     {
-            currentHealth = 0;
+        currentHealth = 0;
+
         if (regeneratingHealth != null)
             StopCoroutine(regeneratingHealth);
 
-       // print("Dead");
         GameOverScript.Setup();
     }
 

@@ -1,9 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-
-
 
 public class PlayerWeaponSwitch : MonoBehaviour
 {
@@ -47,6 +46,20 @@ public class PlayerWeaponSwitch : MonoBehaviour
         }
 
         currentWeapon = weapons[weaponId];
+
+        try
+        { 
+            GameObject.Find("WeaponNameTextUI").GetComponent<TextMeshProUGUI>().text = currentWeapon.GetComponent<PlayerGun>().Name;
+            GameObject.Find("ActualAmmoUI").GetComponent<TextMeshProUGUI>().text = 
+                currentWeapon.GetComponent<PlayerGun>().bulletsLeft > 0 ? currentWeapon.GetComponent<PlayerGun>().bulletsLeft.ToString() : currentWeapon.GetComponent<PlayerGun>().MagazineSize.ToString();
+            GameObject.Find("EquipmentAmmoTextUI").GetComponent<TextMeshProUGUI>().text = currentWeapon.GetComponent<PlayerGun>().MagazineSize.ToString();
+        } catch
+        {
+            GameObject.Find("WeaponNameTextUI").GetComponent<TextMeshProUGUI>().text = "Baseball bat";
+            GameObject.Find("ActualAmmoUI").GetComponent<TextMeshProUGUI>().text = "1";
+            GameObject.Find("EquipmentAmmoTextUI").GetComponent<TextMeshProUGUI>().text = "1";
+        }
+
         StartCoroutine(SetActiveWeapon(2));
     }
 
