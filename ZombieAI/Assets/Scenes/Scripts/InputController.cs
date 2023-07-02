@@ -89,7 +89,7 @@ public class InputController : MonoBehaviour
 
     public bool GetInventoryOpenInput()
     {
-        return GetInputKeyDown(invOpenAction, true);
+        return !GameplaySettings.isPauseMenuOpen && GetInputKeyDown(invOpenAction, true);
     }
 
     // Update is called once per frame

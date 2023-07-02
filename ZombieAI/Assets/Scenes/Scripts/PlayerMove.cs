@@ -83,6 +83,7 @@ public class PlayerMove : MonoBehaviour
     private CharacterController characterController;
     private Camera playerCamera;
     private InputController inputController;
+    private PlayerItemHandler itemHandler;
 
     private bool ShouldJump => inputController.GetJumpInput() && characterController.isGrounded && !isCrouching;
     private bool ShouldCrouch => inputController.GetCrouchInput() && !duringCrouchAnimation && characterController.isGrounded;
@@ -146,6 +147,7 @@ public class PlayerMove : MonoBehaviour
         playerCamera = GetComponentInChildren<Camera>();
         PlayerGunComponent = GameObject.FindGameObjectWithTag("Gun").GetComponent<PlayerGun>();
         inputController = GetComponent<InputController>();
+        itemHandler = GetComponent<PlayerItemHandler>();
         currentHealth = maxHealth;
         currentStamina = maxStamina;
     }
@@ -310,6 +312,7 @@ public class PlayerMove : MonoBehaviour
         //TO DO: limit player's movements while in mid-air
 
         float speed = (isCrouching ? CrouchSpeed : (IsSprinting ? SprintSpeed : WalkSpeed));
+        int eqWeight = itemHandler.inventory.GetEquipmentWeight();
 
         if (!characterController.isGrounded)
             moveDirection.y -= Gravity * Time.deltaTime;
@@ -440,10 +443,6 @@ public class PlayerMove : MonoBehaviour
             if (useStamina)
                 HandleStamina();
 
-            if(inputController.GetCrouchInput())
-            {
-                Debug.Log("Crouched");
-            }
 
 
             ApplyFinalMovements();

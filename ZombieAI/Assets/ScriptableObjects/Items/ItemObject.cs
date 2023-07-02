@@ -6,13 +6,14 @@ public enum ItemType
 { 
     Weapon,
     Healing,
+    Ammo,
     Default
 }
 
 
 public abstract class ItemObject : ScriptableObject
 {
-    public GameObject prefab;
+    public GameObject uiPrefab;
     public ItemType type;
 
     [TextArea(1, 1)]
@@ -20,4 +21,6 @@ public abstract class ItemObject : ScriptableObject
 
     [TextArea(15,20)]
     public string description;
+
+    public int weight;
 }

@@ -18,7 +18,7 @@ public class DisplayInventory : MonoBehaviour
     TextMeshProUGUI descriptionText;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         nameText = GameObject.Find("NameTMP").GetComponent<TextMeshProUGUI>();
         descriptionText = GameObject.Find("DescriptionTMP").GetComponent<TextMeshProUGUI>();
@@ -30,13 +30,18 @@ public class DisplayInventory : MonoBehaviour
         descriptionText.text = description;
     }
 
+    void ResetText()
+    {
+        nameText.text = "";
+        descriptionText.text = "";
+    }
 
     void Display()
     {
         for(int i = 0; i < inventory.container.Count; i++) 
         {
             var slot = inventory.container[i];
-            var obj = Instantiate(slot.item.prefab, Vector3.zero, Quaternion.identity, transform);
+            var obj = Instantiate(slot.item.uiPrefab, Vector3.zero, Quaternion.identity, transform);
             obj.GetComponent<RectTransform>().localPosition = GetPosition(i);
             var eventTrigger = obj.GetComponent<EventTrigger>();
             AddEventTriggerListener(
@@ -68,6 +73,7 @@ public class DisplayInventory : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         Time.timeScale = 0f;
+        ResetText();
         Display();
         
     }

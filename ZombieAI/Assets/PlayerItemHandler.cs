@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class PlayerItemHandler : MonoBehaviour
@@ -117,9 +118,12 @@ public class PlayerItemHandler : MonoBehaviour
 
     void HandleInventoryOpen()
     {
-        if(inputController.GetInventoryOpenInput())
+        bool enabled = inventoryDisplay.activeSelf;
+
+        //escape also closes inventory
+        if((enabled && Keyboard.current[Key.Escape].wasPressedThisFrame) || inputController.GetInventoryOpenInput())
         {
-            bool enabled = inventoryDisplay.activeSelf;
+            GameplaySettings.isInventoryOpen = !enabled;
             inventoryDisplay.SetActive(!enabled);
         }
     }

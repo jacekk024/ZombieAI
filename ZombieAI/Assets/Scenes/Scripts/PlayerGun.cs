@@ -25,10 +25,7 @@ public class PlayerGun : MonoBehaviour
     private bool allowInvoke;
 
     [Header("References")]
-    [SerializeField] private Camera PlayerCamera;
     [SerializeField] private Transform AttackPoint;
-    [SerializeField] private PlayerMove PlayerMove;
-    [SerializeField] private PlayerItemHandler PlayerItemHandler;
     [SerializeField] private GameObject MuzzleFlash;
     [SerializeField] private GameObject BulletHole;
     [SerializeField] private UI uiGun;
@@ -40,6 +37,10 @@ public class PlayerGun : MonoBehaviour
 
     private RaycastHit rayHit;
     private InputController inputController;
+    private PlayerMove playerMove;
+    private PlayerItemHandler playerItemHandler;
+    private Camera playerCamera;
+
     private bool ShouldReload => inputController.GetReloadInput() && bulletsLeft < MagazineSize && !reloading;
     private bool ShouldShoot => readyToShoot && shooting && !reloading && bulletsLeft > 0;
 
@@ -49,6 +50,9 @@ public class PlayerGun : MonoBehaviour
     {
         uiGun = GameObject.Find("Canvas").GetComponent<UI>();
         inputController = GetComponentInParent<InputController>();
+        playerMove = GetComponentInParent<PlayerMove>();
+        playerItemHandler = GetComponentInParent<PlayerItemHandler>();
+        playerCamera = GetComponentInParent<Camera>();
     }
 
     private void Awake()
@@ -67,9 +71,9 @@ public class PlayerGun : MonoBehaviour
     private float GetActualSpread()
     {
         float newSpread = ShotSpread;
-        Vector3 moveDir = PlayerMove.GetMoveDirection();
+        Vector3 moveDir = playerMove.GetMoveDirection();
 
-        if (PlayerMove.IsSprinting)
+        if (playerMove.IsSprinting)
             newSpread *= SpreadSprintingMultiplier;
         else if (moveDir.x > 0.05f || moveDir.z > 0.05f)
             newSpread *= SpreadWalkingMultiplier;
@@ -79,7 +83,7 @@ public class PlayerGun : MonoBehaviour
 
     private void HandleShootingInput()
     {
-        if(!PlayerItemHandler.Interactable)
+        if(!playerItemHandler.Interactable)
             shooting = inputController.GetWeaponShotInput(AllowButtonHold);
     }
 
@@ -121,15 +125,15 @@ public class PlayerGun : MonoBehaviour
         float y = Random.Range(-spread, spread);
         float z = Random.Range(-spread, spread);
 
-        Vector3 shotDirection = PlayerCamera.transform.forward + new Vector3(x, y, z);
+        Vector3 shotDirection = playerCamera.transform.forward + new Vector3(x, y, z);
 
-        GameObject projectile = Instantiate(projectilePrefab, PlayerCamera.transform.position, Quaternion.identity);
+        GameObject projectile = Instantiate(projectilePrefab, playerCamera.transform.position, Quaternion.identity);
         Rigidbody projectileRigidbody = projectile.GetComponent<Rigidbody>();
         projectileRigidbody.velocity = shotDirection * projectileSpeed;
         Destroy(projectile, projectileLifetime);
 
         //Raycast shot
-        if (Physics.Raycast(PlayerCamera.transform.position, shotDirection, out rayHit, Range, layerMask))
+        if (Physics.Raycast(playerCamera.transform.position, shotDirection, out rayHit, Range, layerMask))
         {
             //TO DO: check if enemy was hit and reduce its HP
             ZombieController zombieController = rayHit.transform.GetComponent<ZombieController>();
