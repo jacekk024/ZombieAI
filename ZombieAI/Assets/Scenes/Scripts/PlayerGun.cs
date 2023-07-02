@@ -153,7 +153,6 @@ public class PlayerGun : MonoBehaviour
         
         bulletsLeft--;
         bulletsLeftForSingleShot--;
-        uiGun.UpdateAmmunition(bulletsLeft);
 
         if (!IsInvoking(nameof(ResetShot)) && !readyToShoot)
         {
@@ -165,6 +164,7 @@ public class PlayerGun : MonoBehaviour
         {
             Invoke(nameof(Shoot), TimeBetweenShots);
         }
+        uiGun.UpdateAmmunition(bulletsLeft);
     }
 
     private void ResetShot()

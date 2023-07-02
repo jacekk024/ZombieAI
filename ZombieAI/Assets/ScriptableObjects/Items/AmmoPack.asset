@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1642e1b820a27c149bfa0303140f2dee, type: 3}
   m_Name: AmmoPack
   m_EditorClassIdentifier: 
-  uiPrefab: {fileID: 0}
+  uiPrefab: {fileID: 4889761668307836083, guid: 64b84b24815a0f74c86a34dcc59754f8,
+    type: 3}
   type: 2
   itemName: Ammo Pack
   description: Packed with an assortment of high-caliber rounds and explosive ordnance,
-    this essential item ensures you never run dry in the heat of battle. Also usable
-    with the "Reload" button.
-  weight: 10
+    this essential item ensures you never run dry in the heat of battle. Contains
+    30 bullets. Also usable with the "Reload" button.
+  weight: 15
+  ammoToRestore: 60

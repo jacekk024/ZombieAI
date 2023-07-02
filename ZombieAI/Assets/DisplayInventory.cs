@@ -47,7 +47,7 @@ public class DisplayInventory : MonoBehaviour
             AddEventTriggerListener(
                 eventTrigger,
                 EventTriggerType.PointerEnter,
-                (eventData) => { UpdateItemText(slot.item.name, slot.item.description); });
+                (eventData) => { UpdateItemText(slot.item.itemName, slot.item.description); });
             AddEventTriggerListener(
                 eventTrigger,
                 EventTriggerType.PointerExit,
