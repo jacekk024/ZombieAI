@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +22,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float SprintSpeed = 18f;
     [SerializeField] private float CrouchSpeed = 4f;
     [SerializeField] private float SlopeSlideSpeed = 10f;
+    [SerializeField] private int MaxWeightAffectingSpeed = 50;
 
     [Header("Health Parameters")]
     [SerializeField] internal float maxHealth = 100;
@@ -66,6 +69,9 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private Transform CurrentTarget;
     [SerializeField] internal PlayerGun PlayerGunComponent;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioClip HurtClip;
+
     public List<Transform> targets = new List<Transform>();
 
     [Serializable]
@@ -83,6 +89,8 @@ public class PlayerMove : MonoBehaviour
     private CharacterController characterController;
     private Camera playerCamera;
     private InputController inputController;
+    private PlayerItemHandler itemHandler;
+    private AudioSource audioSource;
 
     private bool ShouldJump => inputController.GetJumpInput() && characterController.isGrounded && !isCrouching;
     private bool ShouldCrouch => inputController.GetCrouchInput() && !duringCrouchAnimation && characterController.isGrounded;
@@ -114,7 +122,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void OnDisable()
     {
-        OnTakeDamage -= ApplyDamage;   
+        OnTakeDamage -= ApplyDamage;
     }
 
     public bool IsGrounded()
@@ -146,6 +154,8 @@ public class PlayerMove : MonoBehaviour
         playerCamera = GetComponentInChildren<Camera>();
         PlayerGunComponent = GameObject.FindGameObjectWithTag("Gun").GetComponent<PlayerGun>();
         inputController = GetComponent<InputController>();
+        itemHandler = GetComponent<PlayerItemHandler>();
+        audioSource = GetComponent<AudioSource>();
         currentHealth = maxHealth;
         currentStamina = maxStamina;
     }
@@ -180,9 +190,9 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    private void HandleStamina() 
+    private void HandleStamina()
     {
-        if(IsSprinting) 
+        if (IsSprinting)
         {
             if (regeneratingStamina != null)
             {
@@ -192,7 +202,7 @@ public class PlayerMove : MonoBehaviour
                 StartCoroutine(ImageFade.FadeImage(false, staminaUI, staminaClawUI));
             }
 
-            currentStamina -=staminaUseMultiplier * Time.deltaTime;
+            currentStamina -= staminaUseMultiplier * Time.deltaTime;
 
             if (currentStamina < 0)
                 currentStamina = 0;
@@ -240,9 +250,10 @@ public class PlayerMove : MonoBehaviour
         duringCrouchAnimation = false;
     }
 
-    private void ApplyDamage(float dmg) 
+    private void ApplyDamage(float dmg)
     {
         currentHealth -= dmg;
+        audioSource.PlayOneShot(HurtClip);
         OnDamage?.Invoke(currentHealth, maxHealth);
 
         if (currentHealth <= 0)
@@ -253,7 +264,7 @@ public class PlayerMove : MonoBehaviour
         regeneratingHealth = StartCoroutine(RegenerateHealth());
     }
 
-    private void KillPlayer() 
+    private void KillPlayer()
     {
         currentHealth = 0;
 
@@ -268,11 +279,11 @@ public class PlayerMove : MonoBehaviour
         yield return new WaitForSeconds(timeBeforeRegenStarts);
         WaitForSeconds timeToWait = new WaitForSeconds(healthTimeIncrement);
 
-        while(currentHealth < maxHealth) 
+        while (currentHealth < maxHealth)
         {
             currentHealth += healthValueIncrement;
 
-            if(currentHealth > maxHealth)
+            if (currentHealth > maxHealth)
                 currentHealth = maxHealth;
 
             OnHeal?.Invoke(currentHealth, maxHealth);
@@ -282,15 +293,30 @@ public class PlayerMove : MonoBehaviour
         regeneratingHealth = null;
     }
 
-    private IEnumerator RegenerateStamina() 
+    public bool HealByItem(int amount)
+    {
+        if (currentHealth == maxHealth)
+            return false;
+
+        currentHealth += amount;
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
+        OnHeal?.Invoke(currentHealth, maxHealth);
+        return true;
+    }
+
+    private IEnumerator RegenerateStamina()
     {
 
         yield return new WaitForSeconds(timeBeforeStaminaRegenStarts);
         WaitForSeconds timeToWait = new WaitForSeconds(staminaTimeIncrement);
 
-        while(currentStamina < maxStamina) 
+        while (currentStamina < maxStamina)
         {
-            if(currentStamina > 0)
+            if (currentStamina > 0)
                 CanSprint = true;
 
             currentStamina += staminaValueIncrement;
@@ -310,6 +336,7 @@ public class PlayerMove : MonoBehaviour
         //TO DO: limit player's movements while in mid-air
 
         float speed = (isCrouching ? CrouchSpeed : (IsSprinting ? SprintSpeed : WalkSpeed));
+        int eqWeight = itemHandler.inventory.GetEquipmentWeight();
 
         if (!characterController.isGrounded)
             moveDirection.y -= Gravity * Time.deltaTime;
@@ -325,6 +352,13 @@ public class PlayerMove : MonoBehaviour
             moveDirection += slopeDirection * (angleMultiplier * SlopeSlideSpeed);
         }
 
+        if (eqWeight > 0)
+        {
+            eqWeight = Math.Min(eqWeight, MaxWeightAffectingSpeed);
+            float weightMultiplier = 1.0f - (0.25f * (float)eqWeight / (float)MaxWeightAffectingSpeed);
+            speed *= weightMultiplier;
+        }
+
         Vector3 moveVector = new Vector3(
             moveDirection.x * speed,
             moveDirection.y * WalkSpeed, //so the player always jump the same height
@@ -336,17 +370,17 @@ public class PlayerMove : MonoBehaviour
 
     private void moveTowardsTheGoal()
     {
-        if(playerPositions.Count() > 0)
+        if (playerPositions.Count() > 0)
         {
             PlayerAIMovement playerAIMovement = playerPositions[AICounter];
             float speed = (isCrouching ? CrouchSpeed : (IsSprinting ? SprintSpeed : WalkSpeed));
-            float distanceToTarget = 
+            float distanceToTarget =
                 //Vector3.Distance(transform.position, new Vector3(0.0f, transform.position.y, 0.0f)); 
-                Vector3.Distance(transform.position, new Vector3(playerAIMovement.x, transform.position.y, playerAIMovement.z)); 
+                Vector3.Distance(transform.position, new Vector3(playerAIMovement.x, transform.position.y, playerAIMovement.z));
 
             if (distanceToTarget > 0.1f)
             {
-                transform.position = 
+                transform.position =
                     //Vector3.MoveTowards(transform.position, new Vector3(0.0f, transform.position.y, 0.0f), speed * Time.deltaTime);
                     Vector3.MoveTowards(transform.position, new Vector3(playerAIMovement.x, transform.position.y, playerAIMovement.z), speed * Time.deltaTime);
             }
@@ -440,14 +474,11 @@ public class PlayerMove : MonoBehaviour
             if (useStamina)
                 HandleStamina();
 
-            if(inputController.GetCrouchInput())
-            {
-                Debug.Log("Crouched");
-            }
 
 
             ApplyFinalMovements();
-        } else if (AutoMove)
+        }
+        else if (AutoMove)
         {
             moveTowardsTheGoal();
             CurrentTarget = FindClosestVisibleTarget();
@@ -460,7 +491,9 @@ public class PlayerMove : MonoBehaviour
                     PlayerGunComponent.HandleShots();
                     PlayerGunComponent.shooting = false;
                 }
-            } else {
+            }
+            else
+            {
                 PlayerGunComponent.Reload();
             }
         }

@@ -21,6 +21,16 @@ public class InventoryObject : ScriptableObject
     {
         container.Clear();
     }
+
+    public int GetEquipmentWeight()
+    {
+        int weight = 0;
+        foreach( InventorySlot slot in container )
+        {
+            weight += slot.item.weight;
+        }
+        return weight;
+    }
 }
 
 [System.Serializable]

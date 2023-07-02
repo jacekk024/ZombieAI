@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class PlayerItemHandler : MonoBehaviour
@@ -16,6 +17,9 @@ public class PlayerItemHandler : MonoBehaviour
     Texture itemGrabCrosshair;
     [SerializeField]
     RawImage crosshairImage;
+
+    [SerializeField]
+    AudioClip itemPickupClip;
 
     public InventoryObject inventory;
 
@@ -32,6 +36,7 @@ public class PlayerItemHandler : MonoBehaviour
     GameObject lastLookedAtItem;
     InputController inputController;
     GameObject inventoryDisplay;
+    AudioSource PickUpAudio;
 
     //variables for controlling emission
     MeshRenderer mainRenderer;
@@ -43,6 +48,7 @@ public class PlayerItemHandler : MonoBehaviour
         inputController = GetComponent<InputController>();
         inventoryDisplay = GetComponentInChildren<DisplayInventory>().gameObject;
         inventoryDisplay.SetActive(false);
+        PickUpAudio = GetComponent<AudioSource>();
     }
 
     void PickUpItem()
@@ -58,6 +64,7 @@ public class PlayerItemHandler : MonoBehaviour
                     Destroy(lastLookedAtItem);
                     //Debug.Log("Player picked up 1 " + item.item.itemName);
                     interactable = false;
+                    PickUpAudio.PlayOneShot(itemPickupClip);
                 }
             }
         }
@@ -117,9 +124,12 @@ public class PlayerItemHandler : MonoBehaviour
 
     void HandleInventoryOpen()
     {
-        if(inputController.GetInventoryOpenInput())
+        bool enabled = inventoryDisplay.activeSelf;
+
+        //escape also closes inventory
+        if((enabled && Keyboard.current[Key.Escape].wasPressedThisFrame) || inputController.GetInventoryOpenInput())
         {
-            bool enabled = inventoryDisplay.activeSelf;
+            GameplaySettings.isInventoryOpen = !enabled;
             inventoryDisplay.SetActive(!enabled);
         }
     }

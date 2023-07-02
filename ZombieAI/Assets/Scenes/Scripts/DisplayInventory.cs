@@ -13,15 +13,18 @@ public class DisplayInventory : MonoBehaviour
     int xStart = -524;
     int yStart = 141;
 
+    List<GameObject> menuItemPrefabs = new List<GameObject>();
 
     TextMeshProUGUI nameText;
     TextMeshProUGUI descriptionText;
+    AudioSource ItemUseAudio;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         nameText = GameObject.Find("NameTMP").GetComponent<TextMeshProUGUI>();
         descriptionText = GameObject.Find("DescriptionTMP").GetComponent<TextMeshProUGUI>();
+        ItemUseAudio = GetComponent<AudioSource>();
     }
 
     public void UpdateItemText(string name, string description)
@@ -30,23 +33,67 @@ public class DisplayInventory : MonoBehaviour
         descriptionText.text = description;
     }
 
+    void ResetText()
+    {
+        UpdateItemText("", "");
+    }
 
     void Display()
     {
+        foreach(var item in menuItemPrefabs)
+        {
+            Destroy(item);
+        }
+        menuItemPrefabs.Clear();
+
         for(int i = 0; i < inventory.container.Count; i++) 
         {
             var slot = inventory.container[i];
-            var obj = Instantiate(slot.item.prefab, Vector3.zero, Quaternion.identity, transform);
+            var obj = Instantiate(slot.item.uiPrefab, Vector3.zero, Quaternion.identity, transform);
+            menuItemPrefabs.Add(obj);
             obj.GetComponent<RectTransform>().localPosition = GetPosition(i);
             var eventTrigger = obj.GetComponent<EventTrigger>();
             AddEventTriggerListener(
                 eventTrigger,
                 EventTriggerType.PointerEnter,
-                (eventData) => { UpdateItemText(slot.item.name, slot.item.description); });
+                (eventData) => { UpdateItemText(slot.item.itemName, slot.item.description); });
             AddEventTriggerListener(
                 eventTrigger,
                 EventTriggerType.PointerExit,
                 (eventData) => { UpdateItemText(string.Empty, string.Empty); });
+
+            AddEventTriggerListener(
+                eventTrigger,
+                EventTriggerType.PointerClick,
+                (eventData) =>
+                {
+                    PointerEventData data = eventData as PointerEventData;
+                    if(data.button == PointerEventData.InputButton.Left && data.clickCount == 2)
+                    {
+                        //use item
+                        if(slot.item.Use())
+                        {
+                            inventory.container.Remove(slot);
+                            ItemUseAudio.PlayOneShot(slot.item.clip);
+                            ResetText();
+                            Display();
+                        }
+                    }
+                    else if (data.button == PointerEventData.InputButton.Right)
+                    {
+                        //toss item
+                        var playerObj = GameObject.FindGameObjectWithTag("Player");
+                        var playerTransform = playerObj.transform;
+                        var itemPosition = playerTransform.position;
+                        itemPosition.y -= 0.5f;
+                        inventory.container.Remove(slot);
+                        ResetText();
+                        Display();
+                        Instantiate(slot.item.onGroundPrefab, itemPosition+(playerTransform.forward * 2), playerTransform.rotation);
+                    }
+                });
+
+
         }
     }
 
@@ -68,6 +115,7 @@ public class DisplayInventory : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         Time.timeScale = 0f;
+        ResetText();
         Display();
         
     }

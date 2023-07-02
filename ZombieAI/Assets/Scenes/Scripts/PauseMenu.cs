@@ -61,7 +61,7 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Keyboard.current[pauseMenuKey].wasPressedThisFrame)
+        if (!GameplaySettings.isInventoryOpen && Keyboard.current[pauseMenuKey].wasPressedThisFrame)
         {
             if(isPaused)
             {
@@ -84,6 +84,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0f;
         uiCanvas.SetActive(false);
         isPaused = true;
+        GameplaySettings.isPauseMenuOpen = true;
     }
 
     public void ResumeGame()
@@ -94,6 +95,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         uiCanvas.SetActive(true);
         isPaused = false;
+        GameplaySettings.isPauseMenuOpen = false;
     }
 
     public void ToggleFullscreen(bool isFullscreen)
