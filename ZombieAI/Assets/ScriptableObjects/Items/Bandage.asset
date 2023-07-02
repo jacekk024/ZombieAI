@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiPrefab: {fileID: 4889761668307836083, guid: 64b84b24815a0f74c86a34dcc59754f8,
     type: 3}
+  onGroundPrefab: {fileID: 3575462237842514522, guid: 6671dc8702383064db4400c1808e5e78,
+    type: 3}
   type: 1
   itemName: Bandage
   description: A piece of cloth that gently binds the wounds. It instantly replenishes

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiPrefab: {fileID: 4889761668307836083, guid: 64b84b24815a0f74c86a34dcc59754f8,
     type: 3}
+  onGroundPrefab: {fileID: 3575462237842514522, guid: bd62077c98fa3984bad7fa10549e0f30,
+    type: 3}
   type: 2
   itemName: Ammo Pack
   description: Packed with an assortment of high-caliber rounds and explosive ordnance,

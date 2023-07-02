@@ -68,10 +68,23 @@ public class DisplayInventory : MonoBehaviour
                     PointerEventData data = eventData as PointerEventData;
                     if(data.button == PointerEventData.InputButton.Left && data.clickCount == 2)
                     {
+                        //use item
                         slot.item.Use();
                         inventory.container.Remove(slot);
                         ResetText();
                         Display();
+                    }
+                    else if (data.button == PointerEventData.InputButton.Right)
+                    {
+                        //toss item
+                        var playerObj = GameObject.FindGameObjectWithTag("Player");
+                        var playerTransform = playerObj.transform;
+                        var itemPosition = playerTransform.position;
+                        itemPosition.y -= 0.5f;
+                        inventory.container.Remove(slot);
+                        ResetText();
+                        Display();
+                        Instantiate(slot.item.onGroundPrefab, itemPosition+(playerTransform.forward * 2), playerTransform.rotation);
                     }
                 });
 
