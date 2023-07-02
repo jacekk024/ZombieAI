@@ -99,6 +99,7 @@ public class PlayerMove : MonoBehaviour
 
     private Vector3 hitPointNormal;
     public GameOverScript GameOverScript;
+    private DateTime startTime = DateTime.Now;
 
     private bool IsSliding
     {
@@ -271,7 +272,7 @@ public class PlayerMove : MonoBehaviour
         if (regeneratingHealth != null)
             StopCoroutine(regeneratingHealth);
 
-        GameOverScript.EndGame();
+        GameOverScript.EndGame(DateTime.Now - startTime);
     }
 
     private IEnumerator RegenerateHealth()

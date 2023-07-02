@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,22 +11,15 @@ public class GameOverScript : MonoBehaviour
 
     [SerializeField] private EventSystem eventSystem;
     [SerializeField] private GameObject playerUI;
+    [SerializeField] private GameObject crosshairUI;
     [SerializeField] private TextMeshProUGUI finalScoreText = default;
 
-    private float Timer;
-
-    void Update()
-    { 
-      Timer += Time.deltaTime;      
-    }
-
-    public void UpdateScore(float currentTimerVal) 
+    public void UpdateScore(double currentTimerVal) 
     {
         finalScoreText.text =  Math.Round(currentTimerVal).ToString() + "sek";
     } 
 
-
-    public void EndGame() 
+    public void EndGame(TimeSpan timeSpan) 
     {
         gameObject.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
@@ -34,15 +27,19 @@ public class GameOverScript : MonoBehaviour
         playerUI.SetActive(false);
         eventSystem.SetSelectedGameObject(null);
         Time.timeScale = 0f;
-        UpdateScore(Timer);
+        UpdateScore(timeSpan.TotalSeconds);
+        crosshairUI.SetActive(false);
 
     }
-    public void RestartButton() 
+    public void RestartButton() // Nie lepiej reset sceny?
     {
         gameObject.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1f;
         playerUI.SetActive(true);
+        crosshairUI.SetActive(true);
+
+        // SceneManager.LoadScene("MainScene"); // Zostawiam na przyszłość
     }
 }
