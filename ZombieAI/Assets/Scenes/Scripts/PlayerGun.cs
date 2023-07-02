@@ -22,7 +22,7 @@ public class PlayerGun : MonoBehaviour
 
     public int bulletsLeft;
     private int bulletsLeftForSingleShot;
-    private int bulletsInInventory;
+    public int bulletsInInventory;
     public bool shooting;
     private bool readyToShoot;
     private bool reloading;

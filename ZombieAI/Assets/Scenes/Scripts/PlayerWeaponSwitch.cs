@@ -51,8 +51,8 @@ public class PlayerWeaponSwitch : MonoBehaviour
         { 
             GameObject.Find("WeaponNameTextUI").GetComponent<TextMeshProUGUI>().text = currentWeapon.GetComponent<PlayerGun>().Name;
             GameObject.Find("ActualAmmoUI").GetComponent<TextMeshProUGUI>().text = 
-                currentWeapon.GetComponent<PlayerGun>().bulletsLeft > 0 ? currentWeapon.GetComponent<PlayerGun>().bulletsLeft.ToString() : currentWeapon.GetComponent<PlayerGun>().MagazineSize.ToString();
-            GameObject.Find("EquipmentAmmoTextUI").GetComponent<TextMeshProUGUI>().text = currentWeapon.GetComponent<PlayerGun>().MagazineSize.ToString();
+                currentWeapon.GetComponent<PlayerGun>().bulletsLeft > 0 ? currentWeapon.GetComponent<PlayerGun>().bulletsLeft.ToString() : currentWeapon.GetComponent<PlayerGun>().bulletsInInventory.ToString();
+            GameObject.Find("EquipmentAmmoTextUI").GetComponent<TextMeshProUGUI>().text = currentWeapon.GetComponent<PlayerGun>().bulletsInInventory.ToString();
         } catch
         {
             GameObject.Find("WeaponNameTextUI").GetComponent<TextMeshProUGUI>().text = "Baseball bat";
