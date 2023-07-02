@@ -271,7 +271,7 @@ public class PlayerMove : MonoBehaviour
         if (regeneratingHealth != null)
             StopCoroutine(regeneratingHealth);
 
-        GameOverScript.Setup();
+        GameOverScript.EndGame();
     }
 
     private IEnumerator RegenerateHealth()

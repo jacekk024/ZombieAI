@@ -37,14 +37,12 @@ public class PauseMenu : MonoBehaviour
 
     private Resolution[] resolutions;
     private string[] qualityNames;
-
-
-    private bool isPaused;
+    public bool isPaused;
     
     public bool GamePaused
     {
         get { return isPaused; }
-        private set { isPaused = value; }
+        set { isPaused = value; }
     }
 
     // Start is called before the first frame update
