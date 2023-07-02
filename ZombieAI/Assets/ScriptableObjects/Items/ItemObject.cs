@@ -16,6 +16,7 @@ public abstract class ItemObject : ScriptableObject
     public GameObject uiPrefab;
     public GameObject onGroundPrefab;
     public ItemType type;
+    public AudioClip clip;
 
     [TextArea(1, 1)]
     public string itemName;
@@ -25,5 +26,6 @@ public abstract class ItemObject : ScriptableObject
 
     public int weight;
 
-    public abstract void Use();
+    public abstract bool Use();
+    
 }

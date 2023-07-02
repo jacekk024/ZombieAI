@@ -17,12 +17,14 @@ public class DisplayInventory : MonoBehaviour
 
     TextMeshProUGUI nameText;
     TextMeshProUGUI descriptionText;
+    AudioSource ItemUseAudio;
 
     // Start is called before the first frame update
     void Awake()
     {
         nameText = GameObject.Find("NameTMP").GetComponent<TextMeshProUGUI>();
         descriptionText = GameObject.Find("DescriptionTMP").GetComponent<TextMeshProUGUI>();
+        ItemUseAudio = GetComponent<AudioSource>();
     }
 
     public void UpdateItemText(string name, string description)
@@ -69,10 +71,13 @@ public class DisplayInventory : MonoBehaviour
                     if(data.button == PointerEventData.InputButton.Left && data.clickCount == 2)
                     {
                         //use item
-                        slot.item.Use();
-                        inventory.container.Remove(slot);
-                        ResetText();
-                        Display();
+                        if(slot.item.Use())
+                        {
+                            inventory.container.Remove(slot);
+                            ItemUseAudio.PlayOneShot(slot.item.clip);
+                            ResetText();
+                            Display();
+                        }
                     }
                     else if (data.button == PointerEventData.InputButton.Right)
                     {

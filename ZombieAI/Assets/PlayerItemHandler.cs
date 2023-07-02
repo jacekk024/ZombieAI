@@ -18,6 +18,9 @@ public class PlayerItemHandler : MonoBehaviour
     [SerializeField]
     RawImage crosshairImage;
 
+    [SerializeField]
+    AudioClip itemPickupClip;
+
     public InventoryObject inventory;
 
     bool interactable = false;
@@ -33,6 +36,7 @@ public class PlayerItemHandler : MonoBehaviour
     GameObject lastLookedAtItem;
     InputController inputController;
     GameObject inventoryDisplay;
+    AudioSource PickUpAudio;
 
     //variables for controlling emission
     MeshRenderer mainRenderer;
@@ -44,6 +48,7 @@ public class PlayerItemHandler : MonoBehaviour
         inputController = GetComponent<InputController>();
         inventoryDisplay = GetComponentInChildren<DisplayInventory>().gameObject;
         inventoryDisplay.SetActive(false);
+        PickUpAudio = GetComponent<AudioSource>();
     }
 
     void PickUpItem()
@@ -59,6 +64,7 @@ public class PlayerItemHandler : MonoBehaviour
                     Destroy(lastLookedAtItem);
                     //Debug.Log("Player picked up 1 " + item.item.itemName);
                     interactable = false;
+                    PickUpAudio.PlayOneShot(itemPickupClip);
                 }
             }
         }

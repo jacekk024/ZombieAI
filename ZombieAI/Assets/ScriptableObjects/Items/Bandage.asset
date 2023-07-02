@@ -17,6 +17,7 @@ MonoBehaviour:
   onGroundPrefab: {fileID: 3575462237842514522, guid: 6671dc8702383064db4400c1808e5e78,
     type: 3}
   type: 1
+  clip: {fileID: 8300000, guid: 65a0b7793ac8d2f47ade3ac608953ac6, type: 3}
   itemName: Bandage
   description: A piece of cloth that gently binds the wounds. It instantly replenishes
     the character's health.

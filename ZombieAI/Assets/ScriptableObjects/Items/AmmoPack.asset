@@ -17,6 +17,7 @@ MonoBehaviour:
   onGroundPrefab: {fileID: 3575462237842514522, guid: bd62077c98fa3984bad7fa10549e0f30,
     type: 3}
   type: 2
+  clip: {fileID: 8300000, guid: 65e29c868bb066649b738cdcace739b4, type: 3}
   itemName: Ammo Pack
   description: Packed with an assortment of high-caliber rounds and explosive ordnance,
     this essential item ensures you never run dry in the heat of battle. Contains

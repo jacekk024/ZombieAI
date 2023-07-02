@@ -69,6 +69,9 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private Transform CurrentTarget;
     [SerializeField] internal PlayerGun PlayerGunComponent;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioClip HurtClip;
+
     public List<Transform> targets = new List<Transform>();
 
     [Serializable]
@@ -87,6 +90,7 @@ public class PlayerMove : MonoBehaviour
     private Camera playerCamera;
     private InputController inputController;
     private PlayerItemHandler itemHandler;
+    private AudioSource audioSource;
 
     private bool ShouldJump => inputController.GetJumpInput() && characterController.isGrounded && !isCrouching;
     private bool ShouldCrouch => inputController.GetCrouchInput() && !duringCrouchAnimation && characterController.isGrounded;
@@ -151,6 +155,7 @@ public class PlayerMove : MonoBehaviour
         PlayerGunComponent = GameObject.FindGameObjectWithTag("Gun").GetComponent<PlayerGun>();
         inputController = GetComponent<InputController>();
         itemHandler = GetComponent<PlayerItemHandler>();
+        audioSource = GetComponent<AudioSource>();
         currentHealth = maxHealth;
         currentStamina = maxStamina;
     }
@@ -248,6 +253,7 @@ public class PlayerMove : MonoBehaviour
     private void ApplyDamage(float dmg)
     {
         currentHealth -= dmg;
+        audioSource.PlayOneShot(HurtClip);
         OnDamage?.Invoke(currentHealth, maxHealth);
 
         if (currentHealth <= 0)
@@ -287,8 +293,11 @@ public class PlayerMove : MonoBehaviour
         regeneratingHealth = null;
     }
 
-    public void HealByItem(int amount)
+    public bool HealByItem(int amount)
     {
+        if (currentHealth == maxHealth)
+            return false;
+
         currentHealth += amount;
         if (currentHealth > maxHealth)
         {
@@ -296,6 +305,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         OnHeal?.Invoke(currentHealth, maxHealth);
+        return true;
     }
 
     private IEnumerator RegenerateStamina()

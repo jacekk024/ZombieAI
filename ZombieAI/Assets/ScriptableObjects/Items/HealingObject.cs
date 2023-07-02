@@ -7,11 +7,15 @@ public class HealingObject : ItemObject
 {
     public int restoreHealthValue;
 
-    public override void Use()
+    public override bool Use()
     {
         var playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>();
-        playerMove.HealByItem(restoreHealthValue);
-        Debug.Log("U¿y³em banda¿u");
+        if(playerMove.HealByItem(restoreHealthValue))
+        {
+            Debug.Log("U¿y³em banda¿u");
+            return true;
+        }
+        return false;
     }
 
     private void Awake()

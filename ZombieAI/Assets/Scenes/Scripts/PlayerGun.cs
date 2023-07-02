@@ -33,6 +33,10 @@ public class PlayerGun : MonoBehaviour
     [SerializeField] private GameObject BulletHole;
     [SerializeField] private UI uiGun;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioClip shootClip;
+    [SerializeField] private AudioClip reloadClip;
+
     [Header("AI Collider Values")]
     [SerializeField] public GameObject projectilePrefab;
     [SerializeField] public float projectileSpeed = 20f;
@@ -43,6 +47,7 @@ public class PlayerGun : MonoBehaviour
     private PlayerMove playerMove;
     private PlayerItemHandler playerItemHandler;
     private Camera playerCamera;
+    private AudioSource GunAudioSource;
 
     private bool ShouldReload => inputController.GetReloadInput() && bulletsLeft < MagazineSize && !reloading;
     private bool ShouldShoot => readyToShoot && shooting && !reloading && bulletsLeft > 0;
@@ -55,7 +60,7 @@ public class PlayerGun : MonoBehaviour
         playerMove = GetComponentInParent<PlayerMove>();
         playerItemHandler = GetComponentInParent<PlayerItemHandler>();
         playerCamera = GetComponentInParent<Camera>();
-
+        GunAudioSource = GetComponent<AudioSource>();
     }
 
     private void Awake()
@@ -113,6 +118,7 @@ public class PlayerGun : MonoBehaviour
     public void Reload()
     {
         reloading = true;
+        GunAudioSource.PlayOneShot(reloadClip);
         Invoke(nameof(ReloadFinished), ReloadTime);
     }
 
@@ -145,6 +151,7 @@ public class PlayerGun : MonoBehaviour
 
         Vector3 shotDirection = playerCamera.transform.forward + new Vector3(x, y, z);
 
+        GunAudioSource.PlayOneShot(shootClip);
         GameObject projectile = Instantiate(projectilePrefab, playerCamera.transform.position, Quaternion.identity);
         Rigidbody projectileRigidbody = projectile.GetComponent<Rigidbody>();
         projectileRigidbody.velocity = shotDirection * projectileSpeed;

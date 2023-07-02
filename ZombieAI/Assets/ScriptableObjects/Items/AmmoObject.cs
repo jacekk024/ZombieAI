@@ -7,12 +7,14 @@ public class AmmoObject : ItemObject
 {
     public int ammoToRestore;
 
-    public override void Use()
+    public override bool Use()
     {
         var player = GameObject.FindGameObjectWithTag("Player");
         var playerGun = player.GetComponentInChildren<PlayerGun>();
         playerGun.AddAmmoByItem(ammoToRestore);
         Debug.Log("U¿y³em amunicji");
+
+        return true;
     }
 
     private void Awake()
