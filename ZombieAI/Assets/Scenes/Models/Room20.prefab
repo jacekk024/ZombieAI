@@ -167,6 +167,11 @@ MonoBehaviour:
   east: 0
   south: 1
   west: 0
+  door1: 0
+  door2: 0
+  door3: 0
+  door4: 0
+  openCenter: 1
 --- !u!1 &9162632334001400410
 GameObject:
   m_ObjectHideFlags: 0

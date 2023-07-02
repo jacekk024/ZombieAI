@@ -230,6 +230,11 @@ MonoBehaviour:
   east: 1
   south: 0
   west: 1
+  door1: 0
+  door2: 0
+  door3: 0
+  door4: 0
+  openCenter: 1
 --- !u!1001 &7393161546463069153
 PrefabInstance:
   m_ObjectHideFlags: 0

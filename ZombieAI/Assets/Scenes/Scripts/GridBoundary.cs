@@ -20,7 +20,7 @@ public class GridBoundary : MonoBehaviour
         boundaryCollider.size = new Vector3(gridWorldSize.x, 1, gridWorldSize.y);
 
         heatmap.transform.localScale = new Vector3(gridSize.x * 4.2f, 1.0f, gridSize.y * 4.2f);
-        heatmap.transform.position = new Vector3(sizeOfGrid * -1, 0, sizeOfGrid * -1);
+        heatmap.transform.position = new Vector3(sizeOfGrid * -1, 20.0f, sizeOfGrid * -1);
         heatmap.GetComponent<RaycastGradient>().minX = (sizeOfGrid * gridSize.x * -1) - sizeOfGrid;
         heatmap.GetComponent<RaycastGradient>().minZ = (sizeOfGrid * gridSize.y * -1) - sizeOfGrid;
         heatmap.GetComponent<RaycastGradient>().maxX = (sizeOfGrid * gridSize.x) - sizeOfGrid;

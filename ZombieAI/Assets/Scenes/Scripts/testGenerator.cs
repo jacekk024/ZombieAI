@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class testGenerator : MonoBehaviour
 {
@@ -11,6 +9,7 @@ public class testGenerator : MonoBehaviour
     public Vector2 gridSize;
     public int numberOfRooms;
     public GameObject player;
+    public GameObject door;
 
     private Vector2 gridWorldSize;
     private openDoors[,] grid;
@@ -39,23 +38,33 @@ public class testGenerator : MonoBehaviour
 
             if (counterRooms > 100) break;
         }
+
+        createEndDoors();
     }
 
     void GenerateNavMesh()
     {
         GameObject[] floors = GameObject.FindGameObjectsWithTag("Ground");
 
+        NavMeshSurface surface = floors.First().AddComponent<NavMeshSurface>();
+        surface.layerMask = LayerMask.GetMask("Ground");
+        surfaces.Add(surface);
+
+        surface.BuildNavMesh();
+
+        /*
+        Zostawiam na później, gdyby coś się stało.
         foreach (GameObject floor in floors)
         {
             NavMeshSurface surface = floor.AddComponent<NavMeshSurface>();
             surface.layerMask = LayerMask.GetMask("Ground");
             surfaces.Add(surface);
         }
-
+        
         foreach (NavMeshSurface surface in surfaces)
         {
             surface.BuildNavMesh();
-        }
+        }*/
     }
 
     public void RegenerateMap()
@@ -70,12 +79,14 @@ public class testGenerator : MonoBehaviour
     void CreateStartingRoom()
     {
         Vector2 startPos = new Vector2((int)gridSize.x / 2, (int)gridSize.y / 2);
-        GameObject startingRoomObj = Instantiate(rooms[Random.Range(0, rooms.Length)], CoordToPosition(startPos), Quaternion.identity);
+        GameObject[] avaRooms = rooms.Where(x => x.GetComponent<openDoors>().openCenter == false).ToArray();
+        GameObject startingRoomObj = Instantiate(avaRooms[Random.Range(0, avaRooms.Length)], CoordToPosition(startPos), Quaternion.identity);
         openDoors startingRoom = startingRoomObj.GetComponent<openDoors>();
 
         startingRoom.name = "StartRoom";
-        startingRoom.gridPos = startPos;
-        player.transform.position = new Vector3((gridSize.x / 2) - 1, player.transform.position.y, (gridSize.y / 2) - 1) ;
+        startingRoom.gridPos = startPos; 
+        player.transform.position = 
+            new Vector3(-21.0f, player.transform.position.y, -21.0f) ;
 
         grid[(int)startPos.x, (int)startPos.y] = startingRoom;
         activeRooms.Add(startingRoom);
@@ -170,21 +181,33 @@ public class testGenerator : MonoBehaviour
         newRoom.south = newAvaibleDoors[2];
         newRoom.west = newAvaibleDoors[3];
 
-        if (newRoom.gridPos.y + 1 >= gridSize.y) newRoom.north = false;
-        else if(grid[(int)newRoom.gridPos.x, (int)newRoom.gridPos.y + 1] != null)
+        if (newRoom.gridPos.y + 1 >= gridSize.y)
+        {
+            newRoom.north = false;
+            newRoom.door1 = true;
+        }
+        else if (grid[(int)newRoom.gridPos.x, (int)newRoom.gridPos.y + 1] != null)
         {
             newRoom.north = false;
             activeRooms.Where(x => x.gridPos.x == newPos.x && x.gridPos.y == (newPos.y + 1)).First().south = false;
         }
 
-        if (newRoom.gridPos.x + 1 >= gridSize.x) newRoom.east = false;
+        if (newRoom.gridPos.x + 1 >= gridSize.x)
+        {
+            newRoom.east = false;
+            newRoom.door2 = true;
+        }
         else if (grid[(int)newRoom.gridPos.x + 1, (int)newRoom.gridPos.y] != null)
         {
             newRoom.east = false;
             activeRooms.Where(x => x.gridPos.x == (newPos.x + 1) && x.gridPos.y == newPos.y).First().west = false;
         }
 
-        if (newRoom.gridPos.y - 1 < 0) newRoom.south = false;
+        if (newRoom.gridPos.y - 1 < 0)
+        {
+            newRoom.south = false;
+            newRoom.door3 = true;
+        }
         else if (grid[(int)newRoom.gridPos.x, (int)newRoom.gridPos.y - 1] != null)
         {
             newRoom.south = false;
@@ -192,7 +215,10 @@ public class testGenerator : MonoBehaviour
         }
 
         if (newRoom.gridPos.x - 1 < 0)
+        {
             newRoom.west = false;
+            newRoom.door4 = true;
+        }
         else if (grid[(int)newRoom.gridPos.x - 1, (int)newRoom.gridPos.y] != null)
         {
             newRoom.west = false;
@@ -203,6 +229,126 @@ public class testGenerator : MonoBehaviour
         activeRooms.Add(newRoom);
 
         return true;
+    }
+
+    private void createEndDoors()
+    {
+        foreach(var room in activeRooms) { 
+            if(room.north || room.door1) {
+                var doorToAdd = Instantiate(door, transform.position, transform.rotation);
+                doorToAdd.transform.SetParent(room.transform); 
+                doorToAdd.transform.position = new Vector3(room.transform.position.x - 3.0f, 1.0f, room.transform.position.z + 21.0f); 
+
+                switch (room.transform.rotation.eulerAngles.y)
+                {
+                    case 270.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 180, 0);
+                        break;
+                    case 180.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 270, 0);
+                        break;
+                    case 90.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                        break;
+                    case 0.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 90, 0);
+                        break;
+                    default:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                        break;
+                }
+
+                room.north = false; 
+                room.door1 = false;
+            }
+
+            if (room.east || room.door2)
+            {
+                var doorToAdd = Instantiate(door, transform.position, transform.rotation);
+                doorToAdd.transform.SetParent(room.transform);
+                doorToAdd.transform.position = new Vector3(room.transform.position.x + 21.0f, 1.0f, room.transform.position.z - 3.0f);
+
+                switch (room.transform.rotation.eulerAngles.y)
+                {
+                    case 270.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 90, 0);
+                        break;
+                    case 180.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 180, 0);
+                        break;
+                    case 90.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 270, 0);
+                        break;
+                    case 0.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                        break;
+                    default:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                        break;
+                }
+
+                room.east = false;
+                room.door2 = false;
+            }
+
+            if (room.south || room.door3)
+            {
+                var doorToAdd = Instantiate(door, transform.position, transform.rotation);
+                doorToAdd.transform.SetParent(room.transform);
+                doorToAdd.transform.position = new Vector3(room.transform.position.x - 3.0f, 1.0f, room.transform.position.z - 21.0f);
+
+                switch (room.transform.rotation.eulerAngles.y)
+                {
+                    case 270.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 180, 0);
+                        break;
+                    case 180.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 270, 0);
+                        break;
+                    case 90.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                        break;
+                    case 0.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 90, 0);
+                        break;
+                    default:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                        break;
+                }
+
+                room.south = false;
+                room.door3 = false;
+            }
+
+            if (room.west || room.door4)
+            {
+                var doorToAdd = Instantiate(door, transform.position, transform.rotation);
+                doorToAdd.transform.SetParent(room.transform);
+                doorToAdd.transform.position = new Vector3(room.transform.position.x - 21.0f, 1.0f, room.transform.position.z - 3.0f);
+
+                switch (room.transform.rotation.eulerAngles.y)
+                {
+                    case 270.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 90, 0);
+                        break;
+                    case 180.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 180, 0);
+                        break;
+                    case 90.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 270, 0);
+                        break;
+                    case 0.0f:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                        break;
+                    default:
+                        doorToAdd.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                        break;
+                }
+
+                room.west = false;
+                room.door4 = false;
+            }
+        }
     }
 
     private bool[] updateDoors(openDoors room, int obrot)
