@@ -266,7 +266,7 @@ public class PlayerMove : MonoBehaviour
             StopCoroutine(regeneratingHealth);
 
        // print("Dead");
-        GameOverScript.Setup();
+        GameOverScript.EndGame();
     }
 
     private IEnumerator RegenerateHealth()
