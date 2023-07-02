@@ -13,6 +13,7 @@ public class DisplayInventory : MonoBehaviour
     int xStart = -524;
     int yStart = 141;
 
+    List<GameObject> menuItemPrefabs = new List<GameObject>();
 
     TextMeshProUGUI nameText;
     TextMeshProUGUI descriptionText;
@@ -32,16 +33,22 @@ public class DisplayInventory : MonoBehaviour
 
     void ResetText()
     {
-        nameText.text = "";
-        descriptionText.text = "";
+        UpdateItemText("", "");
     }
 
     void Display()
     {
+        foreach(var item in menuItemPrefabs)
+        {
+            Destroy(item);
+        }
+        menuItemPrefabs.Clear();
+
         for(int i = 0; i < inventory.container.Count; i++) 
         {
             var slot = inventory.container[i];
             var obj = Instantiate(slot.item.uiPrefab, Vector3.zero, Quaternion.identity, transform);
+            menuItemPrefabs.Add(obj);
             obj.GetComponent<RectTransform>().localPosition = GetPosition(i);
             var eventTrigger = obj.GetComponent<EventTrigger>();
             AddEventTriggerListener(
@@ -52,6 +59,23 @@ public class DisplayInventory : MonoBehaviour
                 eventTrigger,
                 EventTriggerType.PointerExit,
                 (eventData) => { UpdateItemText(string.Empty, string.Empty); });
+
+            AddEventTriggerListener(
+                eventTrigger,
+                EventTriggerType.PointerClick,
+                (eventData) =>
+                {
+                    PointerEventData data = eventData as PointerEventData;
+                    if(data.button == PointerEventData.InputButton.Left && data.clickCount == 2)
+                    {
+                        slot.item.Use();
+                        inventory.container.Remove(slot);
+                        ResetText();
+                        Display();
+                    }
+                });
+
+
         }
     }
 

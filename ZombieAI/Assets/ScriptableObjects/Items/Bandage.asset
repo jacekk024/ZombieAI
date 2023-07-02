@@ -19,4 +19,4 @@ MonoBehaviour:
   description: A piece of cloth that gently binds the wounds. It instantly replenishes
     the character's health.
   weight: 5
-  restoreHealthValue: 15
+  restoreHealthValue: 25

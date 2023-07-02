@@ -9,4 +9,9 @@ public class DefaultObject : ItemObject
     {
         type = ItemType.Default;
     }
+
+    public override void Use()
+    {
+
+    }
 }

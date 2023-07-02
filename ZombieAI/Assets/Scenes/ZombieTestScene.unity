@@ -12594,7 +12594,7 @@ GameObject:
   - component: {fileID: 816166912}
   m_Layer: 11
   m_Name: Player
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14704,10 +14704,11 @@ MonoBehaviour:
   SprintSpeed: 18
   CrouchSpeed: 4
   SlopeSlideSpeed: 10
+  MaxWeightAffectingSpeed: 50
   maxHealth: 100
-  timeBeforeRegenStarts: 3
+  timeBeforeRegenStarts: 5
   healthValueIncrement: 1
-  healthTimeIncrement: 0.1
+  healthTimeIncrement: 5
   maxStamina: 100
   staminaUseMultiplier: 5
   timeBeforeStaminaRegenStarts: 5
@@ -22565,6 +22566,7 @@ MonoBehaviour:
   healthText: {fileID: 81590074}
   staminaText: {fileID: 70470638}
   ammunitionText: {fileID: 199681902}
+  equipmentAmmunitionText: {fileID: 1654276998}
   staminaClawUI: {fileID: 2634814}
   HPBarUI: {fileID: 246143012}
 --- !u!114 &1490526367
@@ -25068,6 +25070,7 @@ MonoBehaviour:
   BulletsShotAtOnce: 1
   TimeBetweenShots: 0
   MagazineSize: 30
+  StartingEquipmentBullets: 60
   ShotSpread: 0.02
   SpreadWalkingMultiplier: 1.1
   SpreadSprintingMultiplier: 1.4
@@ -25380,8 +25383,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

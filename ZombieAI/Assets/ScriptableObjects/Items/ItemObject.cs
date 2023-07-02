@@ -23,4 +23,6 @@ public abstract class ItemObject : ScriptableObject
     public string description;
 
     public int weight;
+
+    public abstract void Use();
 }

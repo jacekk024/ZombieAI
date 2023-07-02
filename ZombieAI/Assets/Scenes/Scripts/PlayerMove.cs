@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.UI;
@@ -284,6 +285,17 @@ public class PlayerMove : MonoBehaviour
         }
 
         regeneratingHealth = null;
+    }
+
+    public void HealByItem(int amount)
+    {
+        currentHealth += amount;
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
+        OnHeal?.Invoke(currentHealth, maxHealth);
     }
 
     private IEnumerator RegenerateStamina()

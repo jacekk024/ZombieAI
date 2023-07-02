@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,12 +14,14 @@ public class PlayerGun : MonoBehaviour
     [SerializeField] private int BulletsShotAtOnce = 1;
     [SerializeField] private float TimeBetweenShots = 0;
     [SerializeField] private int MagazineSize = 30;
+    [SerializeField] private int StartingEquipmentBullets = 60;
     [SerializeField] private float ShotSpread = 0.02f;
     [SerializeField] private float SpreadWalkingMultiplier = 1.1f;
     [SerializeField] private float SpreadSprintingMultiplier = 1.4f;
 
     private int bulletsLeft;
     private int bulletsLeftForSingleShot;
+    private int bulletsInInventory;
     public bool shooting;
     private bool readyToShoot;
     private bool reloading;
@@ -48,17 +51,22 @@ public class PlayerGun : MonoBehaviour
 
     void Start()
     {
-        uiGun = GameObject.Find("Canvas").GetComponent<UI>();
         inputController = GetComponentInParent<InputController>();
         playerMove = GetComponentInParent<PlayerMove>();
         playerItemHandler = GetComponentInParent<PlayerItemHandler>();
         playerCamera = GetComponentInParent<Camera>();
+
     }
 
     private void Awake()
     {
+        uiGun = GameObject.Find("Canvas").GetComponent<UI>();
         bulletsLeft = MagazineSize;
         readyToShoot = true;
+        bulletsInInventory = StartingEquipmentBullets;
+
+        uiGun.UpdateAmmunition(bulletsLeft);
+        uiGun.UpdateEquipmentAmmunition(bulletsInInventory);
     }
 
     void Update()
@@ -110,9 +118,19 @@ public class PlayerGun : MonoBehaviour
 
     private void ReloadFinished()
     {
-        bulletsLeft = MagazineSize;
+        int bulletsToLoad = Math.Min(MagazineSize, bulletsInInventory) - bulletsLeft;
+
+        bulletsLeft += bulletsToLoad;
+        bulletsInInventory -= bulletsToLoad;
         reloading = false;
         uiGun.UpdateAmmunition(bulletsLeft);
+        uiGun.UpdateEquipmentAmmunition(bulletsInInventory);
+    }
+
+    public void AddAmmoByItem(int amount)
+    {
+        bulletsInInventory += amount;
+        uiGun.UpdateEquipmentAmmunition(bulletsInInventory);
     }
 
     private void Shoot()
@@ -121,9 +139,9 @@ public class PlayerGun : MonoBehaviour
         readyToShoot = false;
 
         //Spread
-        float x = Random.Range(-spread, spread);
-        float y = Random.Range(-spread, spread);
-        float z = Random.Range(-spread, spread);
+        float x = UnityEngine.Random.Range(-spread, spread);
+        float y = UnityEngine.Random.Range(-spread, spread);
+        float z = UnityEngine.Random.Range(-spread, spread);
 
         Vector3 shotDirection = playerCamera.transform.forward + new Vector3(x, y, z);
 
