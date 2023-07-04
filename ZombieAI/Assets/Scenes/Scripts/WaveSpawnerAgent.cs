@@ -12,6 +12,7 @@ public class WaveSpawnerAgent : Agent
     [SerializeField] public int limitZombieToSpawn = 5;
     [SerializeField] public int zombieCounter = 0;
     [SerializeField] public bool isLearning = false;
+    [SerializeField] public bool isHeatmapOn = false;
     [SerializeField] public float minimumSafeDistance = 5.0f;
     [SerializeField] public float maximumRewardDistance = 20.0f;
 
@@ -70,7 +71,11 @@ public class WaveSpawnerAgent : Agent
             //string colliderTag = waveSpawner.ColliderBetweenObjAndPlayer(spawnPosition); // Tutaj wywala, trzeba ochronić
 
             // Debug.Log("X: " + spawnPosition.x + ", Z: " + spawnPosition.z); // Zostawiam do debugowania 
-            GameObject.Find("Heatmap").GetComponent<RaycastGradient>().UpdateHeatTexture(spawnPosition.x, spawnPosition.z);
+
+            if(isHeatmapOn) // Update heatmapy powodował lagi. Heatmapa służy tylko do analizy, nie jest częścią gameplayu.
+                GameObject.Find("Heatmap").GetComponent<RaycastGradient>().UpdateHeatTexture(spawnPosition.x, spawnPosition.z);
+
+
             GameObject go = Instantiate(zombiePrefab, spawnPosition, Quaternion.identity);
             player.GetComponent<PlayerMove>().AddTarget(go.transform);
             //ValidationPosition(spawnPosition, colliderTag); // Tutaj wywala, trzeba ochronić, wywoływane przez colliderTag
