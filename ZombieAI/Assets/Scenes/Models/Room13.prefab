@@ -120,7 +120,7 @@ Transform:
   - {fileID: 391468582307928977}
   - {fileID: 391468580553610327}
   m_Father: {fileID: 5340582070348675866}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5340582069950304373
 GameObject:
@@ -194,6 +194,7 @@ Transform:
   - {fileID: 5340582069050376683}
   - {fileID: 5340582069124751328}
   - {fileID: 5340582069950304372}
+  - {fileID: 99493192943774261}
   - {fileID: 5340582069555748028}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -215,6 +216,37 @@ MonoBehaviour:
   east: 0
   south: 0
   west: 1
+--- !u!1 &6763590170347599835
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 99493192943774261}
+  m_Layer: 0
+  m_Name: Props_Room13
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &99493192943774261
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6763590170347599835}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5340582070348675866}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5340582068553076804
 PrefabInstance:
   m_ObjectHideFlags: 0
