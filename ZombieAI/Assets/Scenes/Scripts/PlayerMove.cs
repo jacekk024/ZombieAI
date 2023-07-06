@@ -2,9 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using UnityEditor.U2D;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class PlayerMove : MonoBehaviour
@@ -63,10 +62,13 @@ public class PlayerMove : MonoBehaviour
 
     [Header("AI Movement")]
     [SerializeField] PlayerAIMovement[] playerPositions;
+    [SerializeField] private Vector3 AutoMoveGoal;
+    [SerializeField] private bool GenerateNewPosition = true;
     [SerializeField] private bool AutoMove = false;
     [SerializeField] private bool AutoShoot = false;
     [SerializeField] private float FieldOfView = 45f;
     [SerializeField] private Transform CurrentTarget;
+    [SerializeField] private NavMeshAgent PlayerAgent;
     [SerializeField] internal PlayerGun PlayerGunComponent;
 
     [Header("Sounds")]
@@ -153,12 +155,15 @@ public class PlayerMove : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         playerCamera = GetComponentInChildren<Camera>();
-        PlayerGunComponent = GameObject.FindGameObjectWithTag("Gun").GetComponent<PlayerGun>();
         inputController = GetComponent<InputController>();
         itemHandler = GetComponent<PlayerItemHandler>();
         audioSource = GetComponent<AudioSource>();
         currentHealth = maxHealth;
         currentStamina = maxStamina;
+        PlayerAgent = gameObject.GetComponent<NavMeshAgent>();
+
+        if (AutoMove)
+            PlayerAgent.enabled = true;
     }
 
     private void UpdateAxises()
@@ -272,7 +277,8 @@ public class PlayerMove : MonoBehaviour
         if (regeneratingHealth != null)
             StopCoroutine(regeneratingHealth);
 
-        GameOverScript.EndGame(DateTime.Now - startTime);
+        if(!AutoMove)
+            GameOverScript.EndGame(DateTime.Now - startTime);
     }
 
     private IEnumerator RegenerateHealth()
@@ -397,6 +403,26 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    private void playerAutoMove()
+    {
+        if (GenerateNewPosition)  // Można to potem skrócić, na razie zostawiam coordynaty do debugowania w inspektorze
+        {
+            AutoMoveGoal = getNewAutoMoveGoal();
+            this.gameObject.GetComponent<NavMeshAgent>().SetDestination(AutoMoveGoal);
+            GenerateNewPosition = false;
+        }
+    }
+
+    private Vector3 getNewAutoMoveGoal()
+    {
+        var avaRooms = GameObject.Find("MapGenerator").GetComponent<testGenerator>().activeRooms;
+        var room = avaRooms[UnityEngine.Random.Range(0, avaRooms.Count())];
+        int[] yn = { 1, -1 };
+        return new Vector3(room.transform.position.x + 22.0f + 22.0f * UnityEngine.Random.Range(0, yn.Length)
+                          , 1.0f
+                          , room.transform.position.z + 22.0f + 22.0f * UnityEngine.Random.Range(0, yn.Length));
+    }
+
     bool CanSeeTarget(Transform target)
     {
         Vector3 directionToTarget = target.position - transform.position;
@@ -407,7 +433,7 @@ public class PlayerMove : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(transform.position, directionToTarget, out hit))
             {
-                if (hit.collider.transform == target)
+                if (hit.collider.tag == "Enemy")
                 {
                     return true;
                 }
@@ -421,11 +447,15 @@ public class PlayerMove : MonoBehaviour
     {
         Vector3 directionToTarget = target.position - transform.position;
 
-        //Poprawka ze względu, że obiekt jest liczony od samego spodu
-        directionToTarget.y += 0.5f;
+        directionToTarget.y -= 0.5f;
 
         Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
         transform.rotation = Quaternion.Slerp(targetRotation, transform.rotation, Time.deltaTime);
+
+        /*Debug.Log("PLAYER ROTATION X: " + transform.eulerAngles.x + " Y: " + transform.eulerAngles.y + " Z: " + transform.eulerAngles.z);
+        Debug.Log("PLAYER POSITION X: " + transform.position.x + " Y: " + transform.position.y + " Z: " + transform.position.z);
+        Debug.Log("TARGET ROTATION X: " + targetRotation.x + " Y: " + targetRotation.y + " Z: " + targetRotation.z);
+        Debug.Log("TARGET ROTATION X: " + target.position.x + " Y: " + target.position.y + " Z: " + target.position.z);*/
     }
 
     public void AddTarget(Transform target)
@@ -452,6 +482,7 @@ public class PlayerMove : MonoBehaviour
         foreach (Transform target in targets)
         {
             float distance = Vector3.Distance(target.position, transform.position);
+
             if (distance < closestDistance && CanSeeTarget(target))
             {
                 closestTarget = target;
@@ -475,14 +506,23 @@ public class PlayerMove : MonoBehaviour
             if (useStamina)
                 HandleStamina();
 
-
-
             ApplyFinalMovements();
         }
         else if (AutoMove)
         {
-            moveTowardsTheGoal();
+            // moveTowardsTheGoal();
+
+            if (!PlayerAgent.pathPending)
+            {
+                if (PlayerAgent.remainingDistance <= PlayerAgent.stoppingDistance)
+                {
+                    GenerateNewPosition = true;
+                }
+            }
+
+            playerAutoMove();
             CurrentTarget = FindClosestVisibleTarget();
+
             if (AutoShoot && CurrentTarget != null)
             {
                 if (CanSeeTarget(CurrentTarget))
@@ -493,8 +533,10 @@ public class PlayerMove : MonoBehaviour
                     PlayerGunComponent.shooting = false;
                 }
             }
-            else
+
+            if(PlayerGunComponent.bulletsLeft == 0 && !PlayerGunComponent.reloading)
             {
+                PlayerGunComponent.bulletsInInventory = 60;
                 PlayerGunComponent.Reload();
             }
         }

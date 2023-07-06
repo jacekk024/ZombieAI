@@ -25,7 +25,7 @@ public class PlayerGun : MonoBehaviour
     public int bulletsInInventory;
     public bool shooting;
     private bool readyToShoot;
-    private bool reloading;
+    public bool reloading;
     private bool allowInvoke;
 
     [Header("References")]
@@ -39,9 +39,10 @@ public class PlayerGun : MonoBehaviour
     [SerializeField] private AudioClip reloadClip;
 
     [Header("AI Collider Values")]
-    [SerializeField] public GameObject projectilePrefab;
-    [SerializeField] public float projectileSpeed = 20f;
-    [SerializeField] public float projectileLifetime = 5f;
+    // [SerializeField] public GameObject projectilePrefab;
+    // [SerializeField] public float projectileSpeed = 20f;
+    // [SerializeField] public float projectileLifetime = 5f;
+    [SerializeField] public bool showEffects = true;
 
     private RaycastHit rayHit;
     private InputController inputController;
@@ -153,10 +154,11 @@ public class PlayerGun : MonoBehaviour
         Vector3 shotDirection = playerCamera.transform.forward + new Vector3(x, y, z);
 
         GunAudioSource.PlayOneShot(shootClip);
-        GameObject projectile = Instantiate(projectilePrefab, playerCamera.transform.position, Quaternion.identity);
+
+        /*GameObject projectile = Instantiate(projectilePrefab, playerCamera.transform.position, Quaternion.identity);
         Rigidbody projectileRigidbody = projectile.GetComponent<Rigidbody>();
         projectileRigidbody.velocity = shotDirection * projectileSpeed;
-        Destroy(projectile, projectileLifetime);
+        Destroy(projectile, projectileLifetime);*/
 
         //Raycast shot
         if (Physics.Raycast(playerCamera.transform.position, shotDirection, out rayHit, Range, layerMask))
@@ -169,13 +171,17 @@ public class PlayerGun : MonoBehaviour
                 zombieController.TakeDamage(Damage);
             }
 
-            var bhGraphic = Instantiate(BulletHole, rayHit.point, Quaternion.FromToRotation(Vector3.forward, rayHit.normal), rayHit.transform);
-            Destroy(bhGraphic, 0.8f);
+            if (showEffects)
+            {
+                var bhGraphic = Instantiate(BulletHole, rayHit.point, Quaternion.FromToRotation(Vector3.forward, rayHit.normal), rayHit.transform);
+                Destroy(bhGraphic, 0.8f);
+            }
         }
-        var shotGraphic = Instantiate(MuzzleFlash, AttackPoint.position, Quaternion.identity, AttackPoint);
-        Destroy(shotGraphic, 0.2f);
-
-
+        if (showEffects)
+        {
+            var shotGraphic = Instantiate(MuzzleFlash, AttackPoint.position, Quaternion.identity, AttackPoint);
+            Destroy(shotGraphic, 0.2f);
+        }
         
         bulletsLeft--;
         bulletsLeftForSingleShot--;

@@ -227,9 +227,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridPos: {x: 0, y: 0}
   north: 1
-  east: 0
+  east: 1
   south: 1
   west: 0
+  door1: 0
+  door2: 0
+  door3: 0
+  door4: 0
+  openCenter: 0
 --- !u!1001 &93063188172188158
 PrefabInstance:
   m_ObjectHideFlags: 0

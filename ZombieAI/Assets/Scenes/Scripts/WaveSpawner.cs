@@ -6,11 +6,10 @@ public class WaveSpawner : MonoBehaviour
 {
     public GameObject zombieGameObject;
 
-    [SerializeField] public uint NoWave = 0;                               // Number of Wave
-    // [SerializeField][Range(1,120)] private float TimeOfWave;             // Do przemyślenia
-    [SerializeField][Range(1, 30)] private float TimeBetweenWaves = 5.0f;   // 
-    [SerializeField] public AvaStates State = AvaStates.Counting;           // State of generator waves (from AvaStates)
-    [SerializeField] public bool isLearning = false;                        // 
+    [SerializeField] public uint NoWave = 0;
+    [SerializeField][Range(1, 30)] private float TimeBetweenWaves = 5.0f;
+    [SerializeField] public AvaStates State = AvaStates.Counting;
+    [SerializeField] public bool isLearning = false;
     [SerializeField] public Agent agent;
 
     public ZombieType[] zombies;
@@ -61,7 +60,7 @@ public class WaveSpawner : MonoBehaviour
                 if (State != AvaStates.Spawning)
                 {
                     // Generuj zombie
-                    StartCoroutine(SpawnWave(zombies[NoWave])); // Argument jako losowy typ zombie?
+                    StartCoroutine(SpawnWave(zombies[Random.Range(0,zombies.Length)]));
                 }
             } else
             {
@@ -111,7 +110,7 @@ public class WaveSpawner : MonoBehaviour
         for (int i = 0; i <= _zombie.count; i++)
         {
             SpawnEnemy(_zombie.transform);
-            yield return new WaitForSeconds(1f / _zombie.rate);
+            // yield return new WaitForSeconds(1f / _zombie.rate); // Raczej nie potrzebne spowolnienie generowania zombie
         }
 
         State = AvaStates.Waiting;
@@ -154,7 +153,7 @@ public class WaveSpawner : MonoBehaviour
     internal string ColliderBetweenObjAndPlayer(Vector3 vector)
     {
         Physics.Linecast(vector, GameObject.FindGameObjectWithTag("Player").transform.position, out RaycastHit raycastHit);
-        // Debug.Log("Hit: " + raycastHit.transform.tag);
+        Debug.Log("Hit: " + raycastHit.transform.tag);
         return raycastHit.transform.tag;
     }
 }
