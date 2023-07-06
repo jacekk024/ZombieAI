@@ -22,7 +22,7 @@ public class GameOverScript : MonoBehaviour
 
     public void UpdateScore(float currentTimerVal) 
     {
-        finalScoreText.text =  Math.Round(currentTimerVal).ToString() + "sek";
+        finalScoreText.text =  Math.Round(currentTimerVal).ToString() + " sek";
     } 
 
 
