@@ -40,6 +40,6 @@ public class GameOverScript : MonoBehaviour
         playerUI.SetActive(true);
         crosshairUI.SetActive(true);
 
-        // SceneManager.LoadScene("MainScene"); // Zostawiam na przyszłość
+        SceneManager.LoadScene("MainScene"); // Zostawiam na przyszłość
     }
 }
