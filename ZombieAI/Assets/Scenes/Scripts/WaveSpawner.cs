@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using Unity.MLAgents;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class WaveSpawner : MonoBehaviour
     [SerializeField][Range(1, 30)] private float TimeBetweenWaves = 5.0f;
     [SerializeField] public AvaStates State = AvaStates.Counting;
     [SerializeField] public bool isLearning = false;
+    [SerializeField] public bool isHeatmapOn = false;
     [SerializeField] public Agent agent;
 
     public ZombieType[] zombies;
@@ -36,7 +38,6 @@ public class WaveSpawner : MonoBehaviour
     {
         NoWave = 0;
         waveCountdown = TimeBetweenWaves;
-        floor = GameObject.FindGameObjectsWithTag("ZombieRespawnZone");
     }
 
     void Update()
@@ -60,7 +61,9 @@ public class WaveSpawner : MonoBehaviour
                 if (State != AvaStates.Spawning)
                 {
                     // Generuj zombie
-                    StartCoroutine(SpawnWave(zombies[Random.Range(0,zombies.Length)]));
+                    // Debug.Log("zombies.Length: " + zombies.Length + " ee " + Random.Range(0, zombies.Length - 1));
+                    floor = GameObject.FindGameObjectsWithTag("ZombieRespawnZone");
+                    StartCoroutine(SpawnWave(zombies.First())); // zombies[Random.Range(0,zombies.Length - 1)]
                 }
             } else
             {
@@ -128,6 +131,7 @@ public class WaveSpawner : MonoBehaviour
 
         while (!spawned)
         {
+            // Debug.Log("ILE: " + floor.Length);
             spawnPosition = positionToCheck = floor[Random.Range(0, floor.Length - 1)].transform.position;
 
             positionToCheck.y += 1f;
@@ -135,6 +139,9 @@ public class WaveSpawner : MonoBehaviour
             if(Physics.CheckSphere(positionToCheck, radius) && ColliderBetweenObjAndPlayer(positionToCheck) != "Player")
             {
                 Debug.Log("Zombie spawned: " + _zombie.name);
+
+                if (isHeatmapOn)
+                    GameObject.Find("Heatmap").GetComponent<RaycastGradient>().UpdateHeatTexture(spawnPosition.x, spawnPosition.z);
 
                 GameObject go = 
                     Instantiate(zombieGameObject, spawnPosition, transform.rotation);

@@ -108,10 +108,6 @@ MonoBehaviour:
   east: 1
   south: 1
   west: 1
-  door1: 0
-  door2: 0
-  door3: 0
-  door4: 0
   openCenter: 1
 --- !u!1 &6074724094153550669
 GameObject:
@@ -175,7 +171,7 @@ GameObject:
   - component: {fileID: 6074724094157613526}
   m_Layer: 0
   m_Name: Floor_Room10
-  m_TagString: Untagged
+  m_TagString: ZombieRespawnZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -419,6 +415,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Floor Tile 01 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6257800485735965347, guid: cf8443763fc34314490f8a3e2f94dd37,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
       objectReference: {fileID: 0}
     - target: {fileID: 6954531691785998512, guid: cf8443763fc34314490f8a3e2f94dd37,
         type: 3}
@@ -925,6 +926,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor Tile 03
       objectReference: {fileID: 0}
+    - target: {fileID: 3167031632194995179, guid: 4f019145598ea474b899ca25a03acd09,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f019145598ea474b899ca25a03acd09, type: 3}
 --- !u!4 &5324687169882090553 stripped
@@ -1300,6 +1306,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor Tile 02 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2796068601526596500, guid: aae952dc76387e84287a598d901b120d,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aae952dc76387e84287a598d901b120d, type: 3}
 --- !u!4 &4961622276854181663 stripped
@@ -1394,6 +1405,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Floor Tile 01 (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6257800485735965347, guid: cf8443763fc34314490f8a3e2f94dd37,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
       objectReference: {fileID: 0}
     - target: {fileID: 6954531691785998512, guid: cf8443763fc34314490f8a3e2f94dd37,
         type: 3}
@@ -1920,6 +1936,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor Tile 01 (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 6257800485735965347, guid: cf8443763fc34314490f8a3e2f94dd37,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
+      objectReference: {fileID: 0}
     - target: {fileID: 6954531691785998512, guid: cf8443763fc34314490f8a3e2f94dd37,
         type: 3}
       propertyPath: m_RootOrder
@@ -2070,6 +2091,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor Tile 01 (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 6257800485735965347, guid: cf8443763fc34314490f8a3e2f94dd37,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
+      objectReference: {fileID: 0}
     - target: {fileID: 6954531691785998512, guid: cf8443763fc34314490f8a3e2f94dd37,
         type: 3}
       propertyPath: m_RootOrder
@@ -2144,6 +2170,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Floor Tile 01 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6257800485735965347, guid: cf8443763fc34314490f8a3e2f94dd37,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
       objectReference: {fileID: 0}
     - target: {fileID: 6954531691785998512, guid: cf8443763fc34314490f8a3e2f94dd37,
         type: 3}
@@ -2500,6 +2531,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor Tile 04 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2578913877748167514, guid: f9e1a0158e9f7a545a16fa7c2aa7be4e,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9e1a0158e9f7a545a16fa7c2aa7be4e, type: 3}
 --- !u!4 &4745875066060427031 stripped
@@ -2594,6 +2630,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Floor Tile 01 (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6257800485735965347, guid: cf8443763fc34314490f8a3e2f94dd37,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
       objectReference: {fileID: 0}
     - target: {fileID: 6954531691785998512, guid: cf8443763fc34314490f8a3e2f94dd37,
         type: 3}
@@ -2875,6 +2916,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor Tile 02 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2796068601526596500, guid: aae952dc76387e84287a598d901b120d,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aae952dc76387e84287a598d901b120d, type: 3}
 --- !u!4 &4961622277300380896 stripped
@@ -3044,6 +3090,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Floor Tile 01 (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6257800485735965347, guid: cf8443763fc34314490f8a3e2f94dd37,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
       objectReference: {fileID: 0}
     - target: {fileID: 6954531691785998512, guid: cf8443763fc34314490f8a3e2f94dd37,
         type: 3}
@@ -3475,6 +3526,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor Tile 02
       objectReference: {fileID: 0}
+    - target: {fileID: 2796068601526596500, guid: aae952dc76387e84287a598d901b120d,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aae952dc76387e84287a598d901b120d, type: 3}
 --- !u!4 &4961622276041212214 stripped
@@ -3625,6 +3681,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor Tile 03 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3167031632194995179, guid: 4f019145598ea474b899ca25a03acd09,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f019145598ea474b899ca25a03acd09, type: 3}
 --- !u!4 &5324687171098245467 stripped
@@ -3774,6 +3835,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Floor Tile 04
+      objectReference: {fileID: 0}
+    - target: {fileID: 2578913877748167514, guid: f9e1a0158e9f7a545a16fa7c2aa7be4e,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9e1a0158e9f7a545a16fa7c2aa7be4e, type: 3}
@@ -4075,6 +4141,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor Tile 02 (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 2796068601526596500, guid: aae952dc76387e84287a598d901b120d,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aae952dc76387e84287a598d901b120d, type: 3}
 --- !u!4 &4961622275907298045 stripped
@@ -4320,6 +4391,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor Tile 01 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 6257800485735965347, guid: cf8443763fc34314490f8a3e2f94dd37,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
+      objectReference: {fileID: 0}
     - target: {fileID: 6954531691785998512, guid: cf8443763fc34314490f8a3e2f94dd37,
         type: 3}
       propertyPath: m_RootOrder
@@ -4545,6 +4621,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor Tile 01
       objectReference: {fileID: 0}
+    - target: {fileID: 6257800485735965347, guid: cf8443763fc34314490f8a3e2f94dd37,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
+      objectReference: {fileID: 0}
     - target: {fileID: 6954531691785998512, guid: cf8443763fc34314490f8a3e2f94dd37,
         type: 3}
       propertyPath: m_RootOrder
@@ -4694,6 +4775,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Floor Tile 01 (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6257800485735965347, guid: cf8443763fc34314490f8a3e2f94dd37,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
       objectReference: {fileID: 0}
     - target: {fileID: 6954531691785998512, guid: cf8443763fc34314490f8a3e2f94dd37,
         type: 3}
@@ -5049,6 +5135,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Floor Tile 04 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2578913877748167514, guid: f9e1a0158e9f7a545a16fa7c2aa7be4e,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9e1a0158e9f7a545a16fa7c2aa7be4e, type: 3}
@@ -5444,6 +5535,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Floor Tile 01 (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6257800485735965347, guid: cf8443763fc34314490f8a3e2f94dd37,
+        type: 3}
+      propertyPath: m_TagString
+      value: ZombieRespawnZone
       objectReference: {fileID: 0}
     - target: {fileID: 6954531691785998512, guid: cf8443763fc34314490f8a3e2f94dd37,
         type: 3}

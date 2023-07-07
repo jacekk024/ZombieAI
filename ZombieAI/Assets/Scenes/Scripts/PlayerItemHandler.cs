@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class PlayerItemHandler : MonoBehaviour
 {
     [SerializeField]
-    Camera camera;
+    public Camera camera;
 
     //changing crosshair
     [SerializeField]

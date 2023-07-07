@@ -74,9 +74,9 @@ public class WaveSpawnerAgent : Agent
             float z = Mathf.Clamp(action.ContinuousActions[1], -100.0f, 100.0f);
             Debug.Log("ContinuousActions X: " + x + ", ContinuousActions Z: " + z); // Zostawiam do debugowania
 
-            Vector3 spawnPosition = new Vector3(player.gameObject.transform.localPosition.x + 20.0f + x
+            Vector3 spawnPosition = new Vector3(player.gameObject.transform.localPosition.x + x
                 , player.transform.localPosition.y
-                , player.transform.localPosition.z + 20.0f + z);
+                , player.transform.localPosition.z + z);
 
             string colliderTag = waveSpawner.ColliderBetweenObjAndPlayer(spawnPosition); // Tutaj wywala, trzeba ochronić
 

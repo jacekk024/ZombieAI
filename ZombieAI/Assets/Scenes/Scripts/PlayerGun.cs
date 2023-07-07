@@ -26,7 +26,6 @@ public class PlayerGun : MonoBehaviour
     public bool shooting;
     private bool readyToShoot;
     public bool reloading;
-    private bool allowInvoke;
 
     [Header("References")]
     [SerializeField] private Transform AttackPoint;
@@ -189,7 +188,6 @@ public class PlayerGun : MonoBehaviour
         if (!IsInvoking(nameof(ResetShot)) && !readyToShoot)
         {
             Invoke(nameof(ResetShot), ShotsDelay);
-            allowInvoke = false;
         }
 
         if (bulletsLeftForSingleShot > 0 && bulletsLeft > 0)

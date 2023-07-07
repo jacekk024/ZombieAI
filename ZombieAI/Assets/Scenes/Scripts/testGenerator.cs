@@ -28,6 +28,9 @@ public class testGenerator : MonoBehaviour
 
         grid = new openDoors[(int)gridSize.x, (int)gridSize.y];
         activeRooms = new List<openDoors>();
+        //Debug.Log("Zrobił to");
+        //GameObject.Find("WaveController").GetComponent<WaveSpawner>().floor = GameObject.FindGameObjectsWithTag("ZombieRespawnZone");
+
         CreateStartingRoom();
 
         while (activeRooms.Count < numberOfRooms && ((int)gridSize.x * (int)gridSize.y) > activeRooms.Count)
@@ -51,15 +54,14 @@ public class testGenerator : MonoBehaviour
                           , 1.5f
                           , room.transform.localPosition.z // + 22.0f // * Random.Range(0, yn.Length)  
                           );
-        Debug.Log("huh?");
     }
 
     void GenerateNavMesh()
     {
-        GameObject[] floors = GameObject.FindGameObjectsWithTag("Ground");
+        GameObject[] floors = GameObject.FindGameObjectsWithTag("ZombieRespawnZone"); // Ground
 
         NavMeshSurface surface = floors.First().AddComponent<NavMeshSurface>();
-        surface.layerMask = LayerMask.GetMask("Ground");
+        surface.layerMask = LayerMask.GetMask("Ground"); // Ground
         surfaces.Add(surface);
 
         surface.BuildNavMesh();
